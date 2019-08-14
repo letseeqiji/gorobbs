@@ -1,5 +1,6 @@
+<image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
 <p align = "center">
-<image id="logoimg" alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
+<image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
 <br><br>
 轻而快，为未来而构建
 <br><br>
