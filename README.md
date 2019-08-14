@@ -33,6 +33,10 @@
 
 ![start](http://www.xinshulaile.com/static/upload/login.png)
 
+### 手机版
+
+![start](http://www.xinshulaile.com/static/upload/mobile.png)
+
 ### 编辑帖子
 
 ![console](http://www.xinshulaile.com/static/upload/thread.png)
