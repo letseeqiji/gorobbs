@@ -489,4 +489,4 @@ CREATE TABLE `bbs_user` (
 -- ----------------------------
 -- Records of bbs_user
 -- ----------------------------
-INSERT INTO `bbs_user` VALUES ('1', '1', 'wowiwo@yeah.net', '来见证奇迹', '', '', '$2a$10$srByRaajc0UF/E6txOi8eejZA.zNHTBEgdA8gJG6vriyEDF55GfQC', '', '', '', '3', '4', '10013', '0', '0', '0', '0', '0', '2019-08-13 10:24:41', '0', '/upload/avatar/1/20190813/OyBnfB2vlk.png', null, '2019-07-26 14:38:42', '2019-08-14 03:49:36', null, '0', '0', '0');
+INSERT INTO `bbs_user` VALUES ('1', '1', '123@163.com', 'admin', '', '', '$2a$10$srByRaajc0UF/E6txOi8eejZA.zNHTBEgdA8gJG6vriyEDF55GfQC', '', '', '', '3', '4', '10013', '0', '0', '0', '0', '0', '2019-08-13 10:24:41', '0', '/upload/avatar/1/20190813/OyBnfB2vlk.png', null, '2019-07-26 14:38:42', '2019-08-14 03:49:36', null, '0', '0', '0');
