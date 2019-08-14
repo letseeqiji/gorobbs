@@ -48,7 +48,7 @@
 
 ## 安装
 
-### 项目依赖
+### 项目依赖包
  * github.com/gin-gonic/gin
  * gopkg.in/gomail.v2
  * github.com/tommy351/gin-sessions
@@ -63,6 +63,12 @@
  * github.com/go-ini/ini
  * github.com/gomodule/redigo/redis
  * github.com/lestrrat-go/file-rotatelogs
+ 
+### 项目环境依赖
+ * golang 1.11 and above
+ * mysql 5.6 and above
+ * redis 5 and above
+ * 若安装在生产环境，推荐使用Nginx1.16
 
 ### 本地试用
 
