@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
+<img alt="Gorobbs"  src="https://github.com/letseeqiji/gorobbs/blob/master/doc/logo.png">
 </div>
 <p align = "center">
 <image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
