@@ -1,4 +1,4 @@
-<image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
+
 <p align = "center">
 <image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
 <br><br>
