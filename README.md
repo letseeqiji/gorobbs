@@ -63,6 +63,9 @@
  * github.com/go-ini/ini
  * github.com/gomodule/redigo/redis
  * github.com/lestrrat-go/file-rotatelogs
+ * github.com/jinzhu/gorm
+ * github.com/jinzhu/gorm/dialects/mysql
+ * github.com/dgrijalva/jwt-go
  
 ### 项目环境依赖
  * golang 1.11 and above
