@@ -48,7 +48,24 @@
 
 ## 安装
 
+### 项目依赖
+ * github.com/gin-gonic/gin
+ * gopkg.in/gomail.v2
+ * github.com/tommy351/gin-sessions
+ * github.com/sirupsen/logrus
+ * github.com/rifflock/lfshook
+ * github.com/mojocn/base64Captcha/store
+ * github.com/mojocn/base64Captcha
+ * github.com/Unknwon/com
+ * github.com/astaxie/beego/validation
+ * github.com/aviddiviner/gin-limit
+ * github.com/gin-gonic/gin
+ * github.com/go-ini/ini
+ * github.com/gomodule/redigo/redis
+ * github.com/lestrrat-go/file-rotatelogs
+
 ### 本地试用
+
 
 
 ## 文档
