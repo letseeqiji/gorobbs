@@ -1,5 +1,5 @@
 <p align = "center">
-  <img>
+<div style="font-size:30px">GORO BBS</div>
 <img alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
 <br><br>
 轻而快，为未来而构建
