@@ -80,8 +80,8 @@ docker pull letseeqiji/gorobbs
   先手动建库（库名 `gorobbs`，字符集使用 `utf8mb4`，排序规则 `utf8mb4_general_ci`），然后启动容器：
   
   ```shell
-  docker run --detach --name pipe --network=host \
-      b3log/pipe --mysql="root:123456@(127.0.0.1:3306)/gorobbs?charset=utf8mb4&parseTime=True&loc=Local" --runtime_mode=prod --port=5897 --server=http://localhost:5897
+  docker run --detach --name gorobbs --network=host \
+      letseeqiji/gorobbs --mysql="root:123456@(127.0.0.1:3306)/gorobbs?charset=utf8mb4&parseTime=True&loc=Local" --runtime_mode=prod --port=5897 --server=http://localhost:5897
   ```
   为了简单，使用了主机网络模式来连接主机上的 MySQL。
   
