@@ -1,5 +1,5 @@
 <div align="center">
-![start](http://www.xinshulaile.com/static/upload/login.png)
+[start](http://www.xinshulaile.com/static/upload/login.png)
 </div>
 <p align = "center">
 <image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
