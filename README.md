@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="Gorobbs" width="150rpm"  src="https://github.com/letseeqiji/gorobbs/blob/master/doc/logo.png">
+<img alt="Gorobbs" width="150rpm"  src="https://github.com/letseeqiji/gorobbs/blob/master/doc/gr.png">
  <br>
  轻而快，为未来而构建
 </div>
