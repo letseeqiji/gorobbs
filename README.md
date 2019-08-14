@@ -1,9 +1,7 @@
 <div align="center">
 <img alt="Gorobbs"  src="https://github.com/letseeqiji/gorobbs/blob/master/doc/logo.png">
 </div>
-<p align = "center">
-<image alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
-<br><br>
+
 轻而快，为未来而构建
 <br><br>
 
@@ -30,27 +28,27 @@
 
 ### 首页
 
-![start](http://www.xinshulaile.com/static/upload/index.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/index.png)
 
 ### 登录后效果
 
-![start](http://www.xinshulaile.com/static/upload/login.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/login.png)
 
 ### 手机版
 
-![start](http://www.xinshulaile.com/static/upload/mobile.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/mobile.png)
 
 ### 编辑帖子
 
-![console](http://www.xinshulaile.com/static/upload/thread.png)
+![console](https://github.com/letseeqiji/gorobbs/blob/master/doc/thread.png)
 
 ### 帖子详情
 
-![post](http://www.xinshulaile.com/static/upload/detail.png)
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/detail.png)
 
 ### 后台某页面
 
-![post](http://www.xinshulaile.com/static/upload/backend.png)
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/backend.png)
 
 
 ## 安装
