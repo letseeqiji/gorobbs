@@ -11,7 +11,7 @@
 
 ## 简介
 
-[Gorobbs](https://github.com/letseeqiji/gorobbs) 是一款小而轻的开源BBS，，专为普通用户设计。我们的目标是打造最轻量化的分布式BBS系统！
+[Gorobbs](https://github.com/letseeqiji/gorobbs) 是一款小而轻的开源BBS, 专为普通用户设计。我们的目标是打造最轻量化的分布式BBS系统！
 
 ## 案例
 
