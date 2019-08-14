@@ -116,7 +116,7 @@ docker pull letseeqiji/gorobbs
 
 ## 授权
 
-Pipe 使用 [MIT](https://#) 开源协议。
+Gorobbs 使用 [MIT](https://#) 开源协议。
 
 ## 鸣谢
 
