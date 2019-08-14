@@ -1,0 +1,154 @@
+{{ define "layout/footer" }}
+    <footer class="text-muted small bg-dark py-4 mt-3" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    Powered by <a href="http://www.xinshulaile.com/" target="_blank" class="text-muted"><b>GORO BBS <span>1.0.1</span></b></a>
+                </div>
+                <div class="col text-right">
+                    Processed: <b>0.048</b>, SQL: <b>7</b>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--[if ltg IE 9]>
+    <script>window.location = '?browser.htm';</script>
+    <![endif]-->
+
+
+    <script>
+        var debug = DEBUG = 0;
+        var url_rewrite_on = 0;
+        var forumarr = {
+            "2": "自定义板块",
+            "1": "默认版块"
+        };
+        var fid = 0;
+        var uid = 0;
+        var gid = 0;
+        xn.options.water_image_url = '/static/img/water-small.png'; // 水印图片 / watermark image
+    </script>
+    <script src="/static/js/bbs.js?1.0"></script>
+    <script>
+        // 版主管理：精华
+
+        $('.mod-button button.digest').on('click', function () {
+            var modtid = $('input[name="modtid"]').checked();
+            if (modtid.length == 0) return $.alert(lang.please_choose_thread);
+            var radios = xn.form_radio('digest', {"0": "取消精华", "1": "一级精华", "2": "二级精华", "3": "三级精华"});
+            $.confirm("设置主题为精华", function () {
+                var tids = xn.implode('_', modtid);
+                var digest = $('input[name="digest"]').checked();
+                var postdata = {digest: digest};
+                $.xpost(xn.url('mod-digest-' + tids), postdata, function (code, message) {
+                    if (code != 0) return $.alert(message);
+                    $.alert(message).delay(1000).location('');
+                });
+            }, {'body': '<p>' + "精华等级" + '：' + radios + '</p>'});
+        })
+    </script>
+    <script>
+        function xn_read_unread(tids, tid) {
+
+            // 当前时间
+            var time = xn.time();
+
+            // 多长时间内的主题为最新主题
+            var time_range = 86400 * 3;
+
+            // 三天内的 tids
+            var recent_tids = $.pdata('recent_tids') || {};
+
+            // 已读的 tids
+            var view_tids = $.pdata('view_tids') || {};
+
+            // 提取列表页的 tid
+            function fetch_recent_tids(tids) {
+                var changed = false;
+                $.each(tids, function (tid, last_date) {
+                    if (time - last_date < time_range) {
+                        recent_tids[tid] = last_date;
+                        changed = true;
+                    }
+                });
+                if (changed) $.pdata('recent_tids', recent_tids);
+            }
+
+            // 清理最近的 tid
+            function gc_recent_tids() {
+                var changed = false;
+                $.each(recent_tids, function (tid, last_date) {
+                    if (time - last_date > time_range) {
+                        delete recent_tids[tid];
+                        changed = true;
+                    }
+                });
+                if (changed) $.pdata('recent_tids', recent_tids);
+            }
+
+            function gc_view_tids() {
+                var changed = false;
+                $.each(view_tids, function (tid, last_date) {
+                    if (!recent_tids[tid]) {
+                        delete view_tids[tid];
+                        changed = true;
+                    }
+                });
+                if (changed) $.pdata('view_tids', view_tids);
+            }
+
+            function save_view_tid(tid) {
+                if (!recent_tids[tid]) return;
+                view_tids[tid] = time;
+                $.pdata('view_tids', view_tids);
+            }
+
+            if (tids) {
+                fetch_recent_tids(tids);
+                gc_recent_tids();
+                //gc_view_tids();
+            }
+            if (tid) save_view_tid(tid);
+
+            // 三天内的主题标记为已读
+
+            // 遍历主题列表，标记最近的，并且未读的为加粗
+
+            $('.thread').each(function () {
+                var jthis = $(this);
+                var tid = jthis.attr('tid') || jthis.data('tid');
+                if (recent_tids[tid] && recent_tids[tid] > xn.intval(view_tids[tid])) {
+                    jthis.find('.subject').addClass('font-weight-bold');
+                }
+            });
+        }
+    </script>
+    <script src="/static/js/md5.js"></script>
+    <div id="scroll_to_top" class="d-fixed"
+         style="position: fixed; bottom: 80px; right: 10px; width: 70px; height: 70px;">
+        <a href="javascript:void(0);"
+           style="width: 70px; height: 70px; display: inline-block; background: url(/static/img/scroll_top.png) no-repeat; outline: none;"
+           title="返回顶部"></a>
+    </div>
+    <script>
+        // 返回顶部
+        var jscroll_to_top = $('#scroll_to_top');
+        jscroll_to_top.fadeOut(1);
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= 500) {
+                jscroll_to_top.fadeIn(300);
+            } else {
+                jscroll_to_top.fadeOut(300);
+            }
+        });
+
+        jscroll_to_top.on('click', function () {
+            $('html,body').animate({scrollTop: '0px'}, 100);
+        });
+    </script>
+
+    </body>
+
+    </html>
+{{end}}
+

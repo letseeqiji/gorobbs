@@ -1,0 +1,96 @@
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name=".port" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gin BBS 站点介绍">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>用户登录</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="icon" sizes="32x32" href="/static/img/favicon.ico">
+    <link rel="Bookmark" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/css/bootstrap.css?1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap-bbs.css?1.0">
+    <script src="/static/js/jquery-3.1.0.js?1.0"></script>
+    <script src="/static/js/popper.js?1.0"></script>
+    <script src="/static/js/bootstrap.js?1.0"></script>
+    <script src="/static/js/xiuno.js?1.0"></script>
+    <script src="/static/js/bootstrap-plugin.js?1.0"></script>
+    <script src="/static/js/async.js?1.0"></script>
+    <script src="/static/js/form.js?1.0"></script>
+    <script src="/static/js//bbs.js?1.0"></script>
+    <script src="/static/lang/zh-cn/bbs.js?1.0"></script>
+    <style>
+        /*
+box-shadow: 0 0 5px red;
+*/
+        @keyframes xndigest {
+            0% { color: red; text-shadow: 0 0 3px #FF8D8D;}
+            20% { color: orange; text-shadow: 0 0 3px #FFE1AD;}
+            40% { color: green; text-shadow: 0 0 3px #B3FFAF;}
+            65% { color: blue; text-shadow: 0 0 3px #AFE4FF;}
+            80% { color: purple; text-shadow: 0 0 3px #FFC9F3;}
+            100% { color: red; text-shadow: 0 0 3px #FF8D8D;}
+        }
+
+        /*水晶闪烁效果 占内存*/
+        i.icon-diamond.flash{color: #D53D38;  /*animation: xndigest 5s linear infinite;*/ }
+
+        i.icon-digest-1 {  text-shadow: 0 0 3px #AFE4FF; }
+        i.icon-digest-2 {  text-shadow: 0 0 3px #FFF177; }
+        i.icon-digest-3 {  text-shadow: 0 0 3px #FF8D8D; }
+        .icon-digest-1:before { content: "\f219";  color: #5BC0DE;} /* "\f0a5" */
+        .icon-digest-2:before { content: "\f219";  color: #ECA541;}
+        .icon-digest-3:before { content: "\f219"; color: #D53D38;}
+        .icon-digest-3:afteer { content: "精"; color: #D53D38;}
+
+
+    </style>
+</head>
+
+<body>
+<div class="card">
+    <button id="dianwo" type="button" class="btn btn-primary" data-loading-text="正在提交...">确定</button>
+</div>
+
+
+
+<script ajax-eval="true">
+
+    var jsubmit = $("#dianwo");
+
+    jsubmit.on('click', function() {
+
+        var postdata = {
+            "name":"张",
+            "test_arr":["ab","bc","de"],
+            "love":{
+                "a":"1",
+                "b":["1","2","3"],
+            }
+        }
+        console.log("传值",postdata)
+
+        $.ajax({
+            url: "/api/parm",
+            data: postdata,
+            type: "POST",
+            contentType:"application/json",
+            // contentType: false,
+            // processData:false,
+            success: function(res) {
+                //成功
+                console.log("返回值", res)
+            }
+        })
+
+
+        return false;
+    });
+
+</script>
+</body>
+</html>

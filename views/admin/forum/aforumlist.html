@@ -1,0 +1,210 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive arrlist">
+                            <table class="table" style="min-width: 800px">
+                                <thead>
+                                <tr align="center">
+                                    <th width="150">版块 ID</th>
+                                    <th width="80" class="text-center">图标</th>
+                                    {{/*<th width="130"></th>*/}}
+                                    <th >名称</th>
+                                    <th width="100">排序</th>
+                                    <th width="100" class="text-center">编辑</th>
+                                    <th width="100" class="text-center">删除</th>
+                                </tr>
+                                </thead><thead>
+                                </thead><tbody>
+                                {{range .forums}}
+                                <tr align="center" rowid="{{.ID}}">
+                                    <td class="50">{{.ID}}</td>
+                                    <td align="left">
+                                        <img src="{{.Icon}}" class="forum" width="48" id="img_1">
+                                    </td>
+
+                                    <td>{{.Name}}</td>
+                                    <td>{{.Rank}}</td>
+                                    <td><a class="btn row_edit" role="button" tabindex="0">编辑</a></td>
+                                    <td><a class="btn row_delete" role="button" tabindex="0">删除</a></td>
+                                </tr>
+                                {{end}}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-center">
+                            <a href="/admin/forum_new.html" id="adminaddforum">
+                                <button type="button" class="btn btn-primary"  data-loading-text="正在提交..." style="width: 10rem;">新增模块 +</button>
+                            </a>
+                        </p>
+                        <p class="small text-grey">注：请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    admintoken = sessionStorage.getItem("admin_token")
+    $("#adminaddforum").attr("href", "/admin/forum_new.html?token="+admintoken)
+
+
+    function getfile(ele) {
+        var fileString
+        files = $(ele).prop('files')
+        var reader = new FileReader();//新建一个FileReader
+        reader.readAsText(files[0], "UTF-8");//读取文件
+        reader.onload = function(evt){ //读取完文件之后会回来这里
+            fileString = evt.target.result;
+        }
+        return fileString
+    }
+
+
+    //if(!debug) $.alert('请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。');
+
+    var maxfid = {{.fnum}};
+
+    var jform = $("#form");
+    var jsubmit = $("#submit");
+
+    // jform.base64_encode_file(); // 对文件进行 base64 编码，处理文件上传，很方便
+
+    jsubmit.on('click', function(){
+        jform.reset();
+        var postdata = {'forums': pickFormData()};
+        // var postdata = {"Forums": ["123"]};
+        console.log(postdata);
+        jsubmit.button('loading');
+       /* $.xpost(jform.attr('action'), postdata, function(code, message) {
+            console.log(code, "----", message)
+            if(code == 200) {
+                $.alert(message);
+                // jsubmit.text(message).delay(3000).location("/admin/forum_list.html");
+                return;
+            } else {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });*/
+
+        $.ajax({
+            type: "post",
+            url: jform.attr('action'),
+            dataType: "json",
+            contentType:'application/json; charset=utf-8',
+            data: {
+                'forums':[
+                    {
+                        "forum_id":"1",
+                        "forum_icon":"sdfsdf",
+                        "forum_name":"sdfsdf",
+                        "forum_rank":"1"
+                    }
+                ]
+            },
+            success: function(data){
+                console.log(data)
+            }
+        });
+        return false;
+    });
+
+    // 编辑
+    var jarrlist = $('.arrlist');
+    var jedit = $('a.row_edit');
+    jarrlist.on('click', 'a.row_edit', function() {
+        var jthis = $(this);
+        var jtr = jthis.parents('tr');
+        var rowid = jtr.attr('rowid');
+        window.location = xn.url('forum-update-'+rowid);
+    });
+
+    // 删除
+    var jdelete = $('a.row_delete');
+    jarrlist.on('click', 'a.row_delete', function() {
+        var jthis = $(this);
+        var jtr = jthis.parents('tr');
+        var rowid = jtr.attr('rowid');
+        if(rowid == 1) {
+            $.alert('不能删除系统保留的版块。');
+            return;
+        }
+        jtr.remove();
+        return false;
+    });
+    // 增加
+    var jadd = $('a.row_add');
+    jadd.on('click', function() {
+        var jclone = jarrlist.find('tr').last().clone();
+        jclone.insertAfter(jarrlist.find('tr').last());
+        var jfid = jclone.find('input[name^="fid"]');
+        //var rowid = xn.intval(jfid.val()) + 1;
+        var rowid = ++maxfid;
+        jfid.val(rowid);
+        jclone.attr('rowid', rowid);
+
+        // 清空值
+        jclone.find('input').not('[name^="fid"]').val('');
+
+        // 修改 [] 中的值为 rowid
+        jclone.find('input').attr_name_index(rowid);
+
+        // 图片缩略
+        jclone.find('img.forum').attr('id', 'img_'+rowid).attr('src', '/static/img/forum.png');
+        jclone.find('input[type="file"]').attr('data-assoc', 'img_'+rowid);
+
+        return false;
+    });
+
+
+    $('#nav li.nav-item-forum').addClass('active');
+
+    function pickFormData() {
+        // console.log(ele)
+
+        /*{
+            {"fid":1, "fimage":"sdfsdf", "fname":"ceshi", "frank":0},
+            {"fid":1, "fimage":"sdfsdf", "fname":"ceshi", "frank":0},
+            {"fid":1, "fimage":"sdfsdf", "fname":"ceshi", "frank":0},
+        }*/
+        jfrom = ("#form")
+        // jform.base64_encode_file()
+        var flist = []
+        jform.find("tr[rowid]").each(function () {
+            var fmap = {}
+
+            fid = $(this).find("input[name*='fid']").val()
+            fmap["forum_id"] = fid.trim()
+
+            // ffile = getfile($(this).find("input[name*='icon']"))
+            fmap["forum_icon"] = "/static/img/forum.png"
+
+            fname = $(this).find("input[name^='name']").val()
+            fmap["forum_name"] = fname.trim()
+
+            frank = $(this).find("input[name^='rank']").val()
+            fmap["forum_rank"] = frank.trim() ? frank.trim() : "0"
+
+            if (fname.length != 0) {
+                flist.push(fmap)
+            }
+
+        })
+        // console.log(flist)
+
+        return flist
+    }
+
+</script>
+{{ template "layout/footer" }}

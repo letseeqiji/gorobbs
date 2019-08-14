@@ -1,0 +1,144 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btn-group mb-3" role="group">
+                    <a role="button" class="btn btn-secondary active" href="/admin/setting/base.html">基本设置</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/setting/smtp.html">SMTP 设置</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/setting/extend.html">扩展设置</a>
+                    {{/*<a role="button" class="btn btn-secondary" href="?setting-sensitive_word.htm">敏感词设置</a> */}}
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <!--
+                        <h4 class="card-title">基本设置</h4>
+                        -->
+                        <form action="/admin/setting/base" method="post" id="form">
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">站点名称：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="sitename" id="sitename" placeholder="" value="{{.serverSetting.Sitename}}" class="form-control"> </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">站点介绍：</label>
+                                <div class="col-sm-10">
+                                    <textarea name="sitebrief" id="sitebrief" class="form-control" style="width: 100%; height: 100px; ">{{.serverSetting.Sitebrief}}</textarea>
+                                    <p class="mt-2 text-grey small">注：支持 HTML 标签，换行请使用 &lt;br&gt; </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">站点访问限制：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="0" {{if eq .serverSetting.Runlevel 0}}  checked="checked" {{end}}> 站点关闭
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="1" {{if eq .serverSetting.Runlevel 1}}  checked="checked" {{end}}>
+                                        管理员可读写
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="2" {{if eq .serverSetting.Runlevel 2}}  checked="checked" {{end}}>
+                                        会员只读
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="3" {{if eq .serverSetting.Runlevel 3}}  checked="checked" {{end}}>
+                                        会员可读写
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="4" {{if eq .serverSetting.Runlevel 4}}  checked="checked" {{end}}>
+                                        所有人只读
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="runlevel" value="5" {{if eq .serverSetting.Runlevel 5}}  checked="checked" {{end}}>
+                                        所有人可读写
+                                    </label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">开启用户注册：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_create_on" value="1" checked="checked">
+                                        是
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_create_on" value="0">
+                                        否
+                                    </label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">开启注册邮箱验证：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_create_email_on" value="1" {{if eq .serverSetting.UserCreateEmailOn 1}}  checked="checked" {{end}}> 是
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_create_email_on" value="0" {{if eq .serverSetting.UserCreateEmailOn 0}}  checked="checked" {{end}}> 否
+                                    </label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">开启找回密码：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_resetpw_on" value="1" {{if eq .serverSetting.UserResetpwOn 1}}  checked="checked" {{end}}> 是
+                                    </label> &nbsp;
+                                    <label class="custom-input custom-radio">
+                                        <input type="radio" name="user_resetpw_on" value="0" {{if eq .serverSetting.UserResetpwOn 0}}  checked="checked" {{end}}> 否
+                                    </label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">语言：</label>
+                                <div class="col-sm-10">
+                                    <select name="lang" class="custom-select" id="lang">
+                                        <option value="zh-cn" selected="selected">简体中文</option>
+                                       {{/* <option value="zh-tw">正體中文</option>
+                                        <option value="en-us">English</option>
+                                        <option value="ru-ru">Русский</option>
+                                        <option value="th-th">ไทย</option>*/}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 form-control-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var jform = $('#form');
+    var jsubmit = $('#submit');
+    jsubmit.on('click', function() {
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serialize();
+        // console.log(postdata);return;
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            console.log(message);
+            if(code == 200) {
+                $.alert("保存成功");
+                jsubmit.text(message).delay(1000).button('reset');
+            } else {
+                jform.find('[name="'+code+'"]').alert(message).focus();
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+    $('#nav li.nav-item-setting').addClass('active');
+
+</script>
+
+{{ template "layout/footer" }}

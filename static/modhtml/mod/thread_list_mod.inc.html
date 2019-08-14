@@ -1,0 +1,23 @@
+{{ define "mod/thread_list_mod.inc" }}
+{{/*{{if .sessions.UserId gt 0 And .sessions.UserId lt 5}}*/}}
+<div class="text-center">
+    {{/*// 文章详情页不显示全选*/}}
+    {{/*<?php if(param(0) != 'thread') { ?>*/}}
+    <label class="mr-3">
+        <input type="checkbox" data-target='input[name="modtid"]' class="checkall mt-2 mr-2" value="" aria-label="全选" />全选
+    </label>
+    {{/*<?php } ?>*/}}
+
+    <div class="btn-group mod-button my-3" role="group" aria-label="">
+
+        <button class="btn btn-secondary delete" data-modal-url="/static/modhtml/del_mod.html" data-modal-title="删除" data-modal-arg=".threadlist" data-modal-size="md">删除</button>
+
+        <button class="btn btn-secondary move" data-modal-url="/move_mod.html" data-modal-title="移动" data-modal-arg=".threadlist" data-modal-size="md">移动</button>
+
+        <button class="btn btn-secondary top" data-modal-url="/top_mod.htm" data-modal-title="置顶" data-modal-arg=".threadlist" data-modal-size="md">移动</button>
+
+        <button class="btn btn-secondary _close" data-modal-url="/close_mod.htm" data-modal-title="关闭" data-modal-arg=".threadlist" data-modal-size="md">移动</button>
+    </div>
+</div>
+{{/*{{end}}*/}}
+{{end}}

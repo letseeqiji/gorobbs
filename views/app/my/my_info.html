@@ -1,0 +1,69 @@
+{{ template "layout/header" .}}
+
+<main id="body">
+    <div class="container">
+        <div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
+            <a role="button" class="btn btn-secondary active" data-active="menu-my" href="/my.html">个人资料</a>
+            <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="/my.html?action=5">论坛帖子</a>
+            <a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="?my-notice.htm">消息</a>
+        </div>
+        <div class="row">
+            <!-- 左侧菜单 -->
+            <div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img class="avatar-4" src="{{.sessions.Useravatar}}">
+                        <br>{{.sessions.Username}}
+                    </div>
+                    <div class="list-group list-group-flush text-center">
+                        <a href="/my.html" class="list-group-item list-group-item-action active" data-active="menu-my">个人资料</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
+                        <a href="/my_notice.html" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 右侧内容 -->
+            <div class="col-lg-10" id="my_main">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link  active" href="/my.html" data-active="my_profile">基本资料</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my_password.html" data-active="my_password">密码</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my_avatar.html" data-active="my_avatar">头像</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my_rename.html" data-active="my_rename">更改用户名</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my.html?action=4" data-active="my-email_notice">邮件通知</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="row line-height-4">
+                            <div class="col-md-6">
+                                <span class="text-muted">主题数：</span>{{.userinfo.ThreadsCnt}}<br>
+                                <span class="text-muted">帖子数：</span>{{.userinfo.PostsCnt}}<br>
+                                <span class="text-muted">收藏数：</span><a href="?my-favorites.htm" target="_blank">{{.userinfo.PostsCnt}}</a><br>
+                                <span class="text-muted">积分：</span>{{.userinfo.CreditsNum}} <br>
+                                <span class="text-muted">精华数：</span>{{.userinfo.DigestsCnt}}
+                            </div>
+                            <div class="col-md-6">
+                                <span class="text-muted">用户组：</span>{{.userinfo.Group.Name}} <br>
+                                <span class="text-muted">创建时间：</span>{{.userinfo.CreatedAt.Format "2006-01-02"}}<br>
+                                <span class="text-muted">最后登录：</span>{{.userinfo.LoginDate.Format "2006-01-02"}} <br>
+                                <span class="text-danger">Email：</span>{{.userinfo.Email}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{ template "layout/footer" .}}
