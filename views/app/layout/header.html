@@ -1,0 +1,78 @@
+{{ define "layout/header" }}
+    {{ template "layout/header.inc" .}}
+<!--
+    轻论坛导航：默认头部
+    Bootstrap 4.0 推荐的 PC/Mobile 公共写法
+    优点：公用性强
+    缺点：结构稍微有点复杂
+-->
+<header class="navbar navbar-expand-lg navbar-dark bg-dark" id="header">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="navbar_collapse" aria-expanded="false" aria-label="展开菜单">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand text-truncate" href="/">
+            <img src="/static/img/logo.png" class="logo-2">
+        </a>
+        {{if .islogin}}
+            <a class="navbar-brand hidden-lg" href="/newthread.html" aria-label="发表主题"><i class="icon-edit icon"></i></a>
+        {{else}}
+            <a class="navbar-brand hidden-lg" href="/login.html" aria-label="登录"> <i class="icon-user icon"></i></a>
+        {{end}}
+
+        <div class="collapse navbar-collapse" id="nav">
+            <!-- 左侧：版块 -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item home" fid="0" data-active="fid-0"><a id="fid-0" class="nav-link nav-link" href="/"><i class="icon-home d-md-none"></i> 首页</a></li>
+                {{range .forums}}
+                <li class="nav-item" fid="{{.ID}}" data-active="fid-{{.ID}}">
+                    <a id="fid-{{.ID}}" class="nav-link" href="/forum/{{.ID}}/list.html"><i class="icon-circle-o d-md-none"></i> {{.Name}}</a>
+                </li>
+                {{/*<li class="nav-item" fid="1" data-active="fid-1">
+                    <a class="nav-link" href="?forum-1.htm"><i class="icon-circle-o d-md-none"></i> 默认版块</a>
+                </li>*/}}
+                {{end}}
+            </ul>
+            <!-- 右侧：用户 -->
+            <ul class="navbar-nav">
+                {{if .islogin}}
+                <li class="nav-item usernotice " id="nav-usernotice">
+                    <a class="nav-link" href="?my-notice.htm"><i class="icon icon-bell"></i> 消息 <span class="d-none unread badge badge-danger badge-pill" id="nav-usernotice-unread-notices">0</span>
+                    </a>
+                </li>
+                <li class="nav-item hidden-lg">
+                    <a class="nav-link" href="?search.htm"><i class="icon-search"></i> 搜索</a>
+                </li>
+                <li class="nav-item username"><a class="nav-link" href="/my.html"><img class="avatar-1" src="{{.sessions.Useravatar}}"> {{.sessions.Username}}</a></li>
+                <!-- 管理员 -->
+                {{if eq .sessions.Isadmin "1"}}
+                <li class="nav-item"><a id="adminindex" class="nav-link" href="/admin/index.html"><i class="icon-home"></i> 后台管理</a></li>
+                {{end}}
+                <li class="nav-item"><a id="logout" class="nav-link" href="#"><i class="icon-sign-out"></i> 退出</a></li>
+                {{else}}
+                <li class="nav-item"><a class="nav-link" href="/login.html"><i class="icon-user"></i> 登录</a></li>
+                <!--<li class="nav-item"><a class="nav-link" href="?user-create.htm">注册</a></li>-->
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</header>
+<script>
+    $("#adminindex").attr("href", "/admin/index.html?token="+sessionStorage.getItem("admin_token"))
+    $("#logout").on('click', function () {
+        $.xget("/api/v1/logout", function(code, message) {
+            console.log(code, message)
+            $.alert("退出成功,2秒后跳转到首页")
+            setTimeout(function () {
+                location.href="/"
+            },2000)
+        });
+    })
+    if ({{.fid}}) {
+        $('#fid-{{.fid}}').addClass('active');
+    } else {
+        $('#fid-0').addClass('active');
+    }
+
+</script>
+{{ end }}

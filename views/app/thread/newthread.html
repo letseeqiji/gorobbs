@@ -1,0 +1,347 @@
+{{ template "layout/header" .}}
+{{/*<script src="//cdn.ckeditor.com/4.12.1/full/ckeditor.js"></script>*/}}
+<script src="/static/ckeditor/ckeditor.js"></script>
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        发表主题
+                    </div>
+                    <div class="card-body">
+                        <form action="/api/v1/thread" method="post" id="threadform">
+                            <input type="hidden" name="doctype" value="0">
+                            <div class="form-group">
+                                <select id="select_forum_id" class="custom-select mr-1 w-auto" name="forum_id">
+                                    {{range .forums}}
+                                    <option value="{{.ID}}">{{.Name}}</option>
+                                    {{end}}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="标题" name="subject" value="" id="subject2">
+                            </div>
+                            <div id="nav_tag_list_div">
+                                <table class="small nav_tag_list mb-2"></table>
+                            </div>
+                            <div class="form-group">
+                                <div class="edui-container" style="width: 100%; z-index: 999;">
+                                    <div class="edui-editor-body message">
+                                        <textarea class="form-control" placeholder="内容" name="message" id="message" style="height: 300px; display: none;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                         {{/*   <div class="media">
+                                <div class="media-body col-lg-3 p-0">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-barcode"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="验证码" name="vcode">
+                                    </div>
+                                </div>
+                                <div class="align-self-center ml-1">
+                                    <div class="form-group input-group">
+                                        <img src="?vcode.htm" width="150" height="32" class="vcode" onclick="this.src='?vcode.htm?'+Math.random();" style="cursor:pointer" title="点击更新" nofollow="">
+                                    </div>
+                                </div>
+                            </div>*/}}
+                            {{/*<div class="d-flex justify-content-between">
+                                <div class="attachlist_parent">
+                                    <a class="small text-left" href="javascript:void(0)">
+                                        <label class="addattach" id="addattach">
+                                            <i class="icon-folder-open-o"></i>
+                                            添加附件 <input type="file" multiple="multiple" class="invisible">
+                                        </label>
+                                    </a>
+                                </div>
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-primary" id="threadsubmit" data-loading-text="正在提交..."> 发表主题
+                                    </button>
+                                </div>
+                            </div>*/}}
+                            <div class="d-flex justify-content-between">
+                                <div class="attachlist_parent">
+                                    <a class="small text-left" href="javascript:void(0)">
+                                        <label class="addattach" id="addattach">
+                                            <i class="icon-folder-open-o"></i>
+                                            添加附件
+                                            <input type="file" id="add_attach" multiple="multiple" class="invisible">
+                                        </label>
+                                    </a>
+                                    {{/*<fieldset class="fieldset" style="display: block">
+                                        <legend>上传的附件：</legend>
+                                        <ul class="attachlist">
+                                            <li aid="1">
+                                                <a href="?attach-download-1.htm" target="_blank">
+                                                    <i class="icon filetype image"></i>
+                                                    5cd32ef000014b1210001000-160-160.jpg
+                                                </a>
+                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
+                                            </li>
+                                            <li aid="2">
+                                                <a href="?attach-download-2.htm" target="_blank">
+                                                    <i class="icon filetype image"></i>
+                                                    160620_r28287web_1023.jpg
+                                                </a>
+                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
+                                            </li>
+                                            <li aid="3">
+                                                <a href="?attach-download-3.htm" target="_blank">
+                                                    <i class="icon filetype image"></i>
+                                                    boredom-web_1000.jpg
+                                                </a>
+                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
+                                            </li>
+                                            <li aid="4">
+                                                <a href="?attach-download-4.htm" target="_blank">
+                                                    <i class="icon filetype image"></i>
+                                                    final-web_1200.jpg
+                                                </a>
+                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
+                                            </li>
+                                            <li aid="13">
+                                                <a href="?attach-download-13.htm" target="_blank">
+                                                    <i class="icon filetype torrent"></i>
+                                                    大国重器1-6.torrent
+                                                </a>
+                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
+                                            </li>
+                                        </ul>
+                                    </fieldset>*/}}
+
+                                </div>
+                                <div class="text-right">
+                                    <button type="button" class="btn btn-primary" id="threadsubmit" data-loading-text="正在提交..."> 提交 </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3" href="javascript:history.back();">返回</a>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+//判断是否已登录  如未登录 跳转到登录页
+if (!{{.islogin}}) {
+    location.href="/login.html"
+}
+
+CKEDITOR.replace('message', {
+    language: 'zh-cn',
+    disallowedContent: '<script >',
+    // toolbar: [['Smiley']],
+    // toolbarCanCollapse: true,
+    toolbarStartupExpanded: false,
+    toolbar: [
+        { name: 'document', items: [ 'Source', '-', 'Preview' ] },
+        { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ] },
+        { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'RemoveFormat' ] },
+        { name: 'colors', items: [ 'TextColor'] },
+        { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-' ] },
+        { name: 'links', items: [ 'Link', 'Unlink' ] },
+        { name: 'insert', items: [ 'Image', 'Smiley' ] },
+        '/',
+        { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+        { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+    ],
+    height: '25rem',
+    resize_minHeight: '5rem',
+    image_previewText :" ",
+    upload_hidden:false,
+    removeDialogTabs:'image:advanced;image:Link',
+    filebrowserImageUploadUrl:"/api/v1/image/upload",
+    filebrowserUploadUrl:"/api/v1/image/upload",
+    //enterMode:CKEDITOR.ENTER_BR, //屏蔽换行符<br>
+    //shiftEnterMode:CKEDITOR.ENTER_P, //屏蔽段落<p>
+    extraPlugins:'uploadimage',
+    // extraPlugins:['codesnippet','uploadimage'],
+    codeSnippet_theme: 'zenburn'
+});
+
+var qrform = $("#threadform")
+var jsubmit = $('#threadsubmit');
+var attachUploader = $("#add_attach");
+var jattachparent = $('.attachlist_parent');
+var maxSize = 1*1024*1024
+
+qrform.on("keydown", function () {
+    if(event.keyCode==13) {
+        return false;
+    }
+})
+
+jsubmit.on('click', function() {
+    var attachfiles = ""
+    if (jattachparent.find('.attachlist').length) {
+        console.log($('.attachlist').find("li").length, $('.attachlist').find("li"))
+        var attachfiles = ""
+        $('.attachlist').find("a[class='attachfile']").each(function () {
+            attachfiles += "," + $(this).attr("href") + "|"
+            attachfiles += $(this).attr("orgfilename")
+        })
+        attachfiles = trimChar(attachfiles, ',', 'left')
+        console.log(attachfiles)
+    }
+
+    // return
+
+    var cktitle = $("#subject2").val()
+    if (cktitle.length <= 5) {
+        $.alert("标题不能为空切不能小于5个字")
+        return
+    }
+
+    var ckmessage = CKEDITOR.instances.message.getData();
+    if (ckmessage.length < 30) {
+        $.alert("内容不能为空切不能小于30字")
+        return
+    }
+
+    qrform.reset();
+    jsubmit.button('loading');
+    var postdata = qrform.serializeObject();
+    postdata.message = ckmessage
+    postdata.attachfiles = attachfiles
+    console.log(postdata)
+    // return;
+
+    $.xpost(qrform.attr('action'), postdata, function(code, message) {
+        console.log(code, ":", message)
+        // return;
+        if (code == 200) {
+            afterAddNewThread()
+            $.alert(message);
+            setTimeout(function(){
+                href = "/forum/"+ $("#select_forum_id").val() +"/list.html"
+                location.href = href
+            }, 2000)
+        } else {
+            $.alert(message)
+            return
+        }
+    });
+
+    return false;
+});
+
+function afterAddNewThread() {
+    var jsubmit = $('#postsubmit')
+    jsubmit.button('reset');
+}
+
+function trimChar(str, char, type) {
+    if (char) {
+        if (type == 'left') {
+            return str.replace(new RegExp('^\\'+char+'+', 'g'), '');
+        } else if (type == 'right') {
+            return str.replace(new RegExp('\\'+char+'+$', 'g'), '');
+        }
+        return str.replace(new RegExp('^\\'+char+'+|\\'+char+'+$', 'g'), '');
+    }
+    return str.replace(/^\s+|\s+$/g, '');
+}
+
+/*
+function getUrlParam( paramName ) {
+    var reParam = new RegExp( '(?:[\?&]|&)' + paramName + '=([^&]+)', 'i' )
+    var match = window.location.search.match(reParam)
+    return ( match && match.length > 1 ) ? match[ 1 ] : null
+}
+var funcNum = getUrlParam( 'CKEditorFuncNum' );
+var fileUrl = '/path/to/file.txt';
+window.opener.CKEDITOR.tools.callFunction( funcNum, fileUrl );*/
+
+
+
+    attachUploader.on('change', function (e) {
+        sessionStorage.setItem("test", 1)
+        var fd = new FormData()
+        attachfile = attachUploader[0].files[0]
+        console.log(attachfile)
+
+        // 测试区域
+        // 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
+        /*if (!jattachparent.find('.attachlist').length) {
+            jattachparent.append('<fieldset class="fieldset"><legend>上传的附件</legend><ul class="attachlist"><ul></fieldset>');
+        }
+        var message = {
+            "url":"123",
+            "filetype":"torrent",
+            "orgfilename":"原名",
+            "message":{
+                "aid":555
+            }
+        }
+        addAttachLi(message.url, message.filetype, message.aid, message.orgfilename)*/
+
+        var filesSize = attachfile.size
+        // 禁止上传大于1m的文件
+        console.log(attachfile.size)
+        if (filesSize > maxSize) {
+            $.alert("文件大于1M，不能上传")
+            return
+        }
+
+        fd.append("upload", attachfile)
+        $.ajax({
+            url: "/api/v1/attach/upload",
+            data: fd,
+            type: "POST",
+            contentType: false,
+            processData:false,
+            success: function(res) {
+                //成功
+                console.log(res)
+                // return
+                if (res.code == 200) {
+                    // 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
+                    if (!jattachparent.find('.attachlist').length) {
+                        jattachparent.append('<fieldset class="fieldset"><legend>上传的附件</legend><ul class="attachlist"><ul></fieldset>');
+                    }
+
+                    // 添加福建区域
+                    message = res.data
+                    addAttachLi(message.url, message.filetype, 1, message.orgfilename)
+
+                    $.alert("上传成功")
+                    /*setTimeout(function(){
+                        location.reload()
+                    }, 5000)*/
+                } else {
+                    $.alert(res.message)
+                    return
+                }
+            }
+        })
+    });
+
+function addAttachLi(url, filetype, aid, orgfilename) {
+    $('.attachlist').append('<li aid="' + aid + '"><a class="attachfile" orgfilename="' + orgfilename + '"  href="' + message.url + '" target="_blank"><i class="icon filetype ' + filetype + '"></i> ' + orgfilename + '</a> <a onclick="deleteAttach(this)" href="javascript:void(0);" class="delete ml-2"><i class="icon-remove"></i> 删除</a></li>');
+}
+
+function deleteAttach(elem) {
+    if ($('.attachlist').find("li").length == 1) {
+        $('.fieldset').remove()
+    } else {
+        $(elem).parent().remove()
+    }
+}
+
+function  randomChar(num) {
+    var x = "0123456789qwertyuioplkjhgfdsazxcvbnm";
+    var tmp = "";
+    var timestamp = new Date().getTime();
+    for (var i = 0; i < num; i++) {
+        tmp += x.charAt(Math.ceil(Math.random() * 100000000) % x.length);
+    }
+    return "newthread" + timestamp  + tmp
+}
+
+$('form[method="POST"]').append('<input type="hidden" name="xss_token" value="'+ "uid" + {{.sessions.Userid}} + randomChar(11) +'" />');
+
+</script>
+{{ template "layout/footer" .}}

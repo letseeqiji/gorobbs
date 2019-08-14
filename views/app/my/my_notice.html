@@ -1,0 +1,48 @@
+{{ template "layout/header" .}}
+<main id="body">
+    <div class="container">
+        <div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
+            <a role="button" class="btn btn-secondary" data-active="menu-my" href="/my.html">个人资料</a>
+            <a role="button" class="btn btn-secondary" data-active="menu-my-thread" href="my_thread.html">论坛帖子</a>
+            <a role="button" class="btn btn-secondary active" data-active="menu-my-notice" href="?my-notice.htm">消息</a>
+        </div>
+        <div class="row">
+            <!-- 左侧菜单 -->
+            <div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img class="avatar-4" src="upload/avatar/000/2.png?1563802634">
+                        <br>zhang
+                    </div>
+                    <div class="list-group list-group-flush text-center">
+                        <a href="/my.html" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
+                        <a href="?my-notice.htm" class="list-group-item list-group-item-action active" data-active="menu-my-notice">消息</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 右侧内容 -->
+            <div class="col-lg-10" id="my_main">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="?my-notice.htm" data-active="my-notice">消息</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="mx-auto">
+                            <div class="d-flex justify-content-center">
+                                <div class="text-center h1 pt-5 pb-5"><i class="icon icon-bell d-block mb-2"></i>
+                                    <p class="h6">没有相关消息</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{ template "layout/footer" .}}

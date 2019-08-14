@@ -1,0 +1,76 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="btn-group mb-3" role="group">
+                    <a role="button" class="btn btn-secondary active" href="/admin/user/list.html">用户列表</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/user/group.html">用户组</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/user/create.html">创建用户</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 mb-3">
+                <select id="srchtype" value="" class="form-control">
+                    <option value="">搜索类型</option>
+                    <option value="uid">用户 ID：</option>
+                    <option value="username" selected="">用户名：</option>
+                    <option value="email">Email：</option>
+                    <option value="gid">用户组：</option>
+                    <option value="create_ip">创建 IP：</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <input type="text" id="keyword" placeholder="关键词" value="" class="form-control">
+            </div>
+            <div class="col-md-2 mb-3">
+                <button id="search" class="form-control btn btn-primary">搜索</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" style="min-width: 800px">
+                                <thead>
+                                    <tr>
+                                        <th width="60" class="text-center">删除</th>
+                                        <th width="50">ID：</th>
+                                        <th width="150">Email</th>
+                                        <th width="150">用户名</th>
+                                        <th width="100">用户组</th>
+                                        <th width="100">创建时间</th>
+                                        <th width="100">创建 IP</th>
+                                        <th width="60">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userlist">
+                                {{range .users}}
+                                    <tr uid="{{.ID}}">
+                                        <td class="text-center"><input type="checkbox" name="delete" value="{{.ID}}"></td>
+                                        <td>{{.ID}}</td>
+                                        <td>{{.Email}}</td>
+                                        <td>{{.Username}}</td>
+                                        <td>{{if eq .GroupID 0}}游客组{{else}}{{.Group.Name}}{{end}}</td>
+                                        <td>{{.CreatedAt.Format "2006/01/02  15:04:05"}}</td>
+                                        <td><a href="#" target="_blank">{{.CreateIp | strip}}</a></td>
+                                        <td><a href="/admin/user/{{.ID}}/update.html">编辑</a></td>
+                                    </tr>
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="mt-0">
+                        <p><button class="btn btn-sm ml-3" id="confirm">删除</button></p>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center"></ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</main>
+{{ template "layout/footer" }}

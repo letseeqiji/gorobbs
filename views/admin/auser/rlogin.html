@@ -1,0 +1,94 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>管理员登录</h4>
+                        <form action="/admin/login" method="post" id="form">
+                            <div class="form-group">为了您的安全，请再次输入账户密码：</div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="密码" id="password"
+                                       name="password">
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-primary btn-block" id="submit"
+                                        data-loading-text="正在提交...">登录
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    admintoken = sessionStorage.getItem("admin_token")
+    console.log(admintoken)
+    if (admintoken) {
+        $.ajax({
+            url: "/admin/index.html?token=" + admintoken,
+            type: "GET",
+            async: false,
+            success: function (res) {
+                console.log(res.status)
+                /*if (res.status == 200) {
+                    $.alert("您已经登录了，无需重复登录")
+                    setTimeout(function () {
+                        location.href = "/admin/index.html?token="+admintoken
+                    }, 2000)
+                } else {
+                    sessionStorage.removeItem("admin_token")
+                    return
+                }*/
+            }
+        })
+    }
+
+    var jform = $('#form');
+    var jsubmit = $('#submit');
+    jsubmit.on('click', function () {
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serializeObject();
+        // postdata.password = $.md5(postdata.password);
+        console.log(postdata);
+
+        $.ajax({
+            url: jform.attr("action"),
+            data: postdata,
+            type: "POST",
+            success: function (res) {
+                //成功
+                console.log(res)
+                if (res.code == 200) {
+                    admintoken = res.data.token
+                    if (admintoken.length != 0) {
+                        sessionStorage.setItem("admin_token", admintoken)
+                        $.alert("管理员登录成功")
+                        setTimeout(function () {
+                            location.href = "/admin/index.html?token=" + admintoken
+                        }, 2000)
+                    } else {
+                        $.alert("获取token失败")
+                        return
+                    }
+                } else {
+                    $.alert(res.message)
+                    setTimeout(function () {
+                        location.reload()
+                    },2000)
+                    return
+                }
+            }
+        })
+
+        return false;
+    });
+</script>
+{{ template "layout/footer" }}

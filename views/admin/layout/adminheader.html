@@ -1,0 +1,102 @@
+{{ define "layout/adminheader" }}
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="XiunoBBS 4.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="烂公司，帮你绕过这烂公司的坑">
+    <meta name="renderer" content="webkit">
+    <title>管理员登录</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="icon" sizes="32x32" href="/static/img/favicon.ico">
+    <link rel="Bookmark" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/css/bootstrap.css?1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap-bbs.css?1.0">
+    <script src="/static/js/jquery-3.1.0.js?1.0"></script>
+    <script src="/static/js/popper.js?1.0"></script>
+    <script src="/static/js/bootstrap.js?1.0"></script>
+    <script src="/static/js/xiuno.js?1.0"></script>
+    <script src="/static/js/bootstrap-plugin.js?1.0"></script>
+    <script src="/static/js/async.js?1.0"></script>
+    <script src="/static/js/form.js?1.0"></script>
+    <script src="/static/js//bbs.js?1.0"></script>
+    <script src="/static/lang/zh-cn/bbs.js?1.0"></script>
+</head>
+
+<body>
+    <header class="navbar navbar-expand-md navbar-dark bg-dark" id="header">
+        <div class="container">
+            <!-- 左：折叠菜单的图标 ☰ -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="navbar_collapse" aria-expanded="false" aria-label="展开菜单">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- 中：LOGO -->
+            <a class="navbar-brand" href="./">
+                <img src="/static/img/logo.png" class="logo-2">
+            </a>
+            <!--- 右：用户 --->
+            <a class="navbar-brand d-md-none" href="/" title="前台"><i class="icon-home"></i></a>
+            <div class="collapse navbar-collapse" id="nav">
+                <!-- 左侧：版块 -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item home">
+                        <a id="adminindex" class="nav-link" href="/admin/index.html"><i class="icon-home"></i> 后台</a>
+                    </li>
+                    <li class="nav-item nav-item-setting">
+                        <a class="nav-link" href="/admin/setting/base.html"><i class="icon-cog"></i> 设置</a>
+                    </li>
+                    <li class="nav-item nav-item-forum">
+                        <a id="adminforumlist" class="nav-link" href="/admin/forum_list.html"><i class="icon-comment"></i> 版块</a>
+                    </li>
+                    <li class="nav-item nav-item-thread">
+                        <a class="nav-link" href="/admin/thread/list.html"><i class="icon-comment"></i> 主题</a>
+                    </li>
+                    <li class="nav-item nav-item-user">
+                        <a class="nav-link" href="/admin/user/list.html"><i class="icon-user"></i> 用户</a>
+                    </li>
+                    <li class="nav-item nav-item-other">
+                        <a class="nav-link" href="/admin/other.html"><i class="icon-wrench"></i> 其他</a>
+                    </li>
+                    {{/*<li class="nav-item nav-item-plugin">
+                        <a class="nav-link" href="?plugin.htm"><i class="icon-cogs"></i> 插件</a>
+                    </li>
+                    <li class="nav-item nav-item-notice">
+                        <a class="nav-link" href="?notice-list.htm"><i class="icon-bell"></i> 消息</a>
+                    </li>
+                    <li class="nav-item nav-item-attachlite">
+                        <a class="nav-link" href="?attachlite.htm"><i class="icon-file"></i> 附件管理Lite</a>
+                    </li>*/}}
+                </ul>
+                <!-- 右侧：用户 -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img class="avatar-1" src="{{.sessions.Useravatar}}">
+                            {{.sessions.Username}} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="icon-home"></i> 前台</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="adminlogout"><i class="icon-sign-out"></i> 退出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <script>
+        admintoken = sessionStorage.getItem("admin_token")
+        $("#adminindex").attr("href", "/admin/index.html?token="+admintoken)
+        $("#adminforumlist").attr("href", "/admin/forum_list.html?token="+admintoken)
+
+        $("#adminlogout").on('click', function() {
+            sessionStorage.removeItem("admin_token")
+            $.alert("管理员退出登录")
+            setTimeout(function () {
+                location.href="/admin/login.html"
+            }, 2000)
+        })
+    </script>
+    {{ end }}

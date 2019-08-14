@@ -1,0 +1,93 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/admin/forum" method="post" id="formkk" enctype="multipart/form-data">
+                            <div class="table-responsive arrlist">
+                                <table class="table" style="min-width: 800px">
+                                    <thead>
+                                    <tr align="center">
+                                        <th width="60" align="left">图标</th>
+                                        <th width="130"></th>
+                                        <th>名称</th>
+                                        <th width="100">排序</th>
+                                    </tr>
+                                    </thead>
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr align="center" rowid="{{.fnum}}">
+                                        <td align="left">
+                                            <img src="/static/img/forum.png" class="forum" width="48" id="img_1">
+                                        </td>
+                                        <td>
+                                            <input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp"
+                                                   class="form-control" name="forum_icon" value=""
+                                                   data-assoc="img_1" placeholder="图标" id="forum_icon">
+                                        </td>
+                                        <td><input type="text" class="form-control" name="forum_name" value=""
+                                                   placeholder="名称" id="forum_name"></td>
+                                        <td><input type="text" class="form-control" name="forum_rank" value=""
+                                                   placeholder="排序" id="forum_rank"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-center">
+                                <button type="button" class="btn btn-primary" id="submit" data-loading-text="正在提交..."
+                                        style="width: 10rem;">确定
+                                </button>
+                            </p>
+                        </form>
+                        <p class="small text-grey">注：请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+<script>
+    var jform = $("#formkk");
+    var jsubmit = $("#submit");
+
+    jsubmit.on('click', function () {
+        var fd = new FormData()
+        image = $('#forum_icon')[0].files[0]
+        fd.append("forum_icon", image)
+        fd.append("forum_name", $("#forum_name").val())
+        fd.append("forum_rank", $("#forum_rank").val())
+
+        $.ajax({
+            url: "/admin/forum?token="+sessionStorage.getItem("admin_token"),
+            data: fd,
+            type: "POST",
+            contentType: false,
+            processData:false,
+            success: function(res) {
+            //成功
+                console.log(res)
+                if (res.code == 200) {
+                    $.alert("添加成功")
+                    setTimeout(function(){
+                        location.href="/admin/forum_list.html"
+                    }, 2000)
+                }
+            },
+            error: function() {
+                //失败
+            }
+        })
+    });
+
+
+
+</script>
+{{ template "layout/footer" }}

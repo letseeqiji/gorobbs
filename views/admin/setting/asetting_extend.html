@@ -1,0 +1,120 @@
+{{ template "layout/adminheader" }}
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btn-group mb-3" role="group">
+                    <a role="button" class="btn btn-secondary" href="/admin/setting/base.html">基本设置</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/setting/smtp.html">SMTP 设置</a>
+                    <a role="button" class="btn btn-secondary active" href="/admin/setting/extend.html">扩展设置</a>
+                    {{/*<a role="button" class="btn btn-secondary" href="?setting-sensitive_word.htm">敏感词设置</a> */}}
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="?setting-extend.htm" method="post" id="form">
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">站点关键词：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="site_keywords" id="site_keywords" placeholder="" value="" class="form-control"> </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">站点关闭解释：</label>
+                                <div class="col-sm-10">
+                                    <textarea name="runlevel_reason" id="runlevel_reason" class="form-control" style="width: 100%; height: 100px; ">The site is under maintenance, please visit later.</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">关闭会员注册：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="user_create_io" value="1"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="user_create_io" value="0" checked="checked"> 否</label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">开启伪静态：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="url_rewrite_on" value="1"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="url_rewrite_on" value="0" checked="checked"> 否</label> &nbsp;
+                                    <p class="d-inline "><a class="badge badge-secondary font-weight-normal" href="//bbs.xiuno.com/thread-2.htm" target="_blank"><i class="icon-exclamation-circle"></i> 伪静态设置教程</a></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">开启CDN：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="cdn_on" value="1"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="cdn_on" value="0" checked="checked"> 否</label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">后台是否绑定IP：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="admin_bind_ip" value="1"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="admin_bind_ip" value="0" checked="checked"> 否</label> &nbsp;
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">主题列表每页条数：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="pagesize" id="pagesize" placeholder="" value="20" class="form-control" style="width: 100px"> </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">回复列表每页条数：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="postlist_pagesize" id="postlist_pagesize" placeholder="" value="100" class="form-control" style="width: 100px"> </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">单个附件最大容量：</label>
+                                <div class="col col-sm-6 col-md-5 col-lg-3">
+                                    <div class="input-group">
+                                        <input type="text" name="attach_maxsize" id="attach_maxsize" placeholder="" value="20480000" class="form-control">
+                                        <div class="input-group-append"><span class="input-group-text">Bytes</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-auto font-weight-normal">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModalLong">查询</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Mb to Bytes</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body ">
+                                                    <ul class="list-unstyled">
+                                                        <li>1Mb = 1048576 Bytes</li>
+                                                        <li>2Mb = 2097152 Bytes</li>
+                                                        <li>3Mb = 3145728 Bytes</li>
+                                                        <li>4Mb = 4194304 Bytes</li>
+                                                        <li>5Mb = 5242880 Bytes</li>
+                                                        <li>6Mb = 6291456 Bytes</li>
+                                                        <li>7Mb = 7340032 Bytes</li>
+                                                        <li>8Mb = 8388608 Bytes</li>
+                                                        <li>9Mb = 9437184 Bytes</li>
+                                                        <li>10Mb = 10485760 Bytes</li>
+                                                        <li>15Mb = 15728640 Bytes</li>
+                                                        <li>maxsize = 20480000 Bytes</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END Modal -->
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 form-control-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{{ template "layout/footer" }}
