@@ -1,8 +1,10 @@
 <div align="center">
 <img alt="Gorobbs" width="150rpm"  src="https://github.com/letseeqiji/gorobbs/blob/master/doc/logo.png">
+ <br>
+ 轻而快，为未来而构建
 </div>
 
-轻而快，为未来而构建
+
 <br><br>
 
 </p>
