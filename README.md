@@ -1,5 +1,11 @@
 <p align = "center">
-<img alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
+<img id="logoimg" alt="Gorobbs"  src="http://www.xinshulaile.com/static/upload/logo.png">
+  <script>
+  windows.onload=function(){
+    ele = document.getElementById("logoimg")
+    ele.src="http://www.xinshulaile.com/static/upload/logo.png"
+    }
+  </script>
 <br><br>
 轻而快，为未来而构建
 <br><br>
