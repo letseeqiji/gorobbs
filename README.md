@@ -44,17 +44,25 @@
 
 ## 界面
 
-### 开始使用
+### 首页
 
-![start](https://#)
+![start](http://www.xinshulaile.com/static/upload/index.png)
 
-### 管理后台
+### 登录后效果
 
-![console](https://)
+![start](http://www.xinshulaile.com/static/upload/login.png)
 
-### 编辑文章
+### 编辑帖子
 
-![post](https://)
+![console](http://www.xinshulaile.com/static/upload/thread.png)
+
+### 帖子详情
+
+![post](http://www.xinshulaile.com/static/upload/detail.png)
+
+### 后台某页面
+
+![post](http://www.xinshulaile.com/static/upload/backend.png)
 
 
 ## 安装
