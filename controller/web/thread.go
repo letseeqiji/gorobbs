@@ -4,7 +4,6 @@ import (
 	"gorobbs/model"
 	"gorobbs/package/setting"
 	thread_service "gorobbs/service/v1/thread"
-	layout_service "gorobbs/service/v1/layout"
 	"gorobbs/service/v1/user"
 	"html"
 	"net/http"
@@ -13,9 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func init()  {
+/*func init()  {
 	forums = layout_service.GetForumList()
-}
+}*/
 
 // 帖子详情页
 func Thread(c *gin.Context) {

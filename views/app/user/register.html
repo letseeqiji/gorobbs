@@ -64,20 +64,6 @@
         var jpassword = $('#password').val();
         var isused = 0
 
-        // 验证验证码
-        var captcha = getCaptcha()
-        var captchaKey = getCaptchaKey()
-        captchaPass = virefyCaptcha(captcha, captchaKey)
-        if (captcha.length == 0) {
-            $.alert("验证码不能为空")
-            return
-        } else {
-            if (captchaPass != 200 ) {
-                $.alert("验证码错误")
-                refreshCaptcha()
-                return
-            }
-        }
 
         //各种判断
         if (!xn.is_email(jemail)) {
@@ -119,6 +105,13 @@
             $.alert("用户名只能包5-17位的字母数字下划线必须以字母开头")
             return
         } else {
+            reg = /admin|guest|gorobbs|root/gi
+            matchResult = jusername.match(reg)
+            if (matchResult) {
+                $.alert("包含非法的用户名字符")
+                return
+            }
+
             $.ajax({
                 url: "/api/v1/checkname",
                 data: {
@@ -151,6 +144,21 @@
         if (!matchResult) {
             $.alert("用户密码必须包含8位以上大小写字母和数字及特殊字符组合")
             return
+        }
+
+        // 验证验证码
+        var captcha = getCaptcha()
+        var captchaKey = getCaptchaKey()
+        captchaPass = virefyCaptcha(captcha, captchaKey)
+        if (captcha.length == 0) {
+            $.alert("验证码不能为空")
+            return
+        } else {
+            if (captchaPass != 200 ) {
+                $.alert("验证码错误")
+                refreshCaptcha()
+                return
+            }
         }
 
 

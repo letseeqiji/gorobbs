@@ -24,7 +24,7 @@ func GetCapacha(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg":  rcode.GetMessage(code),
+		"message":  rcode.GetMessage(code),
 		"data": data,
 	})
 }
@@ -50,7 +50,7 @@ func VerfiyCaptcha(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg":  rcode.GetMessage(code),
+		"message":  rcode.GetMessage(code),
 		"data": data,
 	})
 }

@@ -2,6 +2,8 @@ package admin
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/file"
+	"gorobbs/package/upload"
 	forum_service "gorobbs/service/v1/forum"
 	"gorobbs/service/v1/user"
 	"strconv"
@@ -29,7 +31,7 @@ func NewForum(c *gin.Context) {
 }
 
 func AddForum(c *gin.Context) {
-	file, err := c.FormFile("forum_icon")
+	icon, err := c.FormFile("forum_icon")
 	if err != nil {
 		c.JSON(200, gin.H{
 			"code":    200,
@@ -37,11 +39,42 @@ func AddForum(c *gin.Context) {
 		})
 		return
 	}
-	//file.Filename = strconv.Itoa(int(time.Time.UnixNano(time.Time{})))
-	file_path := "static/upload/20190730/" + file.Filename
-	err = c.SaveUploadedFile(file, file_path)
+
+
+
+	fileName := icon.Filename
+	// 限制图片的格式 和 大小
+	if ! upload.CheckImageExt(fileName)  {
+		c.JSON(200, gin.H{
+			"code":    403,
+			"message": "图片格式不正确",
+		})
+		return
+	}
+
+	if !upload.CheckImageSize2(icon) {
+		c.JSON(200, gin.H{
+			"code":    403,
+			"message": "图片大小超标了",
+		})
+		return
+	}
+
+	filePath := "upload/forum"
+	// 判断路径是否存在 不存在则创建
+	filePath, err = file.CreatePathInToday(filePath)
 	if err != nil {
-		c.JSON(500, gin.H{
+		c.JSON(200, gin.H{
+			"code":    500,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	fullFileName := filePath + "/" + fileName
+	err = c.SaveUploadedFile(icon, fullFileName)
+	if err != nil {
+		c.JSON(200, gin.H{
 			"code":    500,
 			"message": err.Error(),
 		})
@@ -68,7 +101,7 @@ func AddForum(c *gin.Context) {
 	}
 
 	// 入库
-	newForum, err := forum_service.AddForum(file_path, name, rank)
+	newForum, err := forum_service.AddForum(fullFileName, name, rank)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"code":    500,
@@ -76,9 +109,6 @@ func AddForum(c *gin.Context) {
 		})
 		return
 	}
-
-	// 保存图片
-	//iconurl := Upload(file)
 
 	c.JSON(200, gin.H{
 		"code":    200,

@@ -88,6 +88,12 @@ type Server struct {
 	Version           string
 	StaticVersion     string
 	Installed         int
+
+	RuntimeRootPath string
+	LogSavePath 	string
+	LogSaveName 	string
+	TimeFormat 		string
+	LogFileExt		string
 }
 var ServerSetting = &Server{}
 

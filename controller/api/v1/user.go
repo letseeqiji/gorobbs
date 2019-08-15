@@ -363,7 +363,7 @@ func ResetUserPassword(c *gin.Context) {
 
 func ResetUserAvatar(c *gin.Context) {
 	userAvatar, err := c.FormFile("avatar")
-	uid, _ := strconv.Atoi(c.Param("id"))
+	uid, err := strconv.Atoi(c.Param("id"))
 	fileName := userAvatar.Filename
 	//code := rcode.SUCCESS
 
