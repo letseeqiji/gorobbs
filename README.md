@@ -15,7 +15,7 @@
 
 ## 案例
 
-* [新书来了](http://)
+* [新书来了](http://www.xinshulaile.com)
 
 
 ## 功能
