@@ -14,9 +14,14 @@ func AddUserValid(v *validation.Validation, username string, password string, em
 	ValidEmail(v, email)
 }
 
-func LoginValid(v *validation.Validation, email string, password string) {
+func LoginValidWithEmail(v *validation.Validation, email string, password string) {
 	ValidPassword(v, password)
 	ValidEmail(v, email)
+}
+
+func LoginValidWithName(v *validation.Validation, name string, password string) {
+	ValidPassword(v, password)
+	ValidNameRequired(v, name)
 }
 
 func ValidName(v *validation.Validation, username string) {
@@ -25,6 +30,10 @@ func ValidName(v *validation.Validation, username string) {
 		// 通过 SetError 设置 Name 的错误信息，HasErrors 将会返回 true
 		v.SetError("username", "名称只能是3-16位字母数字组合")
 	}
+}
+
+func ValidNameRequired(v *validation.Validation, username string) {
+	v.Required(username, "username").Message("密码不能为空")
 }
 
 func ValidPassword(v *validation.Validation, password string) {
