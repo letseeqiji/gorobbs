@@ -47,3 +47,4 @@ func ValidPhone(v *validation.Validation, phone string) {
 func ValidEmail(v *validation.Validation, email string) {
 	v.Email(email, "email").Message("邮箱不能为空或格式不正确")
 }
+ 
