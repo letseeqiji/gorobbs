@@ -32,6 +32,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {{ template "layout/captcha" .}}
                          {{/*   <div class="media">
                                 <div class="media-body col-lg-3 p-0">
                                     <div class="form-group input-group">
@@ -187,7 +188,20 @@ jsubmit.on('click', function() {
         console.log(attachfiles)
     }
 
-    // return
+    // 验证验证码
+    var captcha = getCaptcha()
+    var captchaKey = getCaptchaKey()
+    captchaPass = virefyCaptcha(captcha, captchaKey)
+    if (captcha.length == 0) {
+        $.alert("验证码不能为空")
+        return
+    } else {
+        if (captchaPass != 200 ) {
+            $.alert("验证码错误")
+            refreshCaptcha()
+            return
+        }
+    }
 
     var cktitle = $("#subject2").val()
     if (cktitle.length <= 5) {

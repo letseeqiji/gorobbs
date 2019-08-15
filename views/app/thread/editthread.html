@@ -37,6 +37,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {{ template "layout/captcha" .}}
                             <div class="d-flex justify-content-between">
                                 <div class="attachlist_parent">
                                     <a class="small text-left" href="javascript:void(0)">
@@ -132,6 +133,22 @@ jsubmit.on('click', function() {
     var postdata = qrform.serializeObject();
     postdata.message = CKEDITOR.instances.message.getData();
     console.log(postdata)
+
+    // 验证验证码
+    var captcha = getCaptcha()
+    var captchaKey = getCaptchaKey()
+    captchaPass = virefyCaptcha(captcha, captchaKey)
+    if (captcha.length == 0) {
+        $.alert("验证码不能为空")
+        return
+    } else {
+        if (captchaPass != 200 ) {
+            $.alert("验证码错误")
+            refreshCaptcha()
+            jsubmit.button('reset');
+            return
+        }
+    }
 
 
     $.xpost(qrform.attr('action'), postdata, function(code, message) {

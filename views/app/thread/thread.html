@@ -216,6 +216,8 @@
                                             <div class="message mt-1">
                                                 <textarea class="form-control" id="editor1" placeholder="内容" name="message"></textarea>
                                             </div>
+                                            {{/*<br>*/}}
+                                            {{ template "layout/captcha" .}}
                                             <div class="text-muted mt-2 small">
                                                 <div class="d-flex justify-content-between">
                                                     <div>
@@ -330,6 +332,21 @@ jsubmit.on('click', function() {
     if (CKEDITOR.instances.editor1.getData().length == 0) {
         $.alert("亲，写点什么再提交吧 ^_^")
         return;
+    }
+
+    // 验证验证码
+    var captcha = getCaptcha()
+    var captchaKey = getCaptchaKey()
+    captchaPass = virefyCaptcha(captcha, captchaKey)
+    if (captcha.length == 0) {
+        $.alert("验证码不能为空")
+        return
+    } else {
+        if (captchaPass != 200 ) {
+            $.alert("验证码错误")
+            refreshCaptcha();
+            return
+        }
     }
 
     qrform.reset();

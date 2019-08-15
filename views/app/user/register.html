@@ -33,6 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{ template "layout/captcha" .}}
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary btn-block" id="registersubmit" data-loading-text="正在提交...">下一步</button>
                                 </div>
@@ -45,6 +46,7 @@
                                 </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -61,6 +63,21 @@
         var jemail = $('#email').val();
         var jpassword = $('#password').val();
         var isused = 0
+
+        // 验证验证码
+        var captcha = getCaptcha()
+        var captchaKey = getCaptchaKey()
+        captchaPass = virefyCaptcha(captcha, captchaKey)
+        if (captcha.length == 0) {
+            $.alert("验证码不能为空")
+            return
+        } else {
+            if (captchaPass != 200 ) {
+                $.alert("验证码错误")
+                refreshCaptcha()
+                return
+            }
+        }
 
         //各种判断
         if (!xn.is_email(jemail)) {
@@ -126,7 +143,6 @@
                 return
             }
         }
-
 
 
         // 验证用户密码
