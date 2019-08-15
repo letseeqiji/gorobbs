@@ -30,27 +30,27 @@
 
 ### 首页
 
-![start](https://github.com/letseeqiji/gorobbs/tree/master/doc/index.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/index.png)
 
 ### 登录后效果
 
-![start](https://github.com/letseeqiji/gorobbs/tree/master/doc/login.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/login.png)
 
 ### 手机版
 
-![start](https://github.com/letseeqiji/gorobbs/tree/master/doc/mobile.png)
+![start](https://github.com/letseeqiji/gorobbs/blob/master/doc/mobile.png)
 
 ### 编辑帖子
 
-![console](https://github.com/letseeqiji/gorobbs/tree/master/doc/thread.png)
+![console](https://github.com/letseeqiji/gorobbs/blob/master/doc/thread.png)
 
 ### 帖子详情
 
-![post](https://github.com/letseeqiji/gorobbs/tree/master/doc/detail.png)
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/detail.png)
 
 ### 后台某页面
 
-![post](https://github.com/letseeqiji/gorobbs/tree/master/doc/backend.png)
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/backend.png)
 
 
 ## 安装
