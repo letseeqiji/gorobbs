@@ -37,12 +37,14 @@
                                         </span>
                                     </div>
                                     {{/*如果是作者本人操作*/}}
+                                    {{/*{{if islogin}}*/}}
                                     {{if eq .fpost.UserID .sessions.Userid}}
                                     <div>
                                         <a href="/thread/{{.thread.ID}}/edit.html" class="text-grey mr-2 post_update"><i class="icon-edit"></i> 编辑</a>
                                         <a data-href="/thread/{{.thread.ID}}/delete.html" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove"></i> 删除</a>
                                     </div>
                                     {{end}}
+                                    {{/*{{end}}*/}}
                                 </div>
                             </div>
                         </div>
@@ -152,7 +154,7 @@
                                                     color: var(--secondary) !important;
                                                 }
                                             </style>
-                                            <span class="haya-post-like mr-3">
+                                            {{/*<span class="haya-post-like mr-3">
                                                 <a href="javascript:;" class="text-muted js-haya-post-like-post-add" data-pid="{{$post.ID}}" title="点赞回复">
                                                     <i class="icon icon-thumbs-o-up" aria-label="点赞回复"></i>
                                                     <span class="haya-post-like-post-user-count">{{$post.LikesCnt}}</span>
@@ -162,12 +164,12 @@
                                                     <span class="haya-post-like-post-user-count">{{$post.LikesCnt}}</span>
                                                 </a>
                                             </span>
-                                            {{/*{{if $isadmin}}*/}}
+                                            */}}{{/*{{if $isadmin}}*/}}{{/*
                                             <a href="javascript:void(0)" data-tid="1" data-pid="2" class="text-grey post_reply mr-3"><i class="icon-reply" title="引用"></i>
                                                 <span class="d-none">引用</span></a>
                                             <a href="/post/{{$post.ID}}/edit.html" class="text-grey post_update mr-3"><i class="icon-edit" title="编辑"></i> <span class="d-none">编辑</span></a>
                                             <a data-href="?post-delete-2.htm" data-confirm-text="确定删除吗？" href="javascript:void(0);" class="text-grey post_delete _confirm mr-3"><i class="icon-remove" title="删除"></i> <span class="d-none">删除</span></a>
-                                            {{/*{{end}}*/}}
+                                            */}}{{/*{{end}}*/}}
                                             <span class="floor-parent">
                                                 <span class="floor mr-0">{{$index | plus1}}</span>楼
                                             </span>
