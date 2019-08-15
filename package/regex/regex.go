@@ -23,3 +23,4 @@ func (this *Regex)VerifyString() bool {
 	reg := regexp.MustCompile(this.Pattern)
 	return reg.MatchString(this.Str)
 }
+ 
