@@ -4,7 +4,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// 生成加密字符串
+// 生成加密字符串 
 func BcryptString(s string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(s), bcrypt.DefaultCost)
 	if err != nil {
