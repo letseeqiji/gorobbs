@@ -18,3 +18,4 @@ const (
 	ERROR_EXIST_USER     = 30001
 	ERROR_NOT_EXIST_USER = 30002
 )
+ 
