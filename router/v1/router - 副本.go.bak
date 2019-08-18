@@ -68,7 +68,7 @@ func InitRouter() *gin.Engine {
 		web.GET("/index.html", webservice.Index)
 		web.GET("/default.html", webservice.Index)
 
-		// 模块：主题列表页
+		// 模块：主题列表页  
 		web.GET("/forum/:id/list.html", webservice.Forums)
 		// 主题：新建页
 		web.GET("/newthread.html", webservice.NewThread)
