@@ -19,7 +19,7 @@ $('.tap').on('click', function(e) {
 		window.location = href;
 	}
 });
-// 点击响应整行：导航栏下拉菜单   / check response line
+// 点击响应整行：导航栏下拉菜单    / check response line
 $('ul.nav > li').on('click', function(e) {
 	var jthis = $(this);
 	var href = jthis.children('a').attr('href');
