@@ -1,0 +1,10 @@
+{{ define "layout/emailcheck" }}
+    {{if .islogin}}
+        {{if eq .sessions.EmailChecked "0"}}
+            <ol class="breadcrumb d-none d-md-flex" style="color:red;justify-content: space-between;">
+                <div>自注册起需要在24小时内用邮箱验证激活当前账号，如未及时激活，系统会自动清除该账号</div>
+                <div class="flex-end"><a href="/my.html"> 立即激活>>  </a></div>
+            </ol>
+        {{end}}
+    {{end}}
+{{end}}

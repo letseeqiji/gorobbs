@@ -1,5 +1,6 @@
 {{ template "layout/header" .}}
 
+
     <main id="body">
         <div class="container">
             <div class="row">
@@ -167,8 +168,9 @@
         // postdata.password = $.md5(postdata.password);
         $.xpost(jform.attr('action'), postdata, function(code, message) {
             if (code == 200) {
-                $.alert("注册成功,2秒后跳转到登录窗口")
-                jsubmit.button(message).delay(1000).location("/login.html");
+                sessionStorage.setItem("user_reg_email", jemail)
+                // $.alert("注册成功,2秒后跳转到登录窗口")
+                jsubmit.button(message).delay(1000).location("/register/email.html");
             } else {
                 jform.find('[name="' + code + '"]').alert(message).focus();
                 jsubmit.button('reset');

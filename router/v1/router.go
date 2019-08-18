@@ -70,6 +70,9 @@ func InitRouter() *gin.Engine {
 	{
 		// 注册页
 		web.GET("/register.html", webservice.Register)
+		web.GET("/register/email.html", webservice.ConfirmEmail)
+		web.GET("/register/checkMail", webservice.CheckEmail)
+
 		// 登录页
 		web.GET("/login.html", webservice.Login)
 		// 登出页面
@@ -134,6 +137,7 @@ func InitRouter() *gin.Engine {
 		//注册
 		apiv1.POST("/user", apiservice.AddUser)
 		apiv1.POST("/register", apiservice.AddUser)
+		apiv1.POST("/register/email/checked", apiservice.IsEmailChecked)
 		// 登录
 		apiv1.POST("/login", apiservice.UserLogin)
 		// 登出操作

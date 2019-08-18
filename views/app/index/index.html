@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 main">
+                {{ template "layout/emailcheck" .}}
                 <div class="card card-threadlist">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
@@ -126,7 +127,7 @@
                 </nav>
             </div>
             <div class="col-lg-3 d-none d-lg-block aside">
-                <a role="button" class="btn btn-primary btn-block mb-3" href="/newthread.html">发新帖</a>
+                {{ template "layout/addnewthread" .}}
                 <div class="card card-site-info">
                     <div class="m-3">
                         <h5 class="text-center">Gin BBS</h5>

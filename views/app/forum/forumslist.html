@@ -15,6 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 main">
+                {{ template "layout/emailcheck" .}}
 
                 <ol class="breadcrumb d-none d-md-flex">
                     <li class="breadcrumb-item"><a href="/index.html"><i class="icon-home" aria-hidden="true"></i></a></li>
@@ -136,7 +137,7 @@
                 </nav>
             </div>
             <div class="col-lg-3 d-none d-lg-block aside">
-                <a role="button" class="btn btn-primary btn-block mb-3" href="/newthread.html">发新帖</a>
+                {{ template "layout/addnewthread" .}}
                 <div class="card card-forum-info">
                     <div class="card-body text-center">
                         <img class="logo-5 mb-2" src="{{.foruminfoxx.Icon}}">

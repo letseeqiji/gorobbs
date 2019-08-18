@@ -8,6 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 main">
+                {{ template "layout/emailcheck" .}}
                 <ol class="breadcrumb d-none d-md-flex">
                     <li class="breadcrumb-item"><a href="/" aria-label="首页"><i class="icon-home"></i></a></li>
                     <li class="breadcrumb-item"><a href="/forum/{{.thread.ForumID}}/list.html">{{.thread.Forum.Name}}</a></li>
@@ -249,7 +250,7 @@
                 <a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3" href="javascript:history.back();">返回</a>
             </div>
             <div class="col-lg-3 d-none d-lg-block aside">
-                <a role="button" class="btn btn-primary btn-block mb-3" href="/newthread.html">发新帖</a>
+                {{ template "layout/addnewthread" .}}
                 {{/*用户信息*/}}
                 <div class="card card-user-info">
                     <div class="m-3 text-center">
@@ -331,6 +332,11 @@ CKEDITOR.replace('message', {
 var qrform = $("#quick_reply_form")
 var jsubmit = $('#postsubmit');
 jsubmit.on('click', function() {
+    if ({{.islogin}} && {{.sessions.EmailChecked}} == "0") {
+        $.alert("您的邮箱还没有验证，无法回帖")
+        return
+    }
+
     if (CKEDITOR.instances.editor1.getData().length == 0) {
         $.alert("亲，写点什么再提交吧 ^_^")
         return;

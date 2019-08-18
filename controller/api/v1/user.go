@@ -511,3 +511,19 @@ func CheckPhoneUsed(c *gin.Context) {
 		"data": data,
 	})
 }
+
+func IsEmailChecked(c *gin.Context)  {
+	email := c.DefaultPostForm("email", "")
+	if len(email) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"code":404, "message":"没有找到email"})
+		return
+	}
+
+	user, err := model.GetUser(map[string]interface{}{"email":email})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"code":500, "message":err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"code":200, "message":"ok", "data":user.EmailChecked})
+}

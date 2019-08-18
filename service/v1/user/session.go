@@ -9,21 +9,24 @@ import (
 )
 
 type UserSession struct {
-	Username      string `json:"username"`
-	Userid        int    `json:"userid"`
-	Useravatar    string `json:"useravatar"`
-	Useremail     string `json:"useremail"`
-	Userpostcnt   int    `json:"userpostcnt"`
-	Userthreadcnt int    `json:"userthreadcnt"`
-	Isadmin       string `json:"isadmin"`
+	Username      	string `json:"username"`
+	Userid        	int    `json:"userid"`
+	Useravatar    	string `json:"useravatar"`
+	Useremail     	string `json:"useremail"`
+	EmailChecked	string `json:"email_checked"`
+	Userpostcnt   	int    `json:"userpostcnt"`
+	Userthreadcnt 	int    `json:"userthreadcnt"`
+	Isadmin       	string `json:"isadmin"`
 }
 
 // 登录设定必要的session信息
 func LoginSession(c *gin.Context, user model.User, sok chan int) {
+	emailChecked := strconv.Itoa(user.EmailChecked)
 	session.SetSession(c, "username", user.Username)
 	session.SetSession(c, "userid", strconv.Itoa(int(user.ID)))
 	session.SetSession(c, "useravatar", user.Avatar)
 	session.SetSession(c, "useremail", user.Email)
+	session.SetSession(c, "emailchecked", emailChecked)
 	session.SetSession(c, "userpostcnt", strconv.Itoa(user.PostsCnt))
 	session.SetSession(c, "userthreadcnt", strconv.Itoa(user.ThreadsCnt))
 	session.SetSession(c, "isadmin", IsAdmin(user.GroupID))
@@ -36,6 +39,7 @@ func GetSessions(c *gin.Context) (sessions *UserSession) {
 	userid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	useravatar := session.GetSession(c, "useravatar")
 	useremail := session.GetSession(c, "useremail")
+	emailchecked := session.GetSession(c, "emailchecked")
 	userpostcnt, _ := strconv.Atoi(session.GetSession(c, "userpostcnt"))
 	userthreadcnt, _ := strconv.Atoi(session.GetSession(c, "userthreadcnt"))
 	isadmin := session.GetSession(c, "isadmin")
@@ -45,6 +49,7 @@ func GetSessions(c *gin.Context) (sessions *UserSession) {
 		Userid:        userid,
 		Useravatar:    useravatar,
 		Useremail:     useremail,
+		EmailChecked: emailchecked,
 		Userpostcnt:   userpostcnt,
 		Userthreadcnt: userthreadcnt,
 		Isadmin:       isadmin,
@@ -59,6 +64,7 @@ func LogoutSession(c *gin.Context) {
 	session.DeleteSession(c, "userid")
 	session.DeleteSession(c, "useravatar")
 	session.DeleteSession(c, "useremail")
+	session.DeleteSession(c, "emailchecked")
 	session.DeleteSession(c, "userpostcnt")
 	session.DeleteSession(c, "userthreadcnt")
 	session.DeleteSession(c, "isadmin")

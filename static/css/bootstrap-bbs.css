@@ -1,0 +1,302 @@
+@charset "UTF-8";
+/*!
+ * Bootstrap v4.0.0-beta.3 (https://getbootstrap.com)
+ * Copyright 2011-2017 The Bootstrap Authors
+ * Copyright 2011-2017 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/****************************************   bbs 业务部分  ****************************************/
+html, table {
+  font-size: 14px;
+}
+
+body {
+  background: #dee2e6;
+}
+
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif;
+}
+
+/* 页脚固定在底部 */
+#header, #body, #footer {
+  width: 100%;
+}
+
+#header {
+  flex: 0 0 auto;
+}
+
+#body {
+  flex: 1 0 auto;
+}
+
+#footer {
+  flex: 0 0 auto;
+}
+
+#body > .container > .row > .aside {
+  padding-left: 0;
+}
+
+.table th {
+  border-top: none;
+}
+
+.table > tbody > tr:first-child > td {
+  border-top: none;
+}
+
+/*
+.borde {
+  border: 1px solid rgba($black, 0.125);
+  border-radius: 0.25rem;
+}
+.shadow {
+  box-shadow: 2px 2px 3px rgba($gray-600, .25);
+}
+*/
+.card {
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  box-shadow: 2px 2px 3px rgba(173, 181, 189, 0.25);
+}
+
+.card > .card-header {
+  color: #454d55;
+  font-size: 14px;
+  border-bottom: 1px solid #dee2e6;
+  background-image: linear-gradient(0deg, #e9ecef, #f8f9fa);
+}
+
+.card > .card-block > table > tbody > tr:last-child > td {
+  border-bottom: 0px;
+}
+
+.card-header-tabs > .nav-item > .nav-link:hover:not(.active) {
+  border: 1px solid #dee2e6;
+}
+
+.card-header-tabs > .nav-item > .nav-link.active {
+  background-image: linear-gradient(0deg, #f8f9fa, #fff);
+  border-color: #dee2e6;
+  border-bottom-color: #f8f9fa;
+}
+
+.breadcrumb {
+  background-color: rgba(248, 249, 250, 0.8) !important;
+  border: 1px solid #dee2e6;
+  box-shadow: 1px 1px 2px rgba(233, 236, 239, 0.25);
+}
+
+.breadcrumb:hover {
+  background-color: #fff !important;
+}
+
+.breadcrumb .breadcrumb-item {
+  display: inline-flex;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breadcrumb .breadcrumb-item a {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-header-dropdown .dropdown .dropdown-toggle {
+  text-decoration: none;
+  color: #495057;
+}
+
+.card-header-dropdown .dropdown-menu {
+  min-width: 8rem;
+  padding: 0.25rem 0;
+}
+
+.card-header-dropdown .dropdown-menu .dropdown-item {
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.card-header-dropdown .dropdown-menu .dropdown-item i {
+  width: 12px;
+}
+
+/* 小屏: only small screen */
+@media (max-width: 576px) {
+  #body {
+    padding-top: 0.5rem;
+  }
+  #body > .container > .row > div {
+    padding: 0.5rem;
+  }
+}
+
+/* 小屏 + 中屏: small + middle */
+@media (max-width: 992px) {
+  #nav {
+    padding-top: 1.5rem;
+    padding-left: 0.5rem;
+  }
+  #nav > ul:first-child > li:not(:first-child) {
+    padding-left: 3rem;
+  }
+  #nav > ul > li > a.nav-link {
+    border-bottom: 1px solid rgba(134, 142, 150, 0.3);
+  }
+}
+
+/* 中屏 + 大屏: middle + big */
+@media (min-width: 576px) {
+  #body {
+    padding-top: 1rem;
+  }
+}
+
+.addattach:hover {
+  font-weight: 800;
+}
+
+/*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
+.pagination {
+  flex-wrap: wrap;
+}
+
+table.nav_tag_list {
+  margin-bottom: 0.2rem;
+}
+
+table.nav_tag_list td {
+  padding: 0.1rem;
+}
+
+table.nav_tag_list td a {
+  margin-right: 0.5rem;
+}
+
+.nav_tag_list .active {
+  font-weight: 800;
+}
+
+@keyframes quote_animation {
+  from {
+    background-color: #177f2e;
+  }
+  to {
+    background-color: #f8f9fa;
+  }
+}
+
+li.quote {
+  background-color: #e9ecef;
+  animation: quote_animation 1s;
+  -moz-animation: quote_animation 1s;
+  -webkit-animation: quote_animation 1s;
+  -o-animation: quote_animation 1s;
+  background-image: url(../img/quote.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.blockquote {
+  font-size: 0.8rem;
+  background-color: #e9ecef;
+  background-image: url(../img/quote.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+  padding: 0.5rem 1rem !important;
+}
+
+.blockquote .user {
+  margin-right: 0.5rem;
+}
+
+.thread, .post {
+  border-bottom: 1px solid #e9ecef;
+  padding: 0.7rem 0px;
+}
+
+.thread:hover {
+  background-color: white;
+}
+
+.threadlist > .thread:last-child,
+.postlist > .post:last-child {
+  border-bottom: 0px;
+}
+
+.postlist .media-body {
+  width: 1%;
+}
+
+.message p {
+  margin: 0.2rem 0;
+  line-height: 1.7;
+}
+
+.message img {
+  max-width: 100%;
+  height: auto !important;
+  border: 1px solid #dee2e6;
+  margin-bottom: 0.5rem;
+}
+
+.thread .badge {
+  font-weight: normal;
+}
+
+.subject {
+  font-size: 1.04rem;
+}
+
+.message {
+  font-size: 1.1rem;
+}
+
+/* 回帖输入框 */
+#message {
+  height: 2.4rem;
+  transition: height 0.2s;
+}
+
+/* 导航 */
+.navbar h5 {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 1.75rem;
+  font-weight: 800;
+}
+
+.navbar nav {
+  padding-bottom: 1rem;
+}
+
+.navbar nav:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#mobile_nav .navbar-nav {
+  flex-direction: row;
+}
+
+#mobile_nav .navbar-nav .nav-link {
+  margin-right: 1rem;
+}
+
+#nav_pc_2 {
+  background: #868e96;
+}
+
+#nav_pc_2 a {
+  color: #e9ecef;
+}
+
+#nav_pc_2 .active a {
+  color: #fff;
+  font-weight: 800;
+}

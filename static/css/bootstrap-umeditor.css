@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/*!
+ * Bootstrap v4.0.0-beta.3 (https://getbootstrap.com)
+ * Copyright 2011-2017 The Bootstrap Authors
+ * Copyright 2011-2017 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/* 百度编辑器 */
+/*
+.edui-container { background: none; border-color: rgba($black,.2); }
+.edui-container .edui-editor-body { background-color: rgba($black,.1) !important; }
+.edui-container { box-shadow: none !important; }
+
+.edui-container pre { background: rgba($black,.1); border-color: rgba($black,.2); color: rgba($black,.9); }
+
+.edui-btn-toolbar .edui-combobox {
+        border-color: rgba($black,.2);
+}
+.edui-toolbar .edui-combobox-menu { background-color: $body-bg; border-color: rgba($black,.2); }
+
+.edui-combobox-menu .edui-combobox-item:hover, 
+.edui-combobox-menu .edui-combobox-stack-item:hover, 
+.edui-combobox-menu .edui-combobox-item-hover {
+        background-color: lighten($body-bg,15%);
+        border-color: lighten($body-bg,30%);
+}
+.edui-combobox-menu .edui-combobox-item { border-color: rgba($black,.2); }
+
+.edui-container .edui-toolbar { color: $black; background-color: rgba($white,.2) !important; border-bottom-color: rgba($black,.2); box-shadow: none !important; }
+.edui-btn-toolbar .edui-btn .edui-icon { background-image: url(../img/umeditor_icons_dark.png); }
+.edui-btn-toolbar .edui-btn.edui-hover, 
+.edui-btn-toolbar .edui-btn.edui-active { 
+        background-color: rgba($black,.2); border-color: rgba($black,.3);
+}
+.edui-toolbar .edui-separator { width: 1px; padding: 0; background: rgba($black,.2); }
+textarea { background: rgba($black,.1); }
+
+*/

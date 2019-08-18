@@ -10,10 +10,23 @@ func GetUserByID(uid int) (user model.User, err error) {
 	return
 }
 
+func GetUserByEmail(email string) (user model.User, err error) {
+	wmap := map[string]interface{}{"email": email}
+	user, err = model.GetUser(wmap)
+	return
+}
+
 func ResetPassword(newPassword string, uid int) (err error) {
 	var wmap = make(map[string]interface{})
 	wmap["id"] = uid
 	err = model.UpdateUser(wmap, map[string]interface{}{"password": newPassword})
+	return
+}
+
+func UpdateEmailChecked(email string) (err error) {
+	var wmap = make(map[string]interface{})
+	wmap["email"] = email
+	err = model.UpdateUser(wmap, map[string]interface{}{"email_checked": 1})
 	return
 }
 
@@ -39,7 +52,20 @@ func IsAdmin(ugid int) string {
 	return "0"
 }
 
+func IsEmailChecked(email string) string {
+	user, err := GetUserByEmail(email)
+	if err != nil {
+		return "0"
+	}
+
+	if user.EmailChecked == 1 {
+		return "1"
+	}
+
+	return "0"
+}
+
 //最新会员
 func GetNewestTop12Users() (userList []model.User, err error) {
-	return model.GetUsers(12, "id desc", 1)
+	return model.GetUsers(20, "id desc", 1)
 }

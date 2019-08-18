@@ -15,6 +15,7 @@ type User struct {
 	Realname     string    `gorm:"default:''" json:"realname"`     //用户实名
 	GroupID      int       `gorm:"default:0" json:"group_id"`      //用户组编号
 	Email        string    `gorm:"default:''" json:"email"`        //邮箱
+	EmailChecked int       `gorm:"default:0" json:"email_checked"`   //邮箱验证过
 	Password     string    `gorm:"default:''" json:"password"`     //密码
 	PasswordSms  string    `gorm:"default:''" json:"password_sms"` //密码
 	Phone        string    `gorm:"default:''" json:"phone"`        //手机号

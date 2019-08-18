@@ -22,7 +22,14 @@ func Thread(c *gin.Context) {
 	threadId, _ := strconv.Atoi(c.Param("id"))
 	// c.JSON(200, gin.H{"id": threadId})
 
-	thread, _ := model.GetThreadById(threadId)
+	thread, err := model.GetThreadById(threadId)
+
+	// 如果没有找到直接跳404
+	if err != nil {
+		c.HTML(http.StatusNotFound, "404.html" ,gin.H{})
+		return
+	}
+
 	fpost, _ := model.GetThreadFirstPostByTid(threadId)
 
 	// c.JSON(200, gin.H{"data": html.UnescapeString(fpost.Message), "yd": fpost.Message})
