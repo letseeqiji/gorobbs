@@ -1,6 +1,6 @@
 package model
 
-// 我的帖子表
+// 我的帖子表 
 type Post struct {
 	Model
 
