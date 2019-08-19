@@ -3,6 +3,8 @@ package v1
 import (
 	"github.com/gin-gonic/gin"
 	"gorobbs/model"
+	"gorobbs/package/app"
+	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	"strconv"
 )
@@ -12,10 +14,12 @@ import (
 func Addthreadfavourite(c *gin.Context) {
 	tid, _ := strconv.Atoi(c.DefaultPostForm("threadid", "1"))
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
+	code := rcode.SUCCESS
 
 	threadInfo, err := model.GetThreadById(tid)
 	if err != nil {
-		c.JSON(404, gin.H{"code":404, "message":err.Error()})
+		code = rcode.ERROR_UNFIND_DATA
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -39,12 +43,7 @@ func Addthreadfavourite(c *gin.Context) {
 		favNum --
 	}
 
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "ok",
-		"action" : action,
-		"fav_num" : favNum,
-	})
+	app.JsonOkResponse(c, code, map[string]interface{}{"action" : action, "fav_num" : favNum})
 }
 
 

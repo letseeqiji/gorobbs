@@ -92,8 +92,6 @@ if ({{.thread.UserID}} != {{.sessions.Userid}}) {
 CKEDITOR.replace('message', {
     language: 'zh-cn',
     disallowedContent: '<script >',
-    // toolbar: [['Smiley']],
-    // toolbarCanCollapse: true,
     toolbarStartupExpanded: false,
     toolbar: [
         { name: 'document', items: [ 'Source', '-', 'Preview' ] },
@@ -102,7 +100,7 @@ CKEDITOR.replace('message', {
         { name: 'colors', items: [ 'TextColor'] },
         { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-' ] },
         { name: 'links', items: [ 'Link', 'Unlink' ] },
-        { name: 'insert', items: [ 'Image', 'Smiley' ] },
+        { name: 'insert', items: [ 'Image', 'Smiley', 'Table', 'HorizontalRule', 'SpecialChar' ] },
         '/',
         { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
         { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
@@ -238,7 +236,7 @@ attachUploader.on('change', function (e) {
 });
 
 function addAttachLi(url, filetype, aid, orgfilename) {
-    $('.attachlist').append('<li aid="' + aid + '"><a class="attachfile" orgfilename="' + orgfilename + '"  href="' + message.url + '" target="_blank"><i class="icon filetype ' + filetype + '"></i> ' + orgfilename + '</a> <a href="javascript:void(0);" class="delete ml-2"><i class="icon-remove"></i> 删除</a></li>');
+    $('.attachlist').append('<li aid="' + aid + '"><a class="attachfile" orgfilename="' + orgfilename + '"  href="' + message.url + '" target="_blank"><i class="icon filetype ' + filetype + '"></i> ' + orgfilename + '</a> <a onclick="deleteAttach(this, {{.thread.ID}}, '+ aid +')"  href="javascript:void(0);" class="delete ml-2"><i class="icon-remove"></i> 删除</a></li>');
 }
 
 function deleteAttach(elem, threadId, attachId) {

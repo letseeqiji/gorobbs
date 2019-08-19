@@ -2,7 +2,9 @@ package v1
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/app"
 	file_package "gorobbs/package/file"
+	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	"gorobbs/package/upload"
 	"strconv"
@@ -53,25 +55,22 @@ func CkeditorUpload(c *gin.Context) {
 func UploadFile(c *gin.Context) {
 	action := c.Query("action")
 	uid := c.Query("uid")
+	code := rcode.SUCCESS
 
 	file, _ := c.FormFile("upload")
 	fileName := file.Filename
 	newFilename := file_package.MakeFileName(uid, fileName)
 	if !upload.CheckImageSize2(file) {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "文件大小超标了",
-		})
+		code = rcode.ERROR_IMAGE_TOO_LARGE
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	filepath := "upload/" + action + "/" + uid + "/"
 	err := file_package.CreatePath(filepath)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_CREATE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -79,10 +78,8 @@ func UploadFile(c *gin.Context) {
 	// 上传文件到指定的路径
 	err = c.SaveUploadedFile(file, fullName)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_SAVE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -96,30 +93,22 @@ func UploadFile(c *gin.Context) {
  */
 func UploadAttach(c *gin.Context) {
 	userid := session.GetSession(c, "userid")
-
+	code := rcode.SUCCESS
 	file, _ := c.FormFile("upload")
 	fileName := file.Filename
 	fileType := file_package.GetType(fileName)
 	newFilename := file_package.MakeFileName(userid, fileName)
 	if !upload.CheckImageSize2(file) {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "文件大小超标了",
-		})
+		code = rcode.ERROR_IMAGE_TOO_LARGE
+		app.JsonErrResponse(c, code)
 		return
 	}
-
-	/*today := time_package.TimeFormat("Ymd")
-	filepath := "upload/thread/" + userid + "/" + today + "/"
-	err := file_package.CreatePath(filepath)*/
 
 	filepath := "upload/attach/" + userid
 	filepath, err := file_package.CreatePathInToday(filepath)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_CREATE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -127,26 +116,13 @@ func UploadAttach(c *gin.Context) {
 	// 上传文件到指定的路径
 	err = c.SaveUploadedFile(file, fullName)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_SAVE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
-	/*message = {
-		"url":"123",
-			"filetype":"torrent",
-			"orgfilename":"原名",
-			"message":{
-			"aid":555
-		}*/
-
-	c.JSON(200, gin.H{
-		"code":200,
-		"message":"ok",
-		"data":map[string]interface{}{"orgfilename": fileName, "filetype": fileType, "url": fullName},
-	})
+	data := map[string]interface{}{"orgfilename": fileName, "filetype": fileType, "url": fullName}
+	app.JsonOkResponse(c, code, data)
 }
 
 // 添加额外的附件
@@ -155,6 +131,7 @@ func UploadAddAttach(c *gin.Context) {
 	threadId, _ := strconv.Atoi(c.DefaultPostForm("thread_id", "0"))
 	posthreadId := threadId
 	postId, _ := strconv.Atoi(c.PostForm("post_id"))
+	code := rcode.SUCCESS
 
 	file, _ := c.FormFile("upload")
 	fileName := file.Filename
@@ -162,24 +139,16 @@ func UploadAddAttach(c *gin.Context) {
 	fileSize := file.Size
 	newFilename := file_package.MakeFileName(userid, fileName)
 	if !upload.CheckImageSize2(file) {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "文件大小超标了",
-		})
+		code = rcode.ERROR_IMAGE_TOO_LARGE
+		app.JsonErrResponse(c, code)
 		return
 	}
-
-	/*today := time_package.TimeFormat("Ymd")
-	filepath := "upload/thread/" + userid + "/" + today + "/"
-	err := file_package.CreatePath(filepath)*/
 
 	filepath := "upload/attach/" + userid
 	filepath, err := file_package.CreatePathInToday(filepath)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_CREATE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -187,10 +156,8 @@ func UploadAddAttach(c *gin.Context) {
 	// 上传文件到指定的路径
 	err = c.SaveUploadedFile(file, fullName)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_SAVE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -220,11 +187,8 @@ func UploadAddAttach(c *gin.Context) {
 	// 更新post表的filenum
 	model.UpdatePostFilesNum(postId, postInfo.FilesNum+1)
 
-	c.JSON(200, gin.H{
-		"code":200,
-		"message":"ok",
-		"data":map[string]interface{}{"orgfilename": fileName, "filetype": fileType, "url": fullName},
-	})
+	data := map[string]interface{}{"orgfilename": fileName, "filetype": fileType, "url": fullName}
+	app.JsonOkResponse(c, code, data)
 }
 
 // 删除的附件
@@ -234,6 +198,7 @@ func DeleteAttach(c *gin.Context) {
 	attachId, _ := strconv.Atoi(c.PostForm("attach_id"))
 	threadId, _ := strconv.Atoi(c.DefaultPostForm("thread_id", "0"))
 	postId, _ := strconv.Atoi(c.DefaultPostForm("post_id", "0"))
+	code := rcode.SUCCESS
 
 	if threadId != 0 {
 		threadInfo, _ := model.GetThreadById(threadId)
@@ -252,8 +217,5 @@ func DeleteAttach(c *gin.Context) {
 
 	model.DelAttach(attachId)
 
-	c.JSON(200, gin.H{
-		"code":200,
-		"message":"ok",
-	})
+	app.JsonOkResponse(c, code, nil)
 }

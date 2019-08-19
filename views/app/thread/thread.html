@@ -227,7 +227,7 @@
                                                         <button id="postsubmit" type="button" class="btn btn-sm btn-secondary" id="submit" data-loading-text="正在提交..."> 回帖 </button>
                                                     </div>
                                                     <div>
-                                                        <a class="icon-mail-forward text-muted" href="/thread/{{.thread.ID}}/apost.html" id="advanced_reply"> 高级回复</a>
+                                                        <a class="icon-mail-forward text-muted" href="#" id="advanced_reply"> 高级回复</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -459,7 +459,7 @@ function myfavourite(tid, ele) {
             console.log(res)
             // return
             if (res.code == 200) {
-                if (res.action==1) {
+                if (res.data.action==1) {
                     $(ele).removeClass('js-haya-favorite-add')
                         .addClass('js-haya-favorite-del')
                         .attr('title', '取消收藏');
@@ -472,7 +472,7 @@ function myfavourite(tid, ele) {
                         .text('取消');
 
                     $(".haya-favorite-show-users").find(".haya-favorite-users").html([]);
-                    $(".haya-favorite-user-count").text(res.fav_num);
+                    $(".haya-favorite-user-count").text(res.data.fav_num);
                 } else {
                     $(ele).removeClass('js-haya-favorite-del')
                         .addClass('js-haya-favorite-add')
@@ -486,7 +486,7 @@ function myfavourite(tid, ele) {
                         .text('收藏');
 
                     $(".haya-favorite-show-users").find(".haya-favorite-users").html([]);
-                    $(".haya-favorite-user-count").text(res.fav_num);
+                    $(".haya-favorite-user-count").text(res.data.fav_num);
                 }
             } else {
                 $.alert(res.message)
@@ -495,5 +495,15 @@ function myfavourite(tid, ele) {
         }
     })
 }
+
+
+$("#advanced_reply").on("click", function () {
+    if ({{.islogin}} && {{.sessions.EmailChecked}} == "0") {
+        $.alert("您的邮箱还没有验证，无法回帖")
+        return
+    }
+
+    location.href = "/thread/{{.thread.ID}}/apost.html"
+})
 </script>
 {{ template "layout/footer" .}}

@@ -2,6 +2,7 @@ package v1
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/app"
 	"gorobbs/package/file"
 	"gorobbs/package/gredis"
 	"gorobbs/package/logging"
@@ -113,11 +114,7 @@ func UserLogin(c *gin.Context) {
 	user, err := model.GetUser(maps)
 	if err != nil {
 		code = rcode.ERROR_NOT_EXIST_USER
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"msg":  rcode.GetMessage(code),
-			"data": data,
-		})
+		app.JsonOkResponse(c, code, data)
 		return
 	}
 
@@ -125,20 +122,9 @@ func UserLogin(c *gin.Context) {
 	hashPassword := user.Password
 	if !util.VerifyString(password, hashPassword) {
 		code = rcode.ERROR_NOT_EXIST_USER
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"msg":  rcode.GetMessage(code),
-			"data": data,
-		})
+		app.JsonOkResponse(c, code, data)
 		return
 	}
-
-	/*c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(user.Password)),
-	})
-	return*/
 
 	// 3，验证通过 生成token和session
 	code = rcode.SUCCESS
@@ -148,12 +134,7 @@ func UserLogin(c *gin.Context) {
 	go user_service.LoginSession(c, user, sok)
 	<- sok
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    code,
-		"message": rcode.GetMessage(code),
-		//"data":    data,
-	})
-
+	app.JsonErrResponse(c, code)
 }
 
 // 退出
@@ -163,11 +144,7 @@ func UserLogout(c *gin.Context) {
 	code := rcode.SUCCESS
 	user_service.LogoutSession(c)
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    code,
-		"message": rcode.GetMessage(code),
-		"data":    make(map[string]interface{}),
-	})
+	app.JsonErrResponse(c, code)
 }
 
 //刷新token
@@ -179,11 +156,8 @@ func RefreshToken(c *gin.Context) {
 	data["token"] = newToken
 	data["exp_time"] = time
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": 200,
-		"msg":  rcode.GetMessage(200),
-		"data": data,
-	})
+	code := rcode.SUCCESS
+	app.JsonOkResponse(c, code, data)
 }
 
 //新增用户
@@ -213,42 +187,30 @@ func AddUser(c *gin.Context) {
 			code = rcode.ERROR
 			logging.Info("注册入库错误",err.Error())
 
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code": code,
-				"msg":  rcode.GetMessage(code),
-			})
+			app.JsonErrResponse(c, code)
 			return
 		}
 	} else {
 		code = rcode.ERROR_EXIST_TAG
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": user,
-	})
+	app.JsonOkResponse(c, code, user)
 }
 
 func AddUser2(c *gin.Context) {
 	var user model.User
+	code := rcode.SUCCESS
+
 	// 只能绑定json传值  作为借口 可以   但是接受表单数据 不行
 	if err := c.ShouldBind(&user); err != nil {
-		c.JSON(
-			500,
-			"绑定错误",
-		)
+		code = rcode.ERROR_BIND_DATA
+		app.JsonOkResponse(c, code, nil)
+		return
 	}
 	user.Password, _ = util.BcryptString(user.Password)
 	model.GetDb().Create(&user)
 
-	code := rcode.SUCCESS
-
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": &user,
-	})
+	app.JsonOkResponse(c, code, user)
 }
 
 //修改用户
@@ -272,10 +234,7 @@ func ResetUserPassword(c *gin.Context) {
 	user, err := model.GetUser(maps)
 	if err != nil {
 		code = rcode.ERROR_NOT_EXIST_USER
-		c.JSON(http.StatusOK, gin.H{
-			"code":    code,
-			"message": rcode.GetMessage(code),
-		})
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -283,10 +242,7 @@ func ResetUserPassword(c *gin.Context) {
 	hashPassword := user.Password
 	if !util.VerifyString(oldpassword, hashPassword) {
 		code = rcode.ERROR
-		c.JSON(http.StatusOK, gin.H{
-			"code":    code,
-			"message": rcode.GetMessage(code),
-		})
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -294,17 +250,11 @@ func ResetUserPassword(c *gin.Context) {
 	err = user_service.ResetPassword(user.Password, int(user.ID))
 	if err != nil {
 		code = rcode.ERROR
-		c.JSON(http.StatusOK, gin.H{
-			"code":    code,
-			"message": rcode.GetMessage(code),
-		})
+		app.JsonErrResponse(c, code)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    code,
-		"message": rcode.GetMessage(code),
-	})
+	app.JsonOkResponse(c, code, nil)
 }
 
 /*func ResetUserAvatar(c *gin.Context) {
@@ -365,29 +315,23 @@ func ResetUserAvatar(c *gin.Context) {
 	userAvatar, err := c.FormFile("avatar")
 	uid, err := strconv.Atoi(c.Param("id"))
 	fileName := userAvatar.Filename
-	//code := rcode.SUCCESS
+	code := rcode.SUCCESS
 
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR
+		app.JsonErrResponse(c, code)
 		return
 	}
 	// 限制图片的格式 和 大小
 	if ! upload.CheckImageExt(fileName)  {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "图片格式不正确",
-		})
+		code = rcode.ERROR_IMAGE_BAD_EXT
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	if !upload.CheckImageSize2(userAvatar) {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "图片大小超标了",
-		})
+		code = rcode.ERROR_IMAGE_TOO_LARGE
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -395,64 +339,48 @@ func ResetUserAvatar(c *gin.Context) {
 	// 判断路径是否存在 不存在则创建
 	filePath, err = file.CreatePathInToday(filePath)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_CREATE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	fullFileName := filePath + "/" + fileName
 	err = c.SaveUploadedFile(userAvatar, fullFileName)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_FILE_SAVE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	err = user_service.ResetAvatar(fullFileName, uid)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code":    200,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	// 更新session
 	session.SetSession(c, "useravatar", "/"+fullFileName)
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    200,
-		"message": "修改成功",
-		"data":    fullFileName,
-		"filesize":userAvatar.Size,
-		//1/Video_2019-07-25_102727.wmv.png", filesize: 26650725, message: "修改成功" }
-	})
+	app.JsonOkResponse(c, code, fullFileName)
 }
 
 func ResetUserName(c *gin.Context) {
 	userName := c.PostForm("user_name")
 	uid, _ := strconv.Atoi(c.Param("id"))
+	code := rcode.SUCCESS
 
 	err := user_service.ResetName(userName, uid)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code":    200,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_SQL_UPDATE_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	// 更新session
 	session.SetSession(c, "username", userName)
 
-	c.JSON(http.StatusOK, gin.H{
-		"code":    200,
-		"message": "修改成功",
-	})
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 检测用户名是否被使用
@@ -467,11 +395,7 @@ func CheckNameUsed(c *gin.Context) {
 		data["is_used"] = 0
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": data,
-	})
+	app.JsonOkResponse(c, code, data)
 }
 
 // 检测邮箱是否被使用
@@ -486,11 +410,7 @@ func CheckEmailUsed(c *gin.Context) {
 		data["is_used"] = 0
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": data,
-	})
+	app.JsonOkResponse(c, code, data)
 }
 
 // 检测邮箱是否被使用
@@ -505,25 +425,24 @@ func CheckPhoneUsed(c *gin.Context) {
 		data["is_used"] = 0
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  rcode.GetMessage(code),
-		"data": data,
-	})
+	app.JsonOkResponse(c, code, data)
 }
 
 func IsEmailChecked(c *gin.Context)  {
 	email := c.DefaultPostForm("email", "")
+	code := rcode.SUCCESS
 	if len(email) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"code":404, "message":"没有找到email"})
+		code = rcode.ERROR_UNFIND_DATA
+		app.JsonErrResponse(c, code)
 		return
 	}
 
 	user, err := model.GetUser(map[string]interface{}{"email":email})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"code":500, "message":err.Error()})
+		code = rcode.ERROR
+		app.JsonErrResponse(c, code)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code":200, "message":"ok", "data":user.EmailChecked})
+	app.JsonOkResponse(c, code, user.EmailChecked)
 }

@@ -77,6 +77,9 @@ func InitRouter() *gin.Engine {
 		web.GET("/login.html", webservice.Login)
 		// 登出页面
 		web.GET("/logout", apiservice.UserLogout)
+		web.GET("/password/forget.html", webservice.ForgetPassword)
+		web.GET("/password/sendok.html", webservice.SendEmailOk)
+		web.GET("/password/reset.html", webservice.ResetForgetPassword)
 
 		// 首页
 		web.GET("/", webservice.Index)
@@ -142,6 +145,9 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/login", apiservice.UserLogin)
 		// 登出操作
 		apiv1.GET("/logout", apiservice.UserLogout)
+		// 发送重设密码的邮件
+		apiv1.POST("/password/reset/email", apiservice.SendResetPasswordEmail)
+		apiv1.POST("/password/reset", apiservice.UserResetPassword)
 		// 刷新token
 		apiv1.GET("/token", apiservice.RefreshToken)
 		// 更新用户

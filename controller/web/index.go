@@ -24,7 +24,7 @@ func init() {
 }
 
 func Index(c *gin.Context) {
-	// 获取分页 
+	// 获取分页
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	// 根据分页获取帖子列表
 	threadList, _ := model.GetThreadList(page)

@@ -79,5 +79,46 @@ func SendRegisterMail2(host string, mailTo string) error {
 	return err
 }
 
+func SendResetPasswordMail(host string, mailTo string) error {
+	mail := util.Mail{}
+	mail.MailTo = []string{
+		setting.SmtpSetting.EmailUser,
+		mailTo,
+	}
+
+	webname := setting.ServerSetting.Sitename
+	now := strconv.Itoa(int(time.Now().Unix()))
+	sign := util.EncodeMD5(mailTo+now)
+
+	// redis记录
+	email.Set(mailTo, now, 24*60*60)
+
+	//邮件主题为"Hello"
+	mail.Subject = "【" + webname + "】重设密码"
+
+	href := "https://%s/password/reset.html?email=%s&time=%s&sign=%s"
+	href = fmt.Sprintf(href, host, mailTo, now, sign)
+
+	// 发送主题
+	body := `尊敬的用户 <a data-auto-link="1" href="mailto:%s">%s</a>，您好：
+	<p>
+		您使用了邮箱 <a data-auto-link="1" href="mailto:%s">%s</a> 找回【%s】的会员。请点击以下链接，可以重设您的密码：<br>
+	<a href="%s" target="_blank">%s</a><br><br>
+
+	如果以上链接不能点击，你可以复制网址URL，然后粘贴到浏览器地址栏打开，完成确认。<br><br>
+
+		%s<br><br>
+
+	（这是一封自动发送的邮件，请不要直接回复）<br><br>
+	</p>`
+	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname,href, href, webname)
+
+
+	// 邮件正文
+	mail.Body = body
+	err := mail.SendMail()
+
+	return err
+}
 
 

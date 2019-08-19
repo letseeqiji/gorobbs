@@ -1,11 +1,10 @@
 package v1
 
 import (
+	"github.com/gin-gonic/gin"
+	"gorobbs/package/app"
 	"gorobbs/package/rcode"
 	email_service "gorobbs/service/v1/email"
-	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 func SendRegisterMail(c *gin.Context) {
@@ -17,17 +16,9 @@ func SendRegisterMail(c *gin.Context) {
 	code := rcode.SUCCESS
 	if err != nil {
 		code = rcode.ERROR
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"message":  err.Error(),
-			"data": map[string]interface{}{"mail":mailTo},
-		})
-		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"message":  rcode.GetMessage(code),
-		"data": map[string]interface{}{"mail":mailTo},
-	})
+	app.JsonOkResponse(c, code, map[string]interface{}{"mail":mailTo})
 }
+
+

@@ -2,11 +2,11 @@ package v1
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/app"
 	"gorobbs/package/logging"
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	post_service "gorobbs/service/v1/post"
-	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -26,6 +26,7 @@ func AddPost(c *gin.Context) {
 	message := c.DefaultPostForm("message", "")
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
+	code := rcode.SUCCESS
 
 	attachFileString := c.PostForm("attachfiles")
 	attachfiles := []string{}
@@ -45,15 +46,12 @@ func AddPost(c *gin.Context) {
 		MessageFmt:message,
 		FilesNum: filesNum,
 	}
-	code := rcode.SUCCESS
+
 	newPost, err := model.AddPost(post)
 	if err != nil {
 		logging.Info("回复帖子入库错误",err.Error())
-		code = rcode.ERROR
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": code,
-			"msg":  rcode.GetMessage(code),
-		})
+		code = rcode.ERROR_SQL_INSERT_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -85,11 +83,7 @@ func AddPost(c *gin.Context) {
 	// 评论后数据统计
 	post_service.AfterAddNewPost(newPost, tid)
 
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "ok",
-	})
-
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 更新评论内容
@@ -101,21 +95,18 @@ func UpdatePost(c *gin.Context) {
 	reason := c.DefaultPostForm("update_reason", "")
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
+	code := rcode.SUCCESS
 
 	// 找thread
 	oldPost, err := model.GetPostById(post_id)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_UNFIND_DATA
+		app.JsonErrResponse(c, code)
 		return
 	}
 	if oldPost.UserID != uid {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "这不是你的帖子，无权操作",
-		})
+		code = rcode.UNPASS
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -135,10 +126,7 @@ func UpdatePost(c *gin.Context) {
 	}
 	model.AddPostUpdateLog(postUplog)
 
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "更新成功",
-	})
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 帖子点赞--取消点赞
