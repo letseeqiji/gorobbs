@@ -28,5 +28,5 @@ func TestDelSesssion(c *gin.Context) {
 }
 
 func TestEncyPasscheck(c *gin.Context) {
-
+ 
 }
