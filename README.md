@@ -81,7 +81,12 @@
  * 若安装在生产环境，推荐使用Nginx1.16
 
 ### 本地试用
-
+- 切换目录: 首先进入到本地的GoPath目录；
+- 克隆代码: git clone https://github.com/letseeqiji/gorobbs.git；
+- 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis；
+- 导入sql数据: 像mysql中导入 gorobbs/gorobbs.sql 到本地数据库;
+- 运行: 进入 gorobbs 目录，运行命令: go run main.go
+- 测试用用户名和密码:  地址:admin@local.com   密码:123456
 
 
 ## 文档
