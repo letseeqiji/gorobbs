@@ -5,14 +5,20 @@ import (
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/rcode"
+	"gorobbs/package/setting"
 	email_service "gorobbs/service/v1/email"
 	"gorobbs/util"
+	"strconv"
 )
 
 func SendResetPasswordEmail(c *gin.Context)  {
 	mailTo := c.PostForm("email")
 	// todo 验证邮箱合法性
-	host := c.Request.Host
+	port := strconv.Itoa(setting.ServerSetting.HttpPort)
+	host := setting.ServerSetting.Sitepre + "://" + setting.ServerSetting.Siteurl
+	if setting.ServerSetting.RunMode == "debug" {
+		host = host + ":" + port
+	}
 
 	err := email_service.SendResetPasswordMail(host, mailTo) //发信息的操作应该丢给redis队列 然后直接返回成功给客户端
 	code := rcode.SUCCESS

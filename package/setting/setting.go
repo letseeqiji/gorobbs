@@ -57,6 +57,8 @@ type Server struct {
 	LogoMobileUrl  string
 	LogoPcUrl      string
 	LogoWaterUrl   string
+	Sitepre        string
+	Siteurl        string
 	Sitename       string
 	Sitebrief      string
 	Siteseoword    string

@@ -48,7 +48,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 	//邮件主题为"Hello"
 	mail.Subject = "【" + webname + "】请验证您的邮件地址"
 
-	href := "https://%s/register/checkMail?email=%s&time=%s&sign=%s"
+	href := "%s/register/checkMail?email=%s&time=%s&sign=%s"
 	href = fmt.Sprintf(href, host, mailTo, now, sign)
 
 	// 发送主题
@@ -96,7 +96,7 @@ func SendResetPasswordMail(host string, mailTo string) error {
 	//邮件主题为"Hello"
 	mail.Subject = "【" + webname + "】重设密码"
 
-	href := "https://%s/password/reset.html?email=%s&time=%s&sign=%s"
+	href := "%s/password/reset.html?email=%s&time=%s&sign=%s"
 	href = fmt.Sprintf(href, host, mailTo, now, sign)
 
 	// 发送主题

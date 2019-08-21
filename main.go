@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"gorobbs/bootstrap"
 	"gorobbs/package/setting"
 	router "gorobbs/router/v1"
 	"net/http"
 )
 
 func main() {
+	bootstrap.SetUp()
+
 	router := router.InitRouter()
 
 	s := &http.Server{
