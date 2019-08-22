@@ -20,4 +20,4 @@ func GetThreadTotleByForumID(forumID int) (num int) {
 	//num = model.GetForumTotal("forum_id=?", forumID)
 	num = model.GetThreadTotal(&model.Thread{ForumID: forumID})
 	return
-}
+} 
