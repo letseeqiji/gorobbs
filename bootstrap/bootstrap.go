@@ -8,4 +8,4 @@ import (
 func SetUp() {
 	go emailtool.SendQueueEmail()
 	go web.SearchInit()
-}
+} 
