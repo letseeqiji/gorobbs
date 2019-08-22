@@ -2,52 +2,54 @@
 
 {{/*是否登录:{{.islogin}}*/}}
 <script>
-    if ({{.islogin}}) {
-        location.href="/"
+    if ({{.islogin }}) {
+        location.href = "/"
     }
 </script>
-    <main id="body">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto">
-                    <div class="card">
-                        <div class="card-header">
-                            用户登录
-                        </div>
-                        <div class="card-body ajax_modal_body">
-                            <form action="/api/v1/login" method="post" id="form">
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Email / 用户名" id="email" name="email">
-                                    <div class="invalid-feedback"></div>
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        用户登录
+                    </div>
+                    <div class="card-body ajax_modal_body">
+                        <form action="/api/v1/login" method="post" id="form">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
                                 </div>
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" placeholder="密码" id="password" name="password">
-                                    <div class="invalid-feedback"></div>
+                                <input type="text" class="form-control" placeholder="Email / 用户名" id="email"
+                                    name="email">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
                                 </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-block" id="submit">登录</button>
+                                <input type="password" class="form-control" placeholder="密码" id="password"
+                                    name="password">
+                                <div class="invalid-feedback"></div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-block" id="submit">登录</button>
+                            </div>
+                            <div class="media">
+                                <div>
                                 </div>
-                                <div class="media">
-                                    <div>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <a href="/password/forget.html" class="text-muted"><small>忘记密码</small></a>
-                                        <a href="/register.html" class="text-muted"><small>用户注册</small></a>
-                                    </div>
+                                <div class="media-body text-right">
+                                    <a href="/password/forget.html" class="text-muted"><small>忘记密码</small></a>
+                                    <a href="/register.html" class="text-muted"><small>用户注册</small></a>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 <script>
     var jform = $('#form');
@@ -55,44 +57,27 @@
     var jemail = $('#email');
     var jpassword = $('#password');
     var referer = '/';
-    jsubmit.on('click', function() {
+    jsubmit.on('click', function () {
         jform.reset();
-        // jsubmit.button('loading');
         var postdata = jform.serializeObject();
-        // postdata.password = $.md5(postdata.password);
-        // console.log(jform.attr('action'));return;
         $.ajax({
-            method:"post",
-            url:jform.attr('action'),
-            data:postdata,
-            acync:false,
-            success:function (res) {
-                // console.log(res);return;
+            method: "post",
+            url: jform.attr('action'),
+            data: postdata,
+            acync: false,
+            success: function (res) {
                 if (res.code == 200) {
                     $.alert("登录成功")
                     setTimeout(function () {
                         $.location("/")
-                    },2000)
-                    // jsubmit.button(message).delay(1000).location(referer);
+                    }, 2000)
                 } else {
                     $.alert("用户名或密码错误")
                     jsubmit.button('reset');
                 }
             }
         })
-        /*return;
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
-            if (code == 200) {
-                $.alert("登录成功")
-                setTimeout(function () {
-                    $.location("/")
-                },2000)
-                jsubmit.button(message).delay(1000).location(referer);
-            } else {
-                $.alert("用户名或密码错误")
-                jsubmit.button('reset');
-            }
-        });*/
+
         return false;
     });
 </script>

@@ -1,11 +1,11 @@
 package email
 
 import (
-"encoding/json"
-"gorobbs/package/setting"
-"time"
+	"encoding/json"
+	"gorobbs/package/setting"
+	"time"
 
-"github.com/gomodule/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 )
 
 var RedisConn *redis.Pool
@@ -130,6 +130,3 @@ func LikeDeletes(key string) error {
 
 	return nil
 }
-
-
-

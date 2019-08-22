@@ -10,9 +10,9 @@ import (
 // Response setting gin.JSON
 func JsonResponse(c *gin.Context, httpCode, errCode int, data interface{}) {
 	c.JSON(httpCode, gin.H{
-		"code": errCode,
-		"message":  rcode.GetMessage(errCode),
-		"data":data,
+		"code":    errCode,
+		"message": rcode.GetMessage(errCode),
+		"data":    data,
 	})
 	return
 }
@@ -25,10 +25,8 @@ func JsonErrResponse(c *gin.Context, errCode int) {
 	JsonResponse(c, http.StatusOK, errCode, nil)
 }
 
-
 func HtmlResponse(c *gin.Context, httpCode int, htmlfile string, errCode int, data gin.H) {
 	c.HTML(httpCode, htmlfile, data)
 
 	return
 }
-

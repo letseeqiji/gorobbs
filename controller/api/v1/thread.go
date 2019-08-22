@@ -1,12 +1,12 @@
 package v1
 
 import (
-	"gorobbs/controller/web"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/logging"
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
+	searchtool "gorobbs/tools/search"
 	"os"
 	"strconv"
 	"strings"
@@ -25,11 +25,6 @@ func AddThread(c *gin.Context) {
 	// 验证 登录  所有字段不能为空
 	// 添加记录:添加表thread 和 表 post
 
-	/*doctype: "0"
-	  forum_id: "2"
-	  message: "<p>dddd</p>↵"
-	  subject: "天津步履科技"
-	*/
 	forum_id, _ := strconv.Atoi(c.DefaultPostForm("forum_id", "1"))
 	doctype, _ := strconv.Atoi(c.DefaultPostForm("doctype", "0"))
 	subject := c.DefaultPostForm("subject", "")
@@ -89,7 +84,7 @@ func AddThread(c *gin.Context) {
 	thread_service.AfterAddNewThread(newThread)
 
 	// 添加搜索缓存
-	web.AddSearchIndex(uint64(newThread.ID), newThread.Subject)
+	searchtool.AddSearchIndex(uint64(newThread.ID), newThread.Subject)
 
 	// 记录附件表
 	if len(attachFileString) > 0 {

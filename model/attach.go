@@ -39,7 +39,7 @@ func DelAttach(id int) error {
 }
 
 // 统计当前网站共有附件的数量
-func CountAttachsNum() (accachsNum int, err error)  {
+func CountAttachsNum() (accachsNum int, err error) {
 	err = db.Model(&Attach{}).Count(&accachsNum).Error
 	return
 }

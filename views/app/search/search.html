@@ -20,7 +20,8 @@
                         <div action="/api/v1/search" id="form">
 
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="关键词" name="keyword" value="{{.keyword}}">
+                                <input type="text" class="form-control" placeholder="关键词" name="keyword"
+                                    value="{{.keyword}}">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button" id="submit">搜索</button>
                                 </div>
@@ -38,7 +39,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="card">
                     <div class="card-header">
@@ -64,7 +64,8 @@
                                     </div>
                                     <div class="d-flex justify-content-between small mt-1">
                                         <div>
-                                            <span class="username text-grey mr-1  hidden-sm" uid="2134">{{.User.Username}}</span>
+                                            <span class="username text-grey mr-1  hidden-sm"
+                                                uid="2134">{{.User.Username}}</span>
                                             <span class="date text-grey hidden-sm">{{.CreatedAt.Unix | strtime}}</span>
                                         </div>
                                         <div class="text-muted small">
@@ -106,9 +107,8 @@
         }
 
         sessionStorage.setItem("search_word", jkeyword)
-        location.href = "/search.html?key="+jkeyword
+        location.href = "/search.html?key=" + jkeyword
     })
-
 </script>
 
 {{ template "layout/footer" .}}

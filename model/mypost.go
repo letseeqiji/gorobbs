@@ -4,9 +4,9 @@ package model
 type Mypost struct {
 	Model
 
-	UserID   int `gorm:"primary_key;default:0" json:"user_id"` 
-	ThreadID int `gorm:"default:0" json:"thread_id"`           
-	PostID   int `gorm:"primary_key;default:0" json:"post_id"` 
+	UserID   int `gorm:"primary_key;default:0" json:"user_id"` //
+	ThreadID int `gorm:"default:0" json:"thread_id"`           //
+	PostID   int `gorm:"primary_key;default:0" json:"post_id"` //
 	User     User
 	Thread   Thread
 	Post     Post

@@ -1,5 +1,5 @@
 package search
 
-func GetThreadsByIDs(ids string)  {
+func GetThreadsByIDs(ids string) {
 
 }

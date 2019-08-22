@@ -11,7 +11,8 @@
     </div>
     <div class="align-self-center ml-1">
         <div class="form-group input-group">
-            <img id="captchaimg" src="?vcode.htm" width="150" height="32" class="vcode" onclick="refreshCaptcha()" style="cursor:pointer" title="点击更新" nofollow="">
+            <img id="captchaimg" src="?vcode.htm" width="150" height="32" class="vcode" onclick="refreshCaptcha()"
+                style="cursor:pointer" title="点击更新" nofollow="">
         </div>
     </div>
 </div>
@@ -22,15 +23,15 @@
     function refreshCaptcha() {
         // 加载验证码
         $.ajax({
-            url:"/api/v1/capacha?"+Math.random(),
-            method:"GET",
-            success:function (res) {
+            url: "/api/v1/capacha?" + Math.random(),
+            method: "GET",
+            success: function (res) {
                 if (res.code == 200) {
                     captchaimg.attr("src", res.data.captcha_base64)
 
                     var captchakey = $("#captchagroup").find("input[name='captchakey']")
                     if (!captchakey.val()) {
-                        $("#captchagroup").append("<input type='hidden' class='form-control' name='captchakey' value='"+ res.data.cap_key +"'>")
+                        $("#captchagroup").append("<input type='hidden' class='form-control' name='captchakey' value='" + res.data.cap_key + "'>")
                     } else {
                         captchakey.val(res.data.cap_key)
                     }
@@ -55,14 +56,14 @@
     function virefyCaptcha(captcha, key) {
         var pass = 200
         $.ajax({
-            url:"/api/v1/capacha",
-            method:"POST",
-            data:{
-                cap_key:key,
-                captcha:captcha
+            url: "/api/v1/capacha",
+            method: "POST",
+            data: {
+                cap_key: key,
+                captcha: captcha
             },
-            async:false,
-            success:function (res) {
+            async: false,
+            success: function (res) {
                 pass = res.code
             }
         })

@@ -15,13 +15,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
                                 </div>
-                                <input type="email" class="form-control" placeholder="请输入您注册的邮箱" name="email" id="email" required="">
+                                <input type="email" class="form-control" placeholder="请输入您注册的邮箱" name="email" id="email"
+                                    required="">
                             </div>
 
 
                             {{ template "layout/captcha" .}}
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary btn-block" id="registersubmit" data-loading-text="正在提交...">下一步</button>
+                                <button type="button" class="btn btn-primary btn-block" id="registersubmit"
+                                    data-loading-text="正在提交...">下一步</button>
                             </div>
                             <div class="media">
                                 <div>
@@ -44,7 +46,7 @@
     var jsubmit = $('#registersubmit');
 
     var referer = './';
-    jsubmit.on('click', function() {
+    jsubmit.on('click', function () {
         var jemail = $('#email').val();
         var isused = 0
 
@@ -56,13 +58,13 @@
             $.ajax({
                 url: "/api/v1/checkemail",
                 data: {
-                    "email":jemail
+                    "email": jemail
                 },
                 type: "GET",
-                async:false,
+                async: false,
                 /*    contentType: false,
                     processData:false,*/
-                success: function(res) {
+                success: function (res) {
                     //成功
                     console.log(res.data.is_used)
                     used = res.data.is_used
@@ -88,7 +90,7 @@
             $.alert("验证码不能为空")
             return
         } else {
-            if (captchaPass != 200 ) {
+            if (captchaPass != 200) {
                 $.alert("验证码错误")
                 refreshCaptcha()
                 return
@@ -100,7 +102,7 @@
         jsubmit.button('loading');
         var postdata = jform.serializeObject();
         // postdata.password = $.md5(postdata.password);
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
+        $.xpost(jform.attr('action'), postdata, function (code, message) {
             if (code == 200) {
                 // $.alert("注册成功,2秒后跳转到登录窗口")
                 jsubmit.button(message).delay(1000).location("/password/sendok.html");

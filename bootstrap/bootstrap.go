@@ -1,11 +1,11 @@
 package bootstrap
 
 import (
-	"gorobbs/controller/web"
 	emailtool "gorobbs/tools/email"
+	searchtool "gorobbs/tools/search"
 )
 
 func SetUp() {
 	go emailtool.SendQueueEmail()
-	go web.SearchInit()
-} 
+	go searchtool.SearchInit()
+}

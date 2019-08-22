@@ -1,9 +1,6 @@
 package v1
 
 import (
-	"github.com/aviddiviner/gin-limit"
-	"github.com/gin-gonic/gin"
-	"github.com/tommy351/gin-sessions"
 	adminservice "gorobbs/controller/admin"
 	apiservice "gorobbs/controller/api/v1"
 	webservice "gorobbs/controller/web"
@@ -17,6 +14,10 @@ import (
 	"gorobbs/package/setting"
 	"html/template"
 	"net/http"
+
+	limit "github.com/aviddiviner/gin-limit"
+	"github.com/gin-gonic/gin"
+	sessions "github.com/tommy351/gin-sessions"
 )
 
 func InitRouter() *gin.Engine {
@@ -35,7 +36,7 @@ func InitRouter() *gin.Engine {
 	r.Use(limit.MaxAllowed(100))
 	r.Use(online.OnLine())
 
-	// 引入session 
+	// 引入session
 	store := sessions.NewCookieStore([]byte("secret123"))
 	r.Use(sessions.Middleware("my_session", store))
 
@@ -49,7 +50,7 @@ func InitRouter() *gin.Engine {
 		"strtime":     StrTime,
 		"plus1":       selfPlus,
 		"numplusplus": numPlusPlus,
-		"strip":		Long2IPString,
+		"strip":       Long2IPString,
 	})
 
 	// 避免404

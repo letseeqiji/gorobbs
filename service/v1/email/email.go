@@ -40,7 +40,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 
 	webname := setting.ServerSetting.Sitename
 	now := strconv.Itoa(int(time.Now().Unix()))
-	sign := util.EncodeMD5(mailTo+now)
+	sign := util.EncodeMD5(mailTo + now)
 
 	// redis记录
 	email.Set(mailTo, now, 24*60*60)
@@ -69,8 +69,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 	－没有激活的账号会为你保留24个小时, 请尽快激活。<br>
 	－24个小时以后, 没有被激活的注册会自动失效，你需要重新填写并注册。<br>
 	</p>`
-	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, webname,href, href, webname,webname)
-
+	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, webname, href, href, webname, webname)
 
 	// 邮件正文
 	mail.Body = body
@@ -88,7 +87,7 @@ func SendResetPasswordMail(host string, mailTo string) error {
 
 	webname := setting.ServerSetting.Sitename
 	now := strconv.Itoa(int(time.Now().Unix()))
-	sign := util.EncodeMD5(mailTo+now)
+	sign := util.EncodeMD5(mailTo + now)
 
 	// redis记录
 	email.Set(mailTo, now, 24*60*60)
@@ -111,8 +110,7 @@ func SendResetPasswordMail(host string, mailTo string) error {
 
 	（这是一封自动发送的邮件，请不要直接回复）<br><br>
 	</p>`
-	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname,href, href, webname)
-
+	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, href, href, webname)
 
 	// 邮件正文
 	mail.Body = body
@@ -120,5 +118,3 @@ func SendResetPasswordMail(host string, mailTo string) error {
 
 	return err
 }
-
-

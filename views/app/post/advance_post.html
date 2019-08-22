@@ -10,7 +10,8 @@
                         高级回复
                     </div>
                     <div class="card-body">
-                        <form action="/api/v1/thread/{{.thread_id}}/post" method="post" id="advance_reply_form" class="d-block">
+                        <form action="/api/v1/thread/{{.thread_id}}/post" method="post" id="advance_reply_form"
+                            class="d-block">
                             <input type="hidden" id="quotetid" name="threadid" value="{{.thread_id}}">
                             <input type="hidden" id="docutype" name="docutype" value="0">
                             <div class="message mt-1">
@@ -23,12 +24,14 @@
                                             <label class="addattach" id="addattach">
                                                 <i class="icon-folder-open-o"></i>
                                                 添加附件
-                                                <input type="file" id="add_attach" multiple="multiple" class="invisible">
+                                                <input type="file" id="add_attach" multiple="multiple"
+                                                    class="invisible">
                                             </label>
                                         </a>
                                     </div>
                                     <div>
-                                        <button id="postsubmit" type="button" class="btn btn-sm btn-secondary" id="submit" data-loading-text="正在提交..."> 回帖 </button>
+                                        <button id="postsubmit" type="button" class="btn btn-sm btn-secondary"
+                                            id="submit" data-loading-text="正在提交..."> 回帖 </button>
                                     </div>
                                 </div>
                             </div>
@@ -36,13 +39,12 @@
                     </div>
                 </div>
             </div>
-            <a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3" href="javascript:history.back();">返回</a>
+            <a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3"
+                href="javascript:history.back();">返回</a>
         </div>
     </div>
 </main>
 <script>
-
-
     CKEDITOR.replace('message', {
         language: 'zh-cn',
         disallowedContent: '<script >',
@@ -50,27 +52,27 @@
         // toolbarCanCollapse: true,
         toolbarStartupExpanded: false,
         toolbar: [
-            { name: 'document', items: [ 'Source', '-', 'Preview' ] },
-            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo' ] },
-            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'RemoveFormat' ] },
-            { name: 'colors', items: [ 'TextColor'] },
-            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-' ] },
-            { name: 'links', items: [ 'Link', 'Unlink' ] },
-            { name: 'insert', items: [ 'Image', 'Smiley' ] },
+            { name: 'document', items: ['Source', '-', 'Preview'] },
+            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat'] },
+            { name: 'colors', items: ['TextColor'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'insert', items: ['Image', 'Smiley'] },
             '/',
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+            { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
         ],
         height: '25rem',
         resize_minHeight: '5rem',
-        image_previewText :" ",
-        upload_hidden:false,
-        removeDialogTabs:'image:advanced;image:Link',
-        filebrowserImageUploadUrl:"/api/v1/image/upload",
-        filebrowserUploadUrl:"/api/v1/image/upload",
+        image_previewText: " ",
+        upload_hidden: false,
+        removeDialogTabs: 'image:advanced;image:Link',
+        filebrowserImageUploadUrl: "/api/v1/image/upload",
+        filebrowserUploadUrl: "/api/v1/image/upload",
         //enterMode:CKEDITOR.ENTER_BR, //屏蔽换行符<br>
         //shiftEnterMode:CKEDITOR.ENTER_P, //屏蔽段落<p>
-        extraPlugins:'uploadimage',
+        extraPlugins: 'uploadimage',
         // extraPlugins:['codesnippet','uploadimage'],
         codeSnippet_theme: 'zenburn'
     });
@@ -79,15 +81,15 @@
     var jsubmit = $('#postsubmit');
     var attachUploader = $("#add_attach");
     var jattachparent = $('.attachlist_parent');
-    var maxSize = 1*1024*1024
+    var maxSize = 1 * 1024 * 1024
 
     qrform.on("keydown", function () {
-        if(event.keyCode==13) {
+        if (event.keyCode == 13) {
             return false;
         }
     })
 
-    jsubmit.on('click', function() {
+    jsubmit.on('click', function () {
         var attachfiles = "";
         if (jattachparent.find('.attachlist').length) {
             console.log($('.attachlist').find("li").length, $('.attachlist').find("li"))
@@ -114,19 +116,19 @@
         postdata.attachfiles = attachfiles;
         console.log(postdata)
 
-        $.xpost(qrform.attr('action'), postdata, function(code, message) {
+        $.xpost(qrform.attr('action'), postdata, function (code, message) {
             console.log(code, ":", message)
-            if(code == 200) {
+            if (code == 200) {
                 $.alert("回复成功")
                 setTimeout(function () {
                     // addNewPostElement()
                     history.back()
                 }, 2000)
-            } else if(code < 0) {
+            } else if (code < 0) {
                 $.alert(message);
                 jsubmit.button('reset');
             } else {
-                jform.find('[name="'+code+'"]').alert(message).focus();
+                jform.find('[name="' + code + '"]').alert(message).focus();
                 jsubmit.button('reset');
             }
         });
@@ -142,11 +144,11 @@
     function trimChar(str, char, type) {
         if (char) {
             if (type == 'left') {
-                return str.replace(new RegExp('^\\'+char+'+', 'g'), '');
+                return str.replace(new RegExp('^\\' + char + '+', 'g'), '');
             } else if (type == 'right') {
-                return str.replace(new RegExp('\\'+char+'+$', 'g'), '');
+                return str.replace(new RegExp('\\' + char + '+$', 'g'), '');
             }
-            return str.replace(new RegExp('^\\'+char+'+|\\'+char+'+$', 'g'), '');
+            return str.replace(new RegExp('^\\' + char + '+|\\' + char + '+$', 'g'), '');
         }
         return str.replace(/^\s+|\s+$/g, '');
     }
@@ -171,8 +173,8 @@
             data: fd,
             type: "POST",
             contentType: false,
-            processData:false,
-            success: function(res) {
+            processData: false,
+            success: function (res) {
                 //成功
                 console.log(res)
                 // return

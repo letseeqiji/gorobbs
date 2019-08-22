@@ -22,33 +22,36 @@
                             {{$isadmin := .sessions.Isadmin}}
                             {{$sesid := .sessions.Userid}}
                             {{range .top_thread_list}}
-                                <li class="media thread tap  " data-href="/thread/{{.ThreadID}}/detail.html" data-tid="22">
-                                    {{if eq $isadmin "1"}}
-                                        <input type="checkbox" name="modtid" class="mt-3 mr-2" value="{{.ThreadID}}">
-                                    {{end}}
-                                    <a href="{{if eq .Thread.User.ID $sesid}} /my.html {{else}}/user/{{.Thread.User.ID}}/info.html{{end}}" tabindex="-1" class="ml-1 mt-1 mr-3">
-                                        <img class="avatar-3" src="{{.Thread.User.Avatar}}">
-                                    </a>
-                                    <div class="media-body">
-                                        <div class="subject break-all font-weight-bold">
-                                            <i class="icon-top-{{.Thread.Top}}"></i>
-                                            <a href="/thread/{{.ThreadID}}/detail.html">{{.Thread.Subject}}</a>
-                                            {{if .Thread.FilesNum}}
-                                            <i class="icon small filetype other"></i>
-                                            {{end}}
+                            <li class="media thread tap  " data-href="/thread/{{.ThreadID}}/detail.html" data-tid="22">
+                                {{if eq $isadmin "1"}}
+                                <input type="checkbox" name="modtid" class="mt-3 mr-2" value="{{.ThreadID}}">
+                                {{end}}
+                                <a href="{{if eq .Thread.User.ID $sesid}} /my.html {{else}}/user/{{.Thread.User.ID}}/info.html{{end}}"
+                                    tabindex="-1" class="ml-1 mt-1 mr-3">
+                                    <img class="avatar-3" src="{{.Thread.User.Avatar}}">
+                                </a>
+                                <div class="media-body">
+                                    <div class="subject break-all font-weight-bold">
+                                        <i class="icon-top-{{.Thread.Top}}"></i>
+                                        <a href="/thread/{{.ThreadID}}/detail.html">{{.Thread.Subject}}</a>
+                                        {{if .Thread.FilesNum}}
+                                        <i class="icon small filetype other"></i>
+                                        {{end}}
+                                    </div>
+                                    <div class="d-flex justify-content-between small mt-1">
+                                        <div>
+                                            <span class="username text-grey mr-1 "
+                                                uid="1">{{.Thread.User.Username}}</span>
+                                            <span class="date text-grey">{{.Thread.CreatedAt.Unix | strtime}}</span>
                                         </div>
-                                        <div class="d-flex justify-content-between small mt-1">
-                                            <div>
-                                                <span class="username text-grey mr-1 " uid="1">{{.Thread.User.Username}}</span>
-                                                <span class="date text-grey">{{.Thread.CreatedAt.Unix | strtime}}</span>
-                                            </div>
-                                            <div class="text-muted small">
-                                                <span class="ml-2"><i class="icon-eye"></i> {{.Thread.ViewsCnt}}</span>
-                                                <span class="ml-2"><i class="icon-comment-o"></i> {{.Thread.PostsCnt}}</span>
-                                            </div>
+                                        <div class="text-muted small">
+                                            <span class="ml-2"><i class="icon-eye"></i> {{.Thread.ViewsCnt}}</span>
+                                            <span class="ml-2"><i class="icon-comment-o"></i>
+                                                {{.Thread.PostsCnt}}</span>
                                         </div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
                             {{end}}
 
 
@@ -58,14 +61,15 @@
                                 {{if eq $isadmin "1"}}
                                 <input type="checkbox" name="modtid" class="mt-3 mr-2" value="{{.ID}}">
                                 {{end}}
-                                <a href="{{if eq .User.ID $sesid}} /my.html {{else}}/user/{{.User.ID}}/info.html{{end}}" tabindex="-1" class="ml-1 mt-1 mr-3">
+                                <a href="{{if eq .User.ID $sesid}} /my.html {{else}}/user/{{.User.ID}}/info.html{{end}}"
+                                    tabindex="-1" class="ml-1 mt-1 mr-3">
                                     <img class="avatar-3" src="{{.User.Avatar}}">
                                 </a>
                                 <div class="media-body">
                                     <div class="subject break-all font-weight-bold">
                                         <a href="/thread/{{.ID}}/detail.html">{{.Subject}}</a>
                                         {{if .FilesNum}}
-                                            <i class="icon small filetype other"></i>
+                                        <i class="icon small filetype other"></i>
                                         {{end}}
                                     </div>
                                     <div class="d-flex justify-content-between small mt-1">
@@ -96,30 +100,30 @@
                 {{ template "layout/addnewthread" .}}
                 <div class="card card-site-info">
                     <div class="m-3">
-                        <h5 class="text-center">Gin BBS</h5>
-                        <div class="small line-height-3">Gin BBS 站点介绍</div>
+                        <h5 class="text-center">{{.webname}}</h5>
+                        <div class="small line-height-3">{{.description}}</div>
                     </div>
                     <div class="card-footer p-2">
                         <table class="w-100 small">
                             <tbody>
-                            <tr align="center">
-                                <td>
-                                    <span class="text-muted">主题数</span><br>
-                                    <b>{{.threads_num}}</b>
-                                </td>
-                                <td>
-                                    <span class="text-muted">帖子数</span><br>
-                                    <b>{{.posts_num}}</b>
-                                </td>
-                                <td>
-                                    <span class="text-muted">用户数</span><br>
-                                    <b>{{.users_num}}</b>
-                                </td>
-                                <td>
-                                    <span class="text-muted">在线</span><br>
-                                    <b>{{.online}}</b>
-                                </td>
-                            </tr>
+                                <tr align="center">
+                                    <td>
+                                        <span class="text-muted">主题数</span><br>
+                                        <b>{{.threads_num}}</b>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">帖子数</span><br>
+                                        <b>{{.posts_num}}</b>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">用户数</span><br>
+                                        <b>{{.users_num}}</b>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">在线</span><br>
+                                        <b>{{.online}}</b>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -140,8 +144,10 @@
                         <div class="row">
                             {{range .newestuser}}
                             <div class="col-3 mb-1 text-center">
-                                <a class="small text-muted text-nowrap" href="/user/{{.ID}}/info.html" data-toggle="tooltip" title="zhang" data-original-title="zhang">
-                                    <img src="{{.Avatar}}" alt="{{.Username}}" width="28" height="28" class="img-circle"><br>{{.Username}}               </a>
+                                <a class="small text-muted text-nowrap" href="/user/{{.ID}}/info.html"
+                                    data-toggle="tooltip" title="zhang" data-original-title="zhang">
+                                    <img src="{{.Avatar}}" alt="{{.Username}}" width="28" height="28"
+                                        class="img-circle"><br>{{.Username}} </a>
                             </div>
                             {{end}}
 
@@ -155,14 +161,12 @@
 
 {{/*{{.newestuser}}*/}}
 <script>
-
     var jform = $('#search_form');
     var jsubmit = $('#searchbutton');
 
     jsubmit.on("click", function () {
         var jkeyword = jform.find('input[name="keyword"]').val();
-        location.href = "/search.html?key="+jkeyword
+        location.href = "/search.html?key=" + jkeyword
     })
-
 </script>
 {{ template "layout/footer" }}

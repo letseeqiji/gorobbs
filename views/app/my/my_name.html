@@ -15,9 +15,12 @@
                         <br>{{.sessions.Username}}
                     </div>
                     <div class="list-group list-group-flush text-center">
-                        <a href="/my.html" class="list-group-item list-group-item-action active" data-active="menu-my">个人资料</a>
-                        <a href="/my_thread.html" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
-                        <a href="?my-notice.htm" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                        <a href="/my.html" class="list-group-item list-group-item-action active"
+                            data-active="menu-my">个人资料</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action"
+                            data-active="menu-my-thread">论坛帖子</a>
+                        <a href="?my-notice.htm" class="list-group-item list-group-item-action"
+                            data-active="menu-my-notice">消息</a>
                     </div>
                 </div>
             </div>
@@ -50,16 +53,19 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="当前用户名→{{.sessions.Username}}" name="old_username" id="old_username" disabled="">
+                                    <input type="text" class="form-control" placeholder="当前用户名→{{.sessions.Username}}"
+                                        name="old_username" id="old_username" disabled="">
                                 </div>
                                 <div class="form-group input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="请输入新用户名" name="user_name" id="new_username">
+                                    <input type="text" class="form-control" placeholder="请输入新用户名" name="user_name"
+                                        id="new_username">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">重置用户名</button>
+                                    <button type="button" class="btn btn-primary btn-block" id="submit"
+                                        data-loading-text="正在提交...">重置用户名</button>
                                 </div>
                             </form>
                         </div>
@@ -74,16 +80,16 @@
     var jsubmit = $('#submit');
     var jnewname = $('#new_username');
 
-    jnewname.on('blur', function() {
+    jnewname.on('blur', function () {
         $.ajax({
             url: "/api/v1/checkname",
             data: {
-                "username":jnewname.val()
+                "username": jnewname.val()
             },
             type: "GET",
-        /*    contentType: false,
-            processData:false,*/
-            success: function(res) {
+            /*    contentType: false,
+                processData:false,*/
+            success: function (res) {
                 //成功
                 console.log(res.data.is_used)
                 used = res.data.is_used
@@ -92,25 +98,25 @@
                     // jform.find('[name="new_username"]').focus().alert("用户名已经使用了");
                     alert("用户名已经用了")
                     jsubmit.button('reset');
-                    jsubmit.attr("disabled",true)
+                    jsubmit.attr("disabled", true)
                 } else {
                     jform.find('[name="new_username"]').focus().alert("可用");
-                    jsubmit.attr("disabled",false)
+                    jsubmit.attr("disabled", false)
                 }
             }
         })
     })
 
-    jsubmit.on('click', function() {
+    jsubmit.on('click', function () {
         jform.reset();
         jsubmit.button('loading');
         var postdata = jform.serializeObject();
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
+        $.xpost(jform.attr('action'), postdata, function (code, message) {
             if (code == 200) {
                 $.alert("修改成功")
                 setTimeout(function () {
                     location.reload()
-                },2000)
+                }, 2000)
             }
         });
         return false;

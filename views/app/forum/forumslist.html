@@ -8,7 +8,7 @@
 <br>
 是管理员身份:{{.sessions}}
 <br>
-{{.foruminfoxx}}---*/}} 
+{{.foruminfoxx}}---*/}}
 
 
 <main id="body">
@@ -144,22 +144,24 @@
                     </div>
                     <div class="card-footer p-2">
                         <table class="w-100 small">
-                            <tbody><tr align="center">
-                                <td>
-                                    <span class="text-muted">主题数</span><br>
-                                    <b>{{.foruminfoxx.ThreadsCnt}}</b>
-                                </td>
-                                <td>
-                                    <span class="text-muted">今日贴子</span><br>
-                                    <b>{{.foruminfoxx.TodaypostsCnt}}</b>
-                                </td>
-                                <td>
-                                    <span class="text-muted">今日主题</span><br>
-                                    <b>{{.foruminfoxx.TodaythreadsCnt}}</b>
-                                </td>
+                            <tbody>
+                                <tr align="center">
+                                    <td>
+                                        <span class="text-muted">主题数</span><br>
+                                        <b>{{.foruminfoxx.ThreadsCnt}}</b>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">今日贴子</span><br>
+                                        <b>{{.foruminfoxx.TodaypostsCnt}}</b>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">今日主题</span><br>
+                                        <b>{{.foruminfoxx.TodaythreadsCnt}}</b>
+                                    </td>
 
-                            </tr>
-                            </tbody></table>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="form-group">
@@ -179,15 +181,13 @@
 </main>
 
 <script>
-
     var jform = $('#search_form');
     var jsubmit = $('#searchbutton');
 
     jsubmit.on("click", function () {
         var jkeyword = jform.find('input[name="keyword"]').val();
-        location.href = "/search.html?key="+jkeyword
+        location.href = "/search.html?key=" + jkeyword
     })
-
 </script>
 
 {{ template "layout/footer" .}}
