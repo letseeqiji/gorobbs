@@ -81,14 +81,14 @@ func Search(c *gin.Context) {
 		"search.html",
 		// Pass the data that the page uses
 		gin.H{
-			"forums":     forums,
-			"islogin":    islogin,
-			"sessions":   sessions,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
-			"keyword" : key,
-			"threads":threads,
+			"forums":     	forums,
+			"islogin":    	islogin,
+			"sessions":   	sessions,
+			"webname":	webname,
+			"description":	description,
+			"forumname":	forumname,
+			"keyword" : 	key,
+			"threads":	threads,
 		},
 	)
 }
