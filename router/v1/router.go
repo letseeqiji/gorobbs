@@ -35,7 +35,7 @@ func InitRouter() *gin.Engine {
 	r.Use(limit.MaxAllowed(100))
 	r.Use(online.OnLine())
 
-	// 引入session
+	// 引入session 
 	store := sessions.NewCookieStore([]byte("secret123"))
 	r.Use(sessions.Middleware("my_session", store))
 
