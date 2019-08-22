@@ -88,6 +88,7 @@
 - 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis；
 - 导入sql数据: 导入 gorobbs/gorobbs.sql 到本地MYSQL数据库;
 - 运行: 进入 gorobbs 目录，运行命令: go run main.go
+- 访问地址: http://127.0.0.1:9000  端口号在配置文件中可以配置
 - 测试用用户名和密码:  地址:admin@local.com   密码:123456
 
 
