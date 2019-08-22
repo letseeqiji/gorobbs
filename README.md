@@ -62,7 +62,6 @@
  * github.com/tommy351/gin-sessions
  * github.com/sirupsen/logrus
  * github.com/rifflock/lfshook
- * github.com/mojocn/base64Captcha/store
  * github.com/mojocn/base64Captcha
  * github.com/Unknwon/com
  * github.com/astaxie/beego/validation
