@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"gorobbs/controller/web"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/logging"
@@ -86,6 +87,9 @@ func AddThread(c *gin.Context) {
 
 	// 已经添加完了帖子信息
 	thread_service.AfterAddNewThread(newThread)
+
+	// 添加搜索缓存
+	web.AddSearchIndex(uint64(newThread.ID), newThread.Subject)
 
 	// 记录附件表
 	if len(attachFileString) > 0 {

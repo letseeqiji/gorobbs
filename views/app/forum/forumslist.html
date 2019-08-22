@@ -129,10 +129,6 @@
                 <nav class="my-3">
                     <ul class="pagination justify-content-center flex-wrap">
                         {{.pages | unescaped}}
-                        {{/*<li class="page-item active"><a href="?index-1.htm" class="page-link">1</a></li>
-                        <li class="page-item"><a href="?index-2.htm" class="page-link">2</a></li>
-                        <li class="page-item"><a href="?index-2.htm" class="page-link">▶</a></li>*/}}
-                        {{/*{{.threadtotle}}*/}}
                     </ul>
                 </nav>
             </div>
@@ -167,14 +163,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <form action="?search.htm" id="search_form">
+                    <div id="search_form">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="关键词" name="keyword">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">搜索</button>
+                                <button class="btn btn-primary" type="button" id="searchbutton">搜索</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
             </div>
@@ -182,6 +178,16 @@
     </div>
 </main>
 
+<script>
 
+    var jform = $('#search_form');
+    var jsubmit = $('#searchbutton');
+
+    jsubmit.on("click", function () {
+        var jkeyword = jform.find('input[name="keyword"]').val();
+        location.href = "/search.html?key="+jkeyword
+    })
+
+</script>
 
 {{ template "layout/footer" .}}

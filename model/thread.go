@@ -24,14 +24,14 @@ type Thread struct {
 	LastPostID   int       `gorm:"default:0" json:"last_post_id"`  //最后回复的 pid
 	Digest       int       `gorm:"default:0" json:"digest"`        //
 	Audited      int       `gorm:"default:1" json:"audited"`       // 通过审核 默认是通过的  有点模块的贴子需要审核才能显示
-	User         User
+	User         User		`json:"user"`
 	Forum        Forum
 	LastUser     User
 	Attach		[]Attach
 }
 
-func GetThreads(whereMap interface{}, order string, limit int) (thread []Thread, err error) {
-	err = db.Model(&Thread{}).Where(whereMap).Order(order).Limit(limit).Find(&thread).Error
+func GetThreads(whereMap interface{}, order string, limit int, page int) (thread []Thread, err error) {
+	err = db.Model(&Thread{}).Where(whereMap).Order(order).Offset((page - 1) * limit).Limit(limit).Find(&thread).Error
 	return
 }
 
@@ -52,12 +52,14 @@ func GetThreadTotleCount() (totle int, err error) {
 	return
 }
 
+// 获取未置顶的帖子总数
 func GetThreadTotal(maps interface{}) (count int) {
 	db.Model(&Thread{}).Where("isclosed = ?", 0).Where("top = ?", 0).Where(maps).Count(&count)
 
 	return
 }
 
+// 获取分类下所有的thread
 func GetThreadListByForumID(forumID int, page int, limit int, orderby string) (threads []Thread, err error) {
 	//err = db.Model(&Forum{}).Order("id asc").Find(&forums).Error
 	if len(orderby) == 0 {
@@ -121,5 +123,11 @@ func UpdateThreadForum(ids string, nfid int) error {
 // 统计一共共有多少thread
 func CountThreadsNum() (threadsNum int, err error)  {
 	err = db.Model(&Thread{}).Count(&threadsNum).Error
+	return
+}
+
+// 根据id列表获取一组thread
+func GetThreadsByIDs(ids []string) (threads []*Thread, err error) {
+	err = db.Model(&Thread{}).Preload("User")/*.Select("id, subject, views_cnt, posts_cnt, user")*/.Where("id in (?)", ids).Where("isclosed = ?", 0).Find(&threads).Error
 	return
 }

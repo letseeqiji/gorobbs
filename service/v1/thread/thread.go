@@ -7,7 +7,7 @@ func GetUserThreads(uid int) (threads []model.Thread, err error) {
 	whereMap := &model.Thread{UserID: uid}
 	order := "created_at desc"
 	limit := 10
-	threads, err = model.GetThreads(whereMap, order, limit)
+	threads, err = model.GetThreads(whereMap, order, limit, 1)
 	return
 }
 

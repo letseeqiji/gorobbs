@@ -286,14 +286,14 @@
                 </div>
                 {{/*搜索框*/}}
                 <div class="form-group">
-                    <form action="?search.htm" id="search_form">
+                    <div id="search_form">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="关键词" name="keyword">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">搜索</button>
+                                <button class="btn btn-primary" type="button" id="searchbutton">搜索</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 {{/*用户的列表*/}}
                 <div class="card">
@@ -504,6 +504,15 @@ $("#advanced_reply").on("click", function () {
     }
 
     location.href = "/thread/{{.thread.ID}}/apost.html"
+})
+
+
+var jsform = $('#search_form');
+var jssubmit = $('#searchbutton');
+
+jssubmit.on("click", function () {
+    var jkeyword = jsform.find('input[name="keyword"]').val();
+    location.href = "/search.html?key="+jkeyword
 })
 </script>
 {{ template "layout/footer" .}}

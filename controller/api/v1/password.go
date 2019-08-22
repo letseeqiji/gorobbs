@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/rcode"
@@ -9,6 +8,8 @@ import (
 	email_service "gorobbs/service/v1/email"
 	"gorobbs/util"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func SendResetPasswordEmail(c *gin.Context)  {

@@ -126,6 +126,9 @@ func InitRouter() *gin.Engine {
 		web.GET("/mod/thread/top.html", webservice.TopMod)
 		web.GET("/mod/thread/delete.html", webservice.DeleteMod)
 		web.GET("/mod/thread/close.html", webservice.CloseMod)
+
+		web.GET("/search.html", webservice.Search)
+
 	}
 
 	// 数据操作的接口
