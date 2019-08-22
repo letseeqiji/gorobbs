@@ -84,6 +84,7 @@
 ### 本地试用
 - 切换目录: 首先进入到本地的GOPATH目录；
 - 克隆代码: git clone https://github.com/letseeqiji/gorobbs.git；
+- 解压静态包：打开 gorobb/static 将static.zip解压到static目录
 - 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis；
 - 导入sql数据: 导入 gorobbs/gorobbs.sql 到本地MYSQL数据库;
 - 运行: 进入 gorobbs 目录，运行命令: go run main.go
