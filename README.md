@@ -67,7 +67,7 @@
  * github.com/Unknwon/com
  * github.com/astaxie/beego/validation
  * github.com/aviddiviner/gin-limit
- * github.com/gin-gonic/gin
+ * github.com/huichen/wukong
  * github.com/go-ini/ini
  * github.com/gomodule/redigo/redis
  * github.com/lestrrat-go/file-rotatelogs
