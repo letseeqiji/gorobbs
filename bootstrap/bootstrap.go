@@ -9,3 +9,4 @@ func SetUp() {
 	go emailtool.SendQueueEmail()
 	go searchtool.SearchInit()
 }
+ 
