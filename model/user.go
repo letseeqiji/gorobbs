@@ -191,6 +191,16 @@ func UpdateUser(whereMaps interface{}, updateItems map[string]interface{}) (err 
 }
 
 /**
+* @des 删除用户
+* @param whereMaps 条件
+* @return error
+ */
+func DelUser(whereMaps interface{}) (err error) {
+	err = db.Unscoped().Where(whereMaps).Delete(&User{}).Error
+	return
+}
+
+/**
 * @des 更新用户发帖数
 * @param whereMaps 条件
 * @param updateItems 修改项

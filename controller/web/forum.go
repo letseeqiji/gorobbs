@@ -25,7 +25,7 @@ func Forums(c *gin.Context) {
 
 	fid, _ := strconv.Atoi(c.Param("id"))
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-
+	// 获取 thread 列表---需要优化
 	threadList, _ := forum.GetThreadListByForumID(fid, page)
 	threadTotle := forum.GetThreadTotleByForumID(fid)
 	forumTopThreadList, _ := model.GetTopThreadsForum(fid)

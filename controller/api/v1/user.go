@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"github.com/labstack/gommon/log"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/file"
@@ -219,6 +220,29 @@ func EditUser(c *gin.Context) {
 
 //删除用户
 func DeleteUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := rcode.SUCCESS
+	// 验证管理员才可以
+	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
+	isadmin := user_service.IsAdmin(uid)
+	if isadmin == "0" {
+		code = rcode.UNPASS
+		app.JsonErrResponse(c, code)
+		return
+	}
+
+	// 删除用户前 要删除一些东西：用户的帖子，用户的评论，用户的收藏，凡是有用户id 的表内容都要删除
+	// 还是说如果用户下面有很多内容就不让删除，只能删除新建的用户
+	err := user_service.DelUserByID(id)
+	if err != nil {
+		log.Print("api.v1.user.deluser.deluserbyid:err:", code)
+
+		code = rcode.ERROR_SQL_DELETE_FAIL
+		app.JsonErrResponse(c, code)
+		return
+	}
+
+	app.JsonOkResponse(c, code, nil)
 }
 
 func ResetUserPassword(c *gin.Context) {
@@ -256,60 +280,6 @@ func ResetUserPassword(c *gin.Context) {
 
 	app.JsonOkResponse(c, code, nil)
 }
-
-/*func ResetUserAvatar(c *gin.Context) {
-	code := e.SUCCESS
-	data := ""
-
-	imgfile, image, err := c.Request.FormFile("avatar")
-	if err != nil {
-		logging.Warn(err)
-		code = e.ERROR
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"msg":  e.GetMsg(code),
-			"data": data,
-		})
-	}
-
-	if image == nil {
-		code = e.INVALID_PARAMS
-	} else {
-		imageName := upload.GetImageName(image.Filename)
-		fullPath := "upload/avatar/" + c.Param("id")
-		// 判断路径是否存在 不存在则创建
-		err = file.CreatePath(fullPath)
-		if err != nil {
-			c.JSON(200, gin.H{
-				"code":    500,
-				"message": err.Error(),
-			})
-			return
-		}
-
-		src := fullPath + "/" + imageName
-		if ! upload.CheckImageExt(imageName) || ! upload.CheckImageSize(imgfile) {
-			code = e.ERROR_UPLOAD_CHECK_IMAGE_FORMAT
-		} else {
-			err := upload.CheckImage(fullPath)
-			if err != nil {
-				logging.Warn(err)
-				code = e.ERROR_UPLOAD_CHECK_IMAGE_FAIL
-			} else if err := c.SaveUploadedFile(image, src); err != nil {
-				logging.Warn(err)
-				code = e.ERROR_UPLOAD_SAVE_IMAGE_FAIL
-			} else {
-				data = src
-			}
-		}
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  e.GetMsg(code),
-		"data": data,
-	})
-}*/
 
 func ResetUserAvatar(c *gin.Context) {
 	userAvatar, err := c.FormFile("avatar")

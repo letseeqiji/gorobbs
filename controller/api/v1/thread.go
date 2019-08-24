@@ -15,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 	file_package "gorobbs/package/file"
 	thread_service "gorobbs/service/v1/thread"
+	user_service "gorobbs/service/v1/user"
 )
 
 // 添加帖子
@@ -128,12 +129,18 @@ type Tids struct {
 func DeleteThreads(c *gin.Context) {
 	ids := c.PostForm("tidarr")
 	code := rcode.SUCCESS
+	idsSlice := strings.Split(ids, ",")
 
-	if err := model.DelThread(ids); err != nil {
-		code = rcode.ERROR_SQL_DELETE_FAIL
+	// 验证管理员才可以
+	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
+	isadmin := user_service.IsAdmin(uid)
+	if isadmin == "0" {
+		code = rcode.UNPASS
 		app.JsonErrResponse(c, code)
 		return
 	}
+
+	thread_service.DelThreads(idsSlice)
 
 	app.JsonOkResponse(c, code, ids)
 }

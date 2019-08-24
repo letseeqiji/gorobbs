@@ -1,6 +1,8 @@
 package thread
 
-import "gorobbs/model"
+import (
+	"gorobbs/model"
+)
 
 // 获取指定用户的最新的10条thread [id subject]
 func GetUserThreads(uid int) (threads []model.Thread, err error) {
@@ -37,4 +39,21 @@ func AfterAddNewThread(thread *model.Thread) {
 	oldUserInfo, _ := model.GetUserByID(thread.UserID)
 	model.UpdateUserThreadsCnt(userID, oldUserInfo.ThreadsCnt+1)
 	model.UpdateUserCreditsNum(userID, oldUserInfo.CreditsNum+3)
+}
+
+func DelThreads(tids []string) {
+	// 删除所有评论post
+	model.DelPostsOfThread(tids)
+	// 删除所有 置顶 threadtop
+	model.DelthreadTopsOfThread(tids)
+	// 删除所有 mythread
+	model.DelMyThreadsOfThread(tids)
+	// 删除所有 mypost
+	model.DelMyPostsOfThread(tids)
+	// 删除所有 myfavourite
+	model.DelMyFavouritesOfThread(tids)
+	// 删除所有 附件
+	model.DelAttachsOfThread(tids)
+	// 删除所有的thread
+	model.DelThread(tids)
 }

@@ -68,3 +68,9 @@ func CountPostNum() (postNum int, err error) {
 	err = db.Model(&Post{}).Where("isfirst = ?", 0).Count(&postNum).Error
 	return
 }
+
+// 删除
+func DelPostsOfThread(tids []string) (err error) {
+	err = db.Unscoped().Where("thread_id in (?)", tids).Delete(&Post{}).Error
+	return
+}

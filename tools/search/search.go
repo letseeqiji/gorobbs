@@ -51,7 +51,7 @@ func AddSearchIndex(id uint64, subject string) {
 }
 
 // 删除索引
-func RemoveSearchIndex(id uint64, subject string) {
+func RemoveSearchIndex(id uint64) {
 	searcher.RemoveDocument(id, forceUpdate)
 }
 

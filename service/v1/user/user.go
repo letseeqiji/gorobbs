@@ -4,6 +4,7 @@ import (
 	"gorobbs/model"
 )
 
+// 获取用户id
 func GetUserByID(uid int) (user model.User, err error) {
 	wmap := map[string]interface{}{"id": uid}
 	user, err = model.GetUser(wmap)
@@ -41,6 +42,13 @@ func ResetName(newName string, uid int) (err error) {
 	var wmap = make(map[string]interface{})
 	wmap["id"] = uid
 	err = model.UpdateUser(wmap, map[string]interface{}{"username": newName})
+	return
+}
+
+// 删除用户id
+func DelUserByID(uid int) (err error) {
+	wmap := map[string]interface{}{"id": uid}
+	err = model.DelUser(wmap)
 	return
 }
 

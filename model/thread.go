@@ -89,8 +89,8 @@ func UpdateThread(id int, thread Thread) (upthread Thread, err error) {
 }
 
 // 删除
-func DelThread(ids string) (err error) {
-	err = db.Where("id in (?)", ids).Delete(&Thread{}).Error
+func DelThread(ids []string) (err error) {
+	err = db.Unscoped().Where("id in (?)", ids).Delete(&Thread{}).Error
 	return
 }
 

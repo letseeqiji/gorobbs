@@ -43,3 +43,9 @@ func CountAttachsNum() (accachsNum int, err error) {
 	err = db.Model(&Attach{}).Count(&accachsNum).Error
 	return
 }
+
+// 删除
+func DelAttachsOfThread(tids []string) (err error) {
+	err = db.Unscoped().Where("thread_id in (?)", tids).Delete(&Attach{}).Error
+	return
+}
