@@ -1,8 +1,12 @@
 package forum
 
-import "gorobbs/model"
+import (
+	"gorobbs/model"
+	thread_service "gorobbs/service/v1/thread"
+	"strconv"
+)
 
-const PAGE_SIZE int  = 20
+const PAGE_SIZE int = 20
 
 //新增分类
 func AddForum(forumIcon string, forumName string, forumRank int) (forum *model.Forum, err error) {
@@ -19,5 +23,32 @@ func GetThreadListByForumID(forumID int, page int) (threads []model.Thread, err 
 func GetThreadTotleByForumID(forumID int) (num int) {
 	//num = model.GetForumTotal("forum_id=?", forumID)
 	num = model.GetThreadTotal(&model.Thread{ForumID: forumID})
+	return
+}
+
+// 根据fid和page查询模块下的帖子列表  按照更新日期倒序排序
+func DelForumByID(forumID int) (err error) {
+	// 先获取该forum下的所有thread的id: select id from bbs_thread where forum_id = xx
+	threads, err := model.GetThreadIDSByForumID(forumID)
+	if err != nil {
+		return err
+	}
+
+	var tids []string
+
+	for _, v := range threads {
+		tids = append(tids, strconv.Itoa(int(v.ID)))
+	}
+
+	// 删除帖子 及 相关数据  -- 这里应该分批处理 优化下
+	// TODO 分批处理删除 防止一次性处理太多
+	err = thread_service.DelThreads(tids)
+	if err != nil {
+		return
+	}
+
+	// 最后删除forum
+	err = model.DelForumByID(forumID)
+
 	return
 }

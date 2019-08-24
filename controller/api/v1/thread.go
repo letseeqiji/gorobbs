@@ -140,7 +140,12 @@ func DeleteThreads(c *gin.Context) {
 		return
 	}
 
-	thread_service.DelThreads(idsSlice)
+	err := thread_service.DelThreads(idsSlice)
+	if err != nil {
+		code = rcode.ERROR
+		app.JsonErrResponse(c, code)
+		return
+	}
 
 	app.JsonOkResponse(c, code, ids)
 }

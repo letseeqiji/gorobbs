@@ -11,7 +11,6 @@ import (
 )
 
 // 读取redis中的邮件地址  发送邮件
-
 func SendQueueEmail() {
 	port := strconv.Itoa(setting.ServerSetting.HttpPort)
 	webPre := setting.ServerSetting.Sitepre

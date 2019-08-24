@@ -2,7 +2,9 @@ package admin
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/app"
 	"gorobbs/package/file"
+	"gorobbs/package/rcode"
 	"gorobbs/package/upload"
 	forum_service "gorobbs/service/v1/forum"
 	"gorobbs/service/v1/user"
@@ -19,66 +21,59 @@ func GetForumList(c *gin.Context) {
 	sessions := user.GetSessions(c)
 
 	c.HTML(200, "aforumlist.html", gin.H{
-		"forums": forums,
-		"fnum":   fnum,
-		"sessions":sessions,
+		"forums":   forums,
+		"fnum":     fnum,
+		"sessions": sessions,
 	})
 }
 
 func NewForum(c *gin.Context) {
 	sessions := user.GetSessions(c)
-	c.HTML(200, "aforum_new.html", gin.H{"sessions":sessions})
+	c.HTML(200, "aforum_new.html", gin.H{"sessions": sessions})
 }
 
 func AddForum(c *gin.Context) {
 	icon, err := c.FormFile("forum_icon")
-	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    200,
-			"message": "上传错误",
-		})
-		return
-	}
+	fullFileName := "static/img/forum.png"
+	if err == nil {
+		fileName := icon.Filename
+		// 限制图片的格式 和 大小
+		if !upload.CheckImageExt(fileName) {
+			c.JSON(200, gin.H{
+				"code":    403,
+				"message": "图片格式不正确",
+			})
+			return
+		}
 
+		if !upload.CheckImageSize2(icon) {
+			c.JSON(200, gin.H{
+				"code":    403,
+				"message": "图片大小超标了",
+			})
+			return
+		}
 
+		filePath := "upload/forum"
+		// 判断路径是否存在 不存在则创建
+		filePath, err = file.CreatePathInToday(filePath)
+		if err != nil {
+			c.JSON(200, gin.H{
+				"code":    500,
+				"message": err.Error(),
+			})
+			return
+		}
 
-	fileName := icon.Filename
-	// 限制图片的格式 和 大小
-	if ! upload.CheckImageExt(fileName)  {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "图片格式不正确",
-		})
-		return
-	}
-
-	if !upload.CheckImageSize2(icon) {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "图片大小超标了",
-		})
-		return
-	}
-
-	filePath := "upload/forum"
-	// 判断路径是否存在 不存在则创建
-	filePath, err = file.CreatePathInToday(filePath)
-	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
-		return
-	}
-
-	fullFileName := filePath + "/" + fileName
-	err = c.SaveUploadedFile(icon, fullFileName)
-	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
-		return
+		fullFileName = filePath + "/" + fileName
+		err = c.SaveUploadedFile(icon, fullFileName)
+		if err != nil {
+			c.JSON(200, gin.H{
+				"code":    500,
+				"message": err.Error(),
+			})
+			return
+		}
 	}
 
 	name := c.PostForm("forum_name")
@@ -115,6 +110,19 @@ func AddForum(c *gin.Context) {
 		"message": "ok",
 		"file":    newForum,
 	})
+}
+
+func DelForum(c *gin.Context) {
+	fid, _ := strconv.Atoi(c.PostForm("forumid"))
+	code := rcode.SUCCESS
+	err := forum_service.DelForumByID(fid)
+	if err != nil {
+		code = rcode.ERROR_SQL_DELETE_FAIL
+		app.JsonErrResponse(c, code)
+		return
+	}
+
+	app.JsonOkResponse(c, code, nil)
 }
 
 type Forum struct {

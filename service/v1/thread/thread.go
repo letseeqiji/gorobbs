@@ -41,19 +41,49 @@ func AfterAddNewThread(thread *model.Thread) {
 	model.UpdateUserCreditsNum(userID, oldUserInfo.CreditsNum+3)
 }
 
-func DelThreads(tids []string) {
+func DelThreads(tids []string) (err error) {
+
 	// 删除所有评论post
-	model.DelPostsOfThread(tids)
+	err = model.DelPostsOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有 置顶 threadtop
-	model.DelthreadTopsOfThread(tids)
+	err = model.DelthreadTopsOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有 mythread
-	model.DelMyThreadsOfThread(tids)
+	err = model.DelMyThreadsOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有 mypost
-	model.DelMyPostsOfThread(tids)
+	err = model.DelMyPostsOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有 myfavourite
-	model.DelMyFavouritesOfThread(tids)
+	err = model.DelMyFavouritesOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有 附件
-	model.DelAttachsOfThread(tids)
+	err = model.DelAttachsOfThread(tids)
+	if err != nil {
+		return
+	}
+
 	// 删除所有的thread
-	model.DelThread(tids)
+	err = model.DelThread(tids)
+	if err != nil {
+		return
+	}
+
+	return
 }

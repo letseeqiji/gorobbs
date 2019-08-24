@@ -59,13 +59,24 @@ func GetThreadTotal(maps interface{}) (count int) {
 	return
 }
 
-// 获取分类下所有的thread
+// 获取分类下所有的thread:[id,subject，查看量，回帖量，创建时间]， user[id, avatar, username]
 func GetThreadListByForumID(forumID int, page int, limit int, orderby string) (threads []Thread, err error) {
 	//err = db.Model(&Forum{}).Order("id asc").Find(&forums).Error
 	if len(orderby) == 0 {
 		orderby = "rank desc"
 	}
 	err = db.Preload("User").Model(&Thread{}).Where("forum_id = ?", forumID).Where("top = ?", 0).Where(Thread{Isclosed: 0}).Offset((page - 1) * limit).Limit(limit).Order(orderby).Find(&threads).Error
+
+	//err = db.Preload("User").Select("user.id, user.username, user.avatar").Model(&Thread{}).Select("id, subject, views_cnt, posts_cnt, created_at").Where("forum_id = ?", forumID).Where("top = ?", 0).Where(Thread{Isclosed: 0}).Offset((page - 1) * limit).Limit(limit).Order(orderby).Find(&threads).Error
+	//err = db.Table("bbs_thread as thread").Joins("join bbs_user as user on thread.user_id = user.id").Select("thread.id, thread.subject, user.id, user.username").Where("thread.forum_id = ?", forumID).Scan(&threads).Error
+	//err = db.Raw("SELECT thread.id, thread.subject, user.id, user.avatar, user.username FROM bbs_thread as thread, bbs_user as user WHERE thread.user_id = user.id and thread.forum_id = ?", forumID).Scan(&threads).Error
+
+	return
+}
+
+// 获取指定分类下所有的帖子的id--目前删除用
+func GetThreadIDSByForumID(forumID int) (threads []Thread, err error) {
+	err = db.Model(&Thread{}).Select("id").Where("forum_id = ?", forumID).Find(&threads).Error
 	return
 }
 

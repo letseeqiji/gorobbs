@@ -102,3 +102,8 @@ func SumAllForumThreads() (threadsCount Results, err error) {
 	err = db.Model(&Forum{}).Select("sum(threads_cnt) as threadsNum").Scan(&threadsCount).Error
 	return
 }
+
+func DelForumByID(id int) (err error) {
+	err = db.Unscoped().Where("id = (?)", id).Delete(&Forum{}).Error
+	return
+}

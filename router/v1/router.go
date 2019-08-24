@@ -226,6 +226,7 @@ func InitRouter() *gin.Engine {
 		// 模块：新建
 		admin.GET("/forum_new.html", adminservice.NewForum)
 		admin.POST("/forum", adminservice.AddForum)
+		admin.POST("/forum/delete", adminservice.DelForum)
 	}
 
 	type Te struct {
