@@ -76,3 +76,4 @@ func Index(c *gin.Context) {
 		},
 	)
 }
+ 
