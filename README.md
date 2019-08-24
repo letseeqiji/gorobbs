@@ -106,7 +106,7 @@
 
 ## 授权
 
-Gorobbs 使用 [MIT](https://#) 开源协议。
+Gorobbs 使用 [BSD](https://#) 开源协议。
 
 ## 鸣谢
 
