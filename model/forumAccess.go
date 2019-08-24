@@ -4,7 +4,7 @@ package model
 type ForumAccess struct {
 	Model
 
-	GroupId     int `gorm:"default:0" json:"group_id"`    //
+	GroupId     int `gorm:"default:0" json:"group_id"`    // 
 	Allowread   int `gorm:"default:0" json:"allowread"`   //
 	Allowthread int `gorm:"default:0" json:"allowthread"` //
 	Allowpost   int `gorm:"default:0" json:"allowpost"`   //允许回复
