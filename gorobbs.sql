@@ -491,3 +491,36 @@ CREATE TABLE `bbs_user` (
 -- Records of bbs_user
 -- ----------------------------
 INSERT INTO `bbs_user` (`id`, `group_id`, `email`, `username`, `realname`, `id_number`, `password`, `password_sms`, `phone`, `qq`, `threads_cnt`, `posts_cnt`, `credits_num`, `golds_num`, `rmbs_num`, `create_ip`, `create_date`, `login_ip`, `login_date`, `logins_cnt`, `avatar`, `digests_num`, `created_at`, `updated_at`, `deleted_at`, `digests_cnt`, `state`, `favourite_cnt`, `email_checked`) VALUES ('25', '1', 'admin@local.com', 'admin', '', '', '$2a$10$zzjAmJrsR0hk8UBbL9P3OOTLBBNEjtME1G5s3Vl2./.TwHrroDwkm', '', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '2019-08-21 13:49:12', '0', '/static/img/avatar.png', NULL, '2019-08-21 13:49:12', '2019-08-21 13:49:12', NULL, '0', '0', '0', '1');
+
+CREATE TABLE `bbs_tag_cate` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` char(32) NOT NULL DEFAULT '',
+  `rank` int(11) unsigned NOT NULL DEFAULT '0',
+  `enable` int(11) unsigned NOT NULL DEFAULT '0',
+  `default_tag_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '默认值,如果没有，设为全部',
+  `isforce` int(11) unsigned NOT NULL DEFAULT '0',
+  `style` char(32) NOT NULL DEFAULT '',
+  `comment` varchar(500) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `bbs_tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_cate_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'cate所属分类',
+  `name` char(32) NOT NULL DEFAULT '',
+  `rank` int(11) unsigned NOT NULL DEFAULT '0',
+  `enable` int(11) unsigned NOT NULL DEFAULT '0',
+  `style` char(32) NOT NULL DEFAULT '',
+  `comment` varchar(500) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `cate_id` (`tag_cate_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `bbs_tag_forum` (
+  `tag_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `forum_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tag_id`,`forum_id`),
+  KEY `tag_id` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='forum分类启用的tag';
