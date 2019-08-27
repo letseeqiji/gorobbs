@@ -51,7 +51,7 @@
 
 ### 后台某页面
 
-![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/backend.png)
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/tags.png)
 
 
 ## 安装
