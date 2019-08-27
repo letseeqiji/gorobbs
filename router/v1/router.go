@@ -245,54 +245,5 @@ func InitRouter() *gin.Engine {
 		admin.POST("/forum/update", adminservice.UpdateForum)
 	}
 
-	type Te struct {
-		Name    string                 `json:"name"`
-		TestArr []string               `json:"test_arr"`
-		Love    map[string]interface{} `json:"love"`
-	}
-	testr := r.Group("/test")
-	{
-
-		// 检测session设置可用性
-		testr.GET("/setsession", apiservice.TestSetSesssion)
-		testr.GET("/getsession", apiservice.TestGetSesssion)
-		testr.GET("/delsession", apiservice.TestDelSesssion)
-
-		testr.GET("/strtime", func(c *gin.Context) {
-			ress, _ := model.GetForumsList("id asc")
-			//res := StrTime(1545793886)
-			res := StrTime(ress[0].CreatedAt.Unix())
-			c.JSON(200, gin.H{"res": res, "unic": ress[0].CreatedAt.Unix()})
-		})
-
-		testr.POST("/parm", func(c *gin.Context) {
-			//name := c.PostForm("name")
-			var tt Te
-			err := c.ShouldBind(&tt)
-			if err != nil {
-				c.JSON(200, gin.H{"err": err.Error()})
-				return
-			}
-			c.JSON(200, gin.H{"res": tt, "test": tt.Love})
-		})
-
-		testr.GET("/increment", func(c *gin.Context) {
-			err := model.Increment("bbs_post", 1, "files_num")
-			c.JSON(200, gin.H{"err": err})
-		})
-
-		testr.GET("cook/set", func(c *gin.Context) {
-
-			err := package_redis.Set("uid1newthread1565420078659auzk201y2ve", "uid1newthread1565420078659auzk201y2ve", 100000)
-
-			c.JSON(200, gin.H{"message": err})
-		})
-
-		testr.GET("cook/get", func(c *gin.Context) {
-			value, err := package_redis.Get("no")
-			c.JSON(200, gin.H{"value": value, "message": err.Error()})
-		})
-	}
-
 	return r
 }
