@@ -9,20 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 用户中心
-
-//get:user/id/info.html
-//get:user/id/info.html?action=password 1
-//get:user/id/info.html?action=avatar 2
-//get:user/id/info.html?action=username 3
-//get:user/id/info.html?action=email 4
-
-//get:user/id/threads.html 5
-//get:user/id/favorites.html 6
-//get:user/id/digests.html 7
-//get:user/id/posts.html 8
-
-//get:user/id/notice.html 9
 const (
 	MY_INFO = iota
 	MY_PASSWORD
