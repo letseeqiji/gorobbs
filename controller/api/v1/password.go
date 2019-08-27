@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SendResetPasswordEmail(c *gin.Context)  {
+func SendResetPasswordEmail(c *gin.Context) {
 	mailTo := c.PostForm("email")
 	// todo 验证邮箱合法性
 	port := strconv.Itoa(setting.ServerSetting.HttpPort)
@@ -27,11 +27,11 @@ func SendResetPasswordEmail(c *gin.Context)  {
 		code = rcode.ERROR
 	}
 
-	app.JsonOkResponse(c, code, map[string]interface{}{"mail":mailTo})
+	app.JsonOkResponse(c, code, map[string]interface{}{"mail": mailTo})
 }
 
 // 用户重设密码
-func UserResetPassword(c *gin.Context)  {
+func UserResetPassword(c *gin.Context) {
 	email := c.PostForm("email")
 	password := c.PostForm("password")
 	code := rcode.SUCCESS

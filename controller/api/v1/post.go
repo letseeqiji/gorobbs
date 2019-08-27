@@ -11,8 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	file_package "gorobbs/package/file"
+
+	"github.com/gin-gonic/gin"
 )
 
 func AddPost(c *gin.Context) {
@@ -37,19 +38,19 @@ func AddPost(c *gin.Context) {
 	}
 
 	post := &model.Post{
-		ThreadID: tid,
-		UserID:   uid,
-		Isfirst:  0,
-		Userip:   uip,
-		Doctype:  docutype,
-		Message:  message,
-		MessageFmt:message,
-		FilesNum: filesNum,
+		ThreadID:   tid,
+		UserID:     uid,
+		Isfirst:    0,
+		Userip:     uip,
+		Doctype:    docutype,
+		Message:    message,
+		MessageFmt: message,
+		FilesNum:   filesNum,
 	}
 
 	newPost, err := model.AddPost(post)
 	if err != nil {
-		logging.Info("回复帖子入库错误",err.Error())
+		logging.Info("回复帖子入库错误", err.Error())
 		code = rcode.ERROR_SQL_INSERT_FAIL
 		app.JsonErrResponse(c, code)
 		return
@@ -118,11 +119,11 @@ func UpdatePost(c *gin.Context) {
 	model.UpdatePost(post_id, post)
 
 	postUplog := &model.PostUpdateLog{
-		PostID:post_id,
-		UserID:uid,
-		Reason:reason,
-		Message:message,
-		OldMessage:oldPost.Message,
+		PostID:     post_id,
+		UserID:     uid,
+		Reason:     reason,
+		Message:    message,
+		OldMessage: oldPost.Message,
 	}
 	model.AddPostUpdateLog(postUplog)
 
@@ -130,7 +131,7 @@ func UpdatePost(c *gin.Context) {
 }
 
 // 帖子点赞--取消点赞
-func LikePost(c *gin.Context)  {
+func LikePost(c *gin.Context) {
 	/**
 	根据用户id和postid查询是否已经点过赞，
 		如果没点赞
@@ -138,13 +139,13 @@ func LikePost(c *gin.Context)  {
 		如果已经点过赞
 			post-likescnt-1 postlike删除数据[uid,postid]
 		返回当前的操作是点赞还是取消点赞，post的likecnt
-	 */
+	*/
 	postId, _ := strconv.Atoi(c.DefaultPostForm("postid", "0"))
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 
 	postInfo, err := model.GetPostById(postId)
 	if err != nil {
-		c.JSON(404, gin.H{"code":404, "message":err.Error()})
+		c.JSON(404, gin.H{"code": 404, "message": err.Error()})
 		return
 	}
 
@@ -158,20 +159,20 @@ func LikePost(c *gin.Context)  {
 		model.AddPostlike(uid, postId)
 		model.UpdatePostLikesNum(postId, postInfo.LikesCnt+1)
 		action = 1
-		likesCnt ++
+		likesCnt++
 	} else {
 		model.DelPostlike(uid, postId)
 		if postInfo.LikesCnt > 0 {
 			model.UpdateThreadFavouriteCnt(postId, postInfo.LikesCnt-1)
 		}
 		action = 0
-		likesCnt --
+		likesCnt--
 	}
 
 	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "ok",
-		"action" : action,
-		"likes_cnt" : likesCnt,
+		"code":      200,
+		"message":   "ok",
+		"action":    action,
+		"likes_cnt": likesCnt,
 	})
 }

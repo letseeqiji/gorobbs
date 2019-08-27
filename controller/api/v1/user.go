@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"github.com/labstack/gommon/log"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/file"
@@ -17,6 +16,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/labstack/gommon/log"
 
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
@@ -133,7 +134,7 @@ func UserLogin(c *gin.Context) {
 	// 生成session  使nginx报502错误
 	var sok chan int = make(chan int, 1)
 	go user_service.LoginSession(c, user, sok)
-	<- sok
+	<-sok
 
 	app.JsonErrResponse(c, code)
 }
@@ -186,7 +187,7 @@ func AddUser(c *gin.Context) {
 		user, err = model.AddUser(username, password, email, ip)
 		if err != nil {
 			code = rcode.ERROR
-			logging.Info("注册入库错误",err.Error())
+			logging.Info("注册入库错误", err.Error())
 
 			app.JsonErrResponse(c, code)
 			return
@@ -293,7 +294,7 @@ func ResetUserAvatar(c *gin.Context) {
 		return
 	}
 	// 限制图片的格式 和 大小
-	if ! upload.CheckImageExt(fileName)  {
+	if !upload.CheckImageExt(fileName) {
 		code = rcode.ERROR_IMAGE_BAD_EXT
 		app.JsonErrResponse(c, code)
 		return
@@ -398,7 +399,7 @@ func CheckPhoneUsed(c *gin.Context) {
 	app.JsonOkResponse(c, code, data)
 }
 
-func IsEmailChecked(c *gin.Context)  {
+func IsEmailChecked(c *gin.Context) {
 	email := c.DefaultPostForm("email", "")
 	code := rcode.SUCCESS
 	if len(email) == 0 {
@@ -407,7 +408,7 @@ func IsEmailChecked(c *gin.Context)  {
 		return
 	}
 
-	user, err := model.GetUser(map[string]interface{}{"email":email})
+	user, err := model.GetUser(map[string]interface{}{"email": email})
 	if err != nil {
 		code = rcode.ERROR
 		app.JsonErrResponse(c, code)

@@ -90,7 +90,7 @@ func UploadFile(c *gin.Context) {
 上传附件
 	thread表的images和files
 	attach表中每个文件一条记录
- */
+*/
 func UploadAttach(c *gin.Context) {
 	userid := session.GetSession(c, "userid")
 	code := rcode.SUCCESS
@@ -166,16 +166,16 @@ func UploadAddAttach(c *gin.Context) {
 		threadId = postInfo.ThreadID
 	}
 
-	useridInt , _ := strconv.Atoi(userid)
+	useridInt, _ := strconv.Atoi(userid)
 	// 不同发生在此处  由于是添加的  所以直接入库 修改thread的filesnum字段加1  返回attach名字id等信息
 	model.AddAttach(&model.Attach{
-		ThreadID:threadId,
-		PostID:postId,
-		UserID:useridInt,
-		Filesize: int(fileSize),
-		Filename:fullName,
-		Orgfilename:fileName,
-		Filetype:fileType,
+		ThreadID:    threadId,
+		PostID:      postId,
+		UserID:      useridInt,
+		Filesize:    int(fileSize),
+		Filename:    fullName,
+		Orgfilename: fileName,
+		Filetype:    fileType,
 	})
 
 	// 评论添加时 不穿值
@@ -210,7 +210,7 @@ func DeleteAttach(c *gin.Context) {
 
 	if postId != 0 {
 		postInfo, _ := model.GetPostById(postId)
-		if postInfo.FilesNum !=  0 {
+		if postInfo.FilesNum != 0 {
 			model.UpdatePostFilesNum(postId, postInfo.FilesNum-1)
 		}
 	}

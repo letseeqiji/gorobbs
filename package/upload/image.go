@@ -1,22 +1,22 @@
 package upload
 
 import (
-"fmt"
-"log"
-"mime/multipart"
-"os"
-"path"
-"strings"
+	"fmt"
+	"log"
+	"mime/multipart"
+	"os"
+	"path"
+	"strings"
 
-"gorobbs/package/logging"
-"gorobbs/package/setting"
-"gorobbs/package/file"
-"gorobbs/util"
+	"gorobbs/package/file"
+	"gorobbs/package/logging"
+	"gorobbs/package/setting"
+	"gorobbs/util"
 )
 
 // GetImageFullUrl get the full access path
 func GetImageFullUrl(name string) string {
-	return  "/static/upload" + GetImagePath() + name
+	return "/static/upload" + GetImagePath() + name
 }
 
 // GetImageName get image name
@@ -41,7 +41,7 @@ func GetImageFullPath() string {
 // CheckImageExt check image file ext
 func CheckImageExt(fileName string) bool {
 	ext := file.GetExt(fileName)
-	for _,allowExt:= range setting.ImageSetting.ImageAllowExts {
+	for _, allowExt := range setting.ImageSetting.ImageAllowExts {
 		if strings.ToUpper(allowExt) == strings.ToUpper(ext) {
 			return true
 		}

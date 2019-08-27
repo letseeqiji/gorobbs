@@ -1,15 +1,16 @@
 package web
 
 import (
-	"github.com/gin-gonic/gin"
 	email_package "gorobbs/package/email"
 	"gorobbs/package/setting"
 	"gorobbs/service/v1/user"
 	"gorobbs/util"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func ForgetPassword(c *gin.Context)  {
+func ForgetPassword(c *gin.Context) {
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)
 	// 网站描述
@@ -24,18 +25,18 @@ func ForgetPassword(c *gin.Context)  {
 		"forgetpass.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "用户重置密码",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"title":       "用户重置密码",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
 
-func SendEmailOk(c *gin.Context)  {
+func SendEmailOk(c *gin.Context) {
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)
 	// 网站描述
@@ -50,19 +51,18 @@ func SendEmailOk(c *gin.Context)  {
 		"send_reset_email_ok.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "用户重置密码",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"title":       "用户重置密码",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
 
-
-func ResetForgetPassword(c *gin.Context)  {
+func ResetForgetPassword(c *gin.Context) {
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)
 	// 网站描述
@@ -79,13 +79,14 @@ func ResetForgetPassword(c *gin.Context)  {
 		c.HTML(
 			http.StatusOK,
 			"reset_email_err.html",
-			gin.H{"title":    "重设密码",
-				"islogin":  islogin,
-				"sessions": sessions,
-				"forums":   forums,
-				"webname":webname,
-				"description":description,
-				"forumname":forumname,
+			gin.H{
+				"title":       "重设密码",
+				"islogin":     islogin,
+				"sessions":    sessions,
+				"forums":      forums,
+				"webname":     webname,
+				"description": description,
+				"forumname":   forumname,
 			})
 		return
 	}
@@ -96,13 +97,13 @@ func ResetForgetPassword(c *gin.Context)  {
 			http.StatusOK,
 			"reset_email_pass_time.html",
 			gin.H{
-				"title":    "重设密码",
-				"islogin":  islogin,
-				"sessions": sessions,
-				"forums":   forums,
-				"webname":webname,
-				"description":description,
-				"forumname":forumname,
+				"title":       "重设密码",
+				"islogin":     islogin,
+				"sessions":    sessions,
+				"forums":      forums,
+				"webname":     webname,
+				"description": description,
+				"forumname":   forumname,
 			})
 		return
 	}
@@ -117,14 +118,14 @@ func ResetForgetPassword(c *gin.Context)  {
 		"reset_password.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "重设密码",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
-			"email":email,
+			"title":       "重设密码",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
+			"email":       email,
 		},
 	)
 }

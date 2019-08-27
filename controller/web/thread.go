@@ -26,7 +26,7 @@ func Thread(c *gin.Context) {
 
 	// 如果没有找到直接跳404
 	if err != nil {
-		c.HTML(http.StatusNotFound, "404.html" ,gin.H{})
+		c.HTML(http.StatusNotFound, "404.html", gin.H{})
 		return
 	}
 
@@ -68,24 +68,24 @@ func Thread(c *gin.Context) {
 		"thread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"thread":  thread,
-			"fpost":   fpost,
-			"islogin": islogin,
-			"sessions": sessions,
-			"postlist":postlist,
-			"post_list_len":postlistLen,
-			"forums":forums,
-			"user_newest_threads":userNewestThreads,
-			"attachs":attachs,
-			"isfav":isfav,
-			"description":description,
-			"forumname":forumname,
+			"thread":              thread,
+			"fpost":               fpost,
+			"islogin":             islogin,
+			"sessions":            sessions,
+			"postlist":            postlist,
+			"post_list_len":       postlistLen,
+			"forums":              forums,
+			"user_newest_threads": userNewestThreads,
+			"attachs":             attachs,
+			"isfav":               isfav,
+			"description":         description,
+			"forumname":           forumname,
 		},
 	)
 }
 
 // ThreadAddPost 高级回复也
-func ThreadAddPost(c *gin.Context)  {
+func ThreadAddPost(c *gin.Context) {
 	threadId, _ := strconv.Atoi(c.Param("id"))
 	sessions := user.GetSessions(c)
 	islogin := user.IsLogin(c)
@@ -99,12 +99,12 @@ func ThreadAddPost(c *gin.Context)  {
 		"advance_post.html",
 		// Pass the data that the page uses
 		gin.H{
-			"sessions": sessions,
-			"islogin": islogin,
-			"forums":forums,
-			"thread_id":  threadId,
-			"description":description,
-			"forumname":forumname,
+			"sessions":    sessions,
+			"islogin":     islogin,
+			"forums":      forums,
+			"thread_id":   threadId,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -128,11 +128,11 @@ func NewThread(c *gin.Context) {
 		"newthread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"forums":  forums,
-			"islogin": islogin,
-			"sessions": sessions,
-			"description":description,
-			"forumname":forumname,
+			"forums":      forums,
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -161,15 +161,15 @@ func EditThread(c *gin.Context) {
 		"editthread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"thread":  thread,
-			"fpost":   fpost,
-			"islogin": islogin,
-			"sessions": sessions,
-			"forums":forums,
-			"attachs":attachs,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"thread":      thread,
+			"fpost":       fpost,
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"attachs":     attachs,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }

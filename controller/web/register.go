@@ -34,13 +34,13 @@ func Register(c *gin.Context) {
 		"register.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "用户注册",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"title":       "用户注册",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -60,13 +60,13 @@ func ConfirmEmail(c *gin.Context) {
 		"newemail_check.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "验证邮箱",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"title":       "验证邮箱",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -89,13 +89,14 @@ func CheckEmail(c *gin.Context) {
 		c.HTML(
 			http.StatusOK,
 			"email_check_err.html",
-			gin.H{"title":    "验证邮箱",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			gin.H{
+				"title":       "验证邮箱",
+				"islogin":     islogin,
+				"sessions":    sessions,
+				"forums":      forums,
+				"webname":     webname,
+				"description": description,
+				"forumname":   forumname,
 			})
 		return
 	}
@@ -106,13 +107,13 @@ func CheckEmail(c *gin.Context) {
 			http.StatusOK,
 			"email_check_pass_time.html",
 			gin.H{
-			"title":    "验证邮箱",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+				"title":       "验证邮箱",
+				"islogin":     islogin,
+				"sessions":    sessions,
+				"forums":      forums,
+				"webname":     webname,
+				"description": description,
+				"forumname":   forumname,
 			})
 		return
 	}
@@ -131,13 +132,13 @@ func CheckEmail(c *gin.Context) {
 		"email_check_pass.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "验证邮箱",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"title":       "验证邮箱",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }

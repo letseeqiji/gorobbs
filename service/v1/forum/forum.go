@@ -52,3 +52,11 @@ func DelForumByID(forumID int) (err error) {
 
 	return
 }
+
+// 更新forum
+func UpdateForum(id, rank int, name, brief, announcement, moduids, seoTitle string) (err error) {
+	whereMap := map[string]interface{}{"id": id}
+	items := map[string]interface{}{"rank": rank, "name": name, "brief": brief, "announcement": announcement, "moduids": moduids, "seo_title": seoTitle}
+	err = model.UpdateForum(whereMap, items)
+	return
+}

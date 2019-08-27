@@ -38,13 +38,13 @@ func Login(c *gin.Context) {
 		"login.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":    "Home Page",
-			"islogin":  islogin,
-			"sessions": sessions,
-			"forums":   forums,
-			"description":description,
-			"forumname":forumname,
-			"webname":webname,
+			"title":       "Home Page",
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"description": description,
+			"forumname":   forumname,
+			"webname":     webname,
 		},
 	)
 }

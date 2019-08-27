@@ -1,11 +1,12 @@
 package web
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
 	"gorobbs/service/v1/user"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 //编辑主题
@@ -27,11 +28,11 @@ func EditPost(c *gin.Context) {
 		"editpost.html",
 		// Pass the data that the page uses
 		gin.H{
-			"post":   post,
-			"islogin": islogin,
+			"post":     post,
+			"islogin":  islogin,
 			"sessions": sessions,
-			"forums":forums,
-			"attachs":attachs,
+			"forums":   forums,
+			"attachs":  attachs,
 		},
 	)
 }

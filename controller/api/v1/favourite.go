@@ -1,12 +1,13 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
 	"gorobbs/package/app"
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 // 收藏--取消收藏
@@ -33,17 +34,15 @@ func Addthreadfavourite(c *gin.Context) {
 		model.AddMyFavourite(uid, tid)
 		model.UpdateThreadFavouriteCnt(tid, threadInfo.FavouriteCnt+1)
 		action = 1
-		favNum ++
+		favNum++
 	} else {
 		model.DelMyFavourite(uid, tid)
 		if threadInfo.FavouriteCnt > 0 {
 			model.UpdateThreadFavouriteCnt(tid, threadInfo.FavouriteCnt-1)
 		}
 		action = 0
-		favNum --
+		favNum--
 	}
 
-	app.JsonOkResponse(c, code, map[string]interface{}{"action" : action, "fav_num" : favNum})
+	app.JsonOkResponse(c, code, map[string]interface{}{"action": action, "fav_num": favNum})
 }
-
-

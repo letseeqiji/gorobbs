@@ -1,15 +1,15 @@
 package web
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
 	"gorobbs/package/setting"
 	"gorobbs/service/v1/user"
 	searchtool "gorobbs/tools/search"
 	"net/http"
 	"unicode/utf8"
-)
 
+	"github.com/gin-gonic/gin"
+)
 
 func Search(c *gin.Context) {
 	// 用户是否登录
@@ -39,14 +39,14 @@ func Search(c *gin.Context) {
 		"search.html",
 		// Pass the data that the page uses
 		gin.H{
-			"forums":     forums,
-			"islogin":    islogin,
-			"sessions":   sessions,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
-			"keyword" : key,
-			"threads":threads,
+			"forums":      forums,
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
+			"keyword":     key,
+			"threads":     threads,
 		},
 	)
 }

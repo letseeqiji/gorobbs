@@ -1,7 +1,6 @@
 package web
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
 	package_online "gorobbs/package/online"
 	"gorobbs/package/setting"
@@ -10,6 +9,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gin-gonic/gin"
+
 	layout_service "gorobbs/service/v1/layout"
 )
 
@@ -17,7 +18,7 @@ var (
 	forums []model.Forum
 )
 
-const PAGE_SIZE int  =  20
+const PAGE_SIZE int = 20
 
 func init() {
 	forums = layout_service.GetForumList()
@@ -42,7 +43,7 @@ func Index(c *gin.Context) {
 	newestUser, _ := user.GetNewestTop12Users()
 
 	// 获取在线人数
-	online,_ := package_online.DbSize()
+	online, _ := package_online.DbSize()
 	threadsNum, _ := model.CountThreadsNum()
 	//帖子数：8
 	postsNum, _ := model.CountPostNum()
@@ -59,20 +60,20 @@ func Index(c *gin.Context) {
 		"index.html",
 		// Pass the data that the page uses
 		gin.H{
-			"threadList": threadList,
-			"top_thread_list" : topThreadList,
-			"forums":     forums,
-			"islogin":    islogin,
-			"sessions":   sessions,
-			"newestuser": newestUser,
-			"pages":	  pages,
-			"online" : online,
-			"threads_num":threadsNum,
-			"posts_num":postsNum,
-			"users_num":usersNum,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"threadList":      threadList,
+			"top_thread_list": topThreadList,
+			"forums":          forums,
+			"islogin":         islogin,
+			"sessions":        sessions,
+			"newestuser":      newestUser,
+			"pages":           pages,
+			"online":          online,
+			"threads_num":     threadsNum,
+			"posts_num":       postsNum,
+			"users_num":       usersNum,
+			"webname":         webname,
+			"description":     description,
+			"forumname":       forumname,
 		},
 	)
 }

@@ -2,15 +2,16 @@ package queue
 
 import (
 	"encoding/json"
-	"github.com/gomodule/redigo/redis"
 	"gorobbs/package/setting"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 var RedisConn *redis.Pool
 
 type RegEmailStruct struct {
-	Host string `json:"host"`
+	Host  string `json:"host"`
 	Email string `json:"email"`
 }
 
@@ -76,4 +77,3 @@ func Get(list string) ([]byte, error) {
 
 	return reply, nil
 }
-

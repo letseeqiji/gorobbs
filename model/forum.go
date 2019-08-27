@@ -20,6 +20,12 @@ type Forum struct {
 	DigestsNum      int    `gorm:"default:0" json:"digests_num"`      //
 }
 
+// 构建forum 模型
+func NewForum(name, brief string) *Forum {
+	forum := &Forum{}
+	return forum
+}
+
 // 给定条件 获取指定的forum
 func GetForum(maps interface{}) (forum Forum, err error) {
 	err = db.Model(&Forum{}).Where(maps).First(&forum).Error
@@ -103,7 +109,14 @@ func SumAllForumThreads() (threadsCount Results, err error) {
 	return
 }
 
+// 删除forum
 func DelForumByID(id int) (err error) {
 	err = db.Unscoped().Where("id = (?)", id).Delete(&Forum{}).Error
+	return
+}
+
+// 修改--总方法
+func UpdateForum(whereMap map[string]interface{}, items map[string]interface{}) (err error) {
+	err = db.Model(&Forum{}).Where(whereMap).Update(items).Error
 	return
 }

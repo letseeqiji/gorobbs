@@ -198,6 +198,11 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/attach/upload", apiservice.UploadAttach)
 		apiv1.POST("/attach/add", apiservice.UploadAddAttach)
 		apiv1.POST("/attach/delete", apiservice.DeleteAttach)
+
+		apiv1.POST("/tagcate", apiservice.AddTagCate)
+		apiv1.POST("/tagcate/edit", apiservice.UpdateTagCate)
+		apiv1.POST("/tag", apiservice.AddTag)
+		apiv1.POST("/tag/edit", apiservice.UpdateTag)
 	}
 
 	// 管理员页面
@@ -216,6 +221,15 @@ func InitRouter() *gin.Engine {
 		admin.GET("/user/group.html", adminservice.AdminGroupList)
 		admin.GET("/user/create.html", adminservice.AdminUserCreate)
 		admin.POST("/user/add", adminservice.AdminUserAdd)
+		admin.GET("/user/edit.html", adminservice.AdminUserEdit)
+
+		admin.POST("/user/update", adminservice.AdminUserUpdate)
+
+		admin.GET("/tag/list.html", adminservice.GetTagList)
+		admin.GET("/tagcate/new.html", adminservice.NewTagCate)
+		admin.GET("/tagcate/edit.html", adminservice.EditTagCate)
+		admin.GET("/tag/new.html", adminservice.NewTag)
+		admin.GET("/tag/edit.html", adminservice.EditTag)
 	}
 	admin.Use(jwt.JWT())
 	{
@@ -227,6 +241,8 @@ func InitRouter() *gin.Engine {
 		admin.GET("/forum_new.html", adminservice.NewForum)
 		admin.POST("/forum", adminservice.AddForum)
 		admin.POST("/forum/delete", adminservice.DelForum)
+		admin.GET("/forum/edit.html", adminservice.EditForum)
+		admin.POST("/forum/update", adminservice.UpdateForum)
 	}
 
 	type Te struct {

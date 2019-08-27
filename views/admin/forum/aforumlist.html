@@ -29,7 +29,7 @@
 
                                     <td>{{.Name}}</td>
                                     <td>{{.Rank}}</td>
-                                    <td><a class="btn row_edit" role="button" tabindex="0">编辑</a></td>
+                                    <td><a onclick="editforum(this, {{.ID}})" class="btn row_edit" role="button" tabindex="0">编辑</a></td>
                                     <td><a onclick="deleteforum(this, {{.ID}})" class="btn row_delete" role="button" tabindex="0">删除</a></td>
                                 </tr>
                                 {{end}}
@@ -125,5 +125,9 @@
         })
     }
 
+    // 删除
+    function editforum(elem, fid) {
+        location = "/admin/forum/edit.html?id="+fid+"&token="+admintoken
+    }
 </script>
 {{ template "layout/footer" }}
