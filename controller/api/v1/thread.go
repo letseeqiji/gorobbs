@@ -6,6 +6,7 @@ import (
 	"gorobbs/package/logging"
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
+	tag_service "gorobbs/service/v1/tag"
 	searchtool "gorobbs/tools/search"
 	"os"
 	"strconv"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	file_package "gorobbs/package/file"
+	string_package "gorobbs/package/string"
 	thread_service "gorobbs/service/v1/thread"
 	user_service "gorobbs/service/v1/user"
 )
@@ -31,7 +33,9 @@ func AddThread(c *gin.Context) {
 	subject := c.DefaultPostForm("subject", "")
 	message := c.DefaultPostForm("message", "")
 	attachFileString := c.PostForm("attachfiles")
+	tagThreadString := c.PostForm("tagthreads")
 	attachfiles := []string{}
+	tagThread := []string{}
 	filesNum := 0
 	code := rcode.SUCCESS
 
@@ -40,38 +44,42 @@ func AddThread(c *gin.Context) {
 		filesNum = len(attachfiles)
 	}
 
+	if len(tagThreadString) > 0 {
+		tagThread = strings.Split(tagThreadString, ",")
+	}
+
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
 
 	thread := &model.Thread{
-		ForumID: forum_id,
-		UserID:  uid,
-		Userip:  uip,
-		Subject: subject,
-		FilesNum:filesNum,
-		LastDate:time.Now(),
+		ForumID:  forum_id,
+		UserID:   uid,
+		Userip:   uip,
+		Subject:  subject,
+		FilesNum: filesNum,
+		LastDate: time.Now(),
 	}
 
 	newThread, err := model.AddThread(thread)
 	if err != nil {
-		logging.Info("thread入库错误",err.Error())
+		logging.Info("thread入库错误", err.Error())
 		code = rcode.ERROR_SQL_INSERT_FAIL
 		app.JsonErrResponse(c, code)
 		return
 	}
 
 	post := &model.Post{
-		ThreadID: int(newThread.ID),
-		UserID:   uid,
-		Isfirst:  1,
-		Userip:   uip,
-		Doctype:  doctype,
-		Message:  message,
-		MessageFmt:message,
+		ThreadID:   int(newThread.ID),
+		UserID:     uid,
+		Isfirst:    1,
+		Userip:     uip,
+		Doctype:    doctype,
+		Message:    message,
+		MessageFmt: message,
 	}
 	newPost, err := model.AddPost(post)
 	if err != nil {
-		logging.Info("post入库错误",err.Error())
+		logging.Info("post入库错误", err.Error())
 		code = rcode.ERROR
 		code = rcode.ERROR_SQL_INSERT_FAIL
 		app.JsonErrResponse(c, code)
@@ -79,7 +87,7 @@ func AddThread(c *gin.Context) {
 	}
 
 	// 记录thread的firstpostid
-	model.UpdateThread(int(newThread.ID), model.Thread{FirstPostID:int(newPost.ID),LastDate:time.Now()})
+	model.UpdateThread(int(newThread.ID), model.Thread{FirstPostID: int(newPost.ID), LastDate: time.Now()})
 
 	// 已经添加完了帖子信息
 	thread_service.AfterAddNewThread(newThread)
@@ -111,12 +119,16 @@ func AddThread(c *gin.Context) {
 			}
 			_, err = model.AddAttach(attach)
 			if err != nil {
-				logging.Info("attach入库错误",err.Error())
+				logging.Info("attach入库错误", err.Error())
 				code = rcode.ERROR_SQL_INSERT_FAIL
 				app.JsonErrResponse(c, code)
 				return
 			}
 		}
+	}
+
+	for _, tagid := range tagThread {
+		tag_service.AddTagThread(string_package.A2i(tagid), int(newThread.ID), forum_id)
 	}
 
 	app.JsonOkResponse(c, code, nil)
@@ -126,6 +138,7 @@ type Tids struct {
 	Tidarr []string `json:"tidarr"`
 }
 
+// 删除
 func DeleteThreads(c *gin.Context) {
 	ids := c.PostForm("tidarr")
 	code := rcode.SUCCESS
@@ -150,6 +163,7 @@ func DeleteThreads(c *gin.Context) {
 	app.JsonOkResponse(c, code, ids)
 }
 
+// 移动
 func MoveThreads(c *gin.Context) {
 	ids := c.PostForm("tidarr")
 	newfid, _ := strconv.Atoi(c.PostForm("newfid"))
@@ -161,9 +175,10 @@ func MoveThreads(c *gin.Context) {
 		return
 	}
 
-	app.JsonOkResponse(c, code,nil)
+	app.JsonOkResponse(c, code, nil)
 }
 
+// 置顶
 func TopThreads(c *gin.Context) {
 	ids := c.PostForm("tidarr")
 	top, _ := strconv.Atoi(c.PostForm("top"))
@@ -177,7 +192,7 @@ func TopThreads(c *gin.Context) {
 			threadIdInt, _ := strconv.Atoi(threadId)
 			threadInfo, _ := model.GetThreadById(threadIdInt)
 
-			_, err := model.UpdateThread(threadIdInt, model.Thread{Top:top})
+			_, err := model.UpdateThread(threadIdInt, model.Thread{Top: top})
 			if err != nil {
 				code = rcode.ERROR_SQL_UPDATE_FAIL
 				app.JsonErrResponse(c, code)
@@ -188,9 +203,9 @@ func TopThreads(c *gin.Context) {
 			// 新增topthread数据  修改thread-top = top
 			if threadInfo.Top == 0 {
 				_, err = model.AddThreadToTop(&model.ThreadTop{
-					ThreadID:threadIdInt,
-					ForumID: threadInfo.ForumID,
-					Top:top,
+					ThreadID: threadIdInt,
+					ForumID:  threadInfo.ForumID,
+					Top:      top,
 				})
 				if err != nil {
 					code = rcode.ERROR_SQL_INSERT_FAIL
@@ -232,6 +247,7 @@ func TopThreads(c *gin.Context) {
 	app.JsonOkResponse(c, code, nil)
 }
 
+// 关闭
 func CloseThreads(c *gin.Context) {
 	/*ids := &Tids{}
 	err := c.Bind(&ids)*/
@@ -245,6 +261,22 @@ func CloseThreads(c *gin.Context) {
 		"data":    ids,
 		"close":   close,
 	})
+}
+
+// 审核
+func AuditedThread(c *gin.Context) {
+	id := string_package.A2i(c.Param("id"))
+	audited := string_package.A2i(c.DefaultPostForm("audited", "1"))
+	code := rcode.SUCCESS
+
+	err := thread_service.AuditedThread(id, audited)
+	if err != nil {
+		code = rcode.ERROR_SQL_UPDATE_FAIL
+		app.JsonErrResponse(c, code)
+		return
+	}
+
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 更新主题内容
@@ -304,7 +336,7 @@ func UpdateThread(c *gin.Context) {
 
 // 添加附件
 // 直接添加到表中，因为以及各有了帖子  所以可以直接添加
-func AddthreadAttach(c *gin.Context)  {
+func AddthreadAttach(c *gin.Context) {
 	// 获取文件内容
 	// 获取threadid postid uid
 	// 修改thread表的files字段 + 1
@@ -312,10 +344,9 @@ func AddthreadAttach(c *gin.Context)  {
 }
 
 // 删除帖子的附件  知己额删除  提供好attach的id  就能删除
-func DelthreadAttach(c *gin.Context)  {
+func DelthreadAttach(c *gin.Context) {
 	// 删除数据内容  删除文件内容
 	// 获取threadid
 	// 修改thread表的files字段 - 1
 	// 在attach表中直接删除记录
 }
-

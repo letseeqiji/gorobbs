@@ -7,8 +7,8 @@ import "gorobbs/model"
 * @param tagCate *TagCate 实例
 * @return TagCate, error
  */
-func AddTagForum(tagid, forumid int) (err error) {
-	whereMap := model.TagForum{TagID: tagid, ForumID: forumid}
+func AddTagForum(tagcateid, forumid int) (err error) {
+	whereMap := model.TagForum{TagCateID: tagcateid, ForumID: forumid}
 	_, err = model.GetTagForum(whereMap)
 	if err != nil {
 		model.AddTagForum(&whereMap)

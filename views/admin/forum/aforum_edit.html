@@ -62,7 +62,8 @@
                                         {{range .tagcate}}
                                             {{$id := .ID}}
                                         <li class="media thread tap top_3 ">
-                                            <input type="checkbox" name="tagcate" class="mt-3 mr-2" value="{{.ID}}"  {{range $usetag}} {{if eq .TagID $id}}checked{{end}}{{end}}>
+                                            <input type="checkbox" name="tagcate" class="mt-3 mr-2" value="{{.ID}}"  {{range $usetag}} {{if eq .TagCateID $id}}checked{{end}}{{end}}>
+                                            {{/*<input type="checkbox" name="tagcate" class="mt-3 mr-2" value="{{.ID}}"  {{range $usetag}} {{if eq .TagID $id}}checked{{end}}{{end}}>*/}}
                                             <div class="media-body">
                                                 <div class="subject break-all">
                                                     <a><span class="huux_thread_hlight_style2">{{.Name}}</span></a>

@@ -1,8 +1,9 @@
 package model
 
 type TagForum struct {
-	TagID   int `gorm:"primary_key" json:"tag_id"`   //
-	ForumID int `gorm:"primary_key" json:"forum_id"` //
+	TagCateID int `gorm:"primary_key" json:"tag_cate_id"` //
+	ForumID   int `gorm:"primary_key" json:"forum_id"`    //
+	TagCate   TagCate
 }
 
 /**
@@ -11,8 +12,8 @@ type TagForum struct {
  */
 func NewTagForum(tagid, forumid int) *TagForum {
 	return &TagForum{
-		TagID:   tagid,
-		ForumID: forumid,
+		TagCateID: tagid,
+		ForumID:   forumid,
 	}
 }
 
@@ -43,7 +44,7 @@ func GetTagForum(whereMap TagForum) (tag *TagForum, err error) {
 * @return TagCate, error
  */
 func GetTagForums(whereMap *TagForum) (tags []TagForum, err error) {
-	err = db.Model(&TagForum{}).Where(whereMap).Find(&tags).Error
+	err = db.Model(&TagForum{}).Preload("TagCate").Preload("TagCate.Tags").Where(whereMap).Find(&tags).Error
 	return
 }
 

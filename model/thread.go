@@ -31,7 +31,7 @@ type Thread struct {
 }
 
 func GetThreads(whereMap interface{}, order string, limit int, page int) (thread []Thread, err error) {
-	err = db.Model(&Thread{}).Where(whereMap).Order(order).Offset((page - 1) * limit).Limit(limit).Find(&thread).Error
+	err = db.Model(&Thread{}).Preload("User").Where(whereMap).Order(order).Offset((page - 1) * limit).Limit(limit).Find(&thread).Error
 	return
 }
 
@@ -65,7 +65,7 @@ func GetThreadListByForumID(forumID int, page int, limit int, orderby string) (t
 	if len(orderby) == 0 {
 		orderby = "rank desc"
 	}
-	err = db.Preload("User").Model(&Thread{}).Where("forum_id = ?", forumID).Where("top = ?", 0).Where(Thread{Isclosed: 0}).Offset((page - 1) * limit).Limit(limit).Order(orderby).Find(&threads).Error
+	err = db.Preload("User").Model(&Thread{}).Where("forum_id = ?", forumID).Where("top = ?", 0).Where("isclosed = ?", 0).Offset((page - 1) * limit).Limit(limit).Order(orderby).Find(&threads).Error
 
 	//err = db.Preload("User").Select("user.id, user.username, user.avatar").Model(&Thread{}).Select("id, subject, views_cnt, posts_cnt, created_at").Where("forum_id = ?", forumID).Where("top = ?", 0).Where(Thread{Isclosed: 0}).Offset((page - 1) * limit).Limit(limit).Order(orderby).Find(&threads).Error
 	//err = db.Table("bbs_thread as thread").Joins("join bbs_user as user on thread.user_id = user.id").Select("thread.id, thread.subject, user.id, user.username").Where("thread.forum_id = ?", forumID).Scan(&threads).Error
@@ -95,6 +95,11 @@ func AddThread(thread *Thread) (*Thread, error) {
 // 修改
 func UpdateThread(id int, thread Thread) (upthread Thread, err error) {
 	err = db.Model(&Thread{}).Where("id = ?", id).Updates(thread).Error
+	upthread, err = GetThreadById(id)
+	return
+}
+func UpdateThreadPro(id int, items map[string]interface{}) (upthread Thread, err error) {
+	err = db.Model(&Thread{}).Where("id = ?", id).Updates(items).Error
 	upthread, err = GetThreadById(id)
 	return
 }

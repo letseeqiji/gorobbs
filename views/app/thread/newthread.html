@@ -1,5 +1,12 @@
 {{ template "layout/header" .}}
 {{/*<script src="//cdn.ckeditor.com/4.12.1/full/ckeditor.js"></script>*/}}
+<style>
+    .tagactive {
+        color: #9B703F;
+        font-weight: bold;
+        background-color: papayawhip;
+    }
+</style>
 <script src="/static/ckeditor/ckeditor.js"></script>
 <main id="body">
     <div class="container">
@@ -11,59 +18,49 @@
                     </div>
                     <div class="card-body">
                         <form action="/api/v1/thread" method="post" id="threadform">
-                            <input type="hidden" name="doctype" value="0">
                             <div class="form-group">
                                 <select id="select_forum_id" class="custom-select mr-1 w-auto" name="forum_id">
                                     {{range .forums}}
-                                    <option value="{{.ID}}">{{.Name}}</option>
+                                        <option value="{{.ID}}">{{.Name}}</option>
                                     {{end}}
                                 </select>
                             </div>
+
+
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="标题" name="subject" value=""
-                                    id="subject2">
+                                       id="subject2">
                             </div>
-                            <div id="nav_tag_list_div">
-                                <table class="small nav_tag_list mb-2"></table>
+
+                            <div style="padding-bottom: 0.8rem;" class="tab" id="taglist">
+                                <div>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td valign="top" style="white-space: nowrap"><span class="grey">电影时间：</span>
+                                            </td>
+                                            <td>
+                                                <a href="forum-index-fid-951-typeid1-0-typeid2-0-typeid3-0-typeid4-1238897.htm"
+                                                   rel="nofollow">2019</a>
+                                                <a href="forum-index-fid-951-typeid1-0-typeid2-0-typeid3-0-typeid4-1238897.htm"
+                                                   rel="nofollow">2019</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="edui-container" style="width: 100%; z-index: 999;">
                                     <div class="edui-editor-body message">
                                         <textarea class="form-control" placeholder="内容" name="message" id="message"
-                                            style="height: 300px; display: none;"></textarea>
+                                                  style="height: 300px; display: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
                             {{ template "layout/captcha" .}}
-                            {{/*   <div class="media">
-                                <div class="media-body col-lg-3 p-0">
-                                    <div class="form-group input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="icon-barcode"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="验证码" name="vcode">
-                                    </div>
-                                </div>
-                                <div class="align-self-center ml-1">
-                                    <div class="form-group input-group">
-                                        <img src="?vcode.htm" width="150" height="32" class="vcode" onclick="this.src='?vcode.htm?'+Math.random();" style="cursor:pointer" title="点击更新" nofollow="">
-                                    </div>
-                                </div>
-                            </div>*/}}
-                            {{/*<div class="d-flex justify-content-between">
-                                <div class="attachlist_parent">
-                                    <a class="small text-left" href="javascript:void(0)">
-                                        <label class="addattach" id="addattach">
-                                            <i class="icon-folder-open-o"></i>
-                                            添加附件 <input type="file" multiple="multiple" class="invisible">
-                                        </label>
-                                    </a>
-                                </div>
-                                <div class="text-right">
-                                    <button type="button" class="btn btn-primary" id="threadsubmit" data-loading-text="正在提交..."> 发表主题
-                                    </button>
-                                </div>
-                            </div>*/}}
+
                             <div class="d-flex justify-content-between">
                                 <div class="attachlist_parent">
                                     <a class="small text-left" href="javascript:void(0)">
@@ -73,58 +70,19 @@
                                             <input type="file" id="add_attach" multiple="multiple" class="invisible">
                                         </label>
                                     </a>
-                                    {{/*<fieldset class="fieldset" style="display: block">
-                                        <legend>上传的附件：</legend>
-                                        <ul class="attachlist">
-                                            <li aid="1">
-                                                <a href="?attach-download-1.htm" target="_blank">
-                                                    <i class="icon filetype image"></i>
-                                                    5cd32ef000014b1210001000-160-160.jpg
-                                                </a>
-                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
-                                            </li>
-                                            <li aid="2">
-                                                <a href="?attach-download-2.htm" target="_blank">
-                                                    <i class="icon filetype image"></i>
-                                                    160620_r28287web_1023.jpg
-                                                </a>
-                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
-                                            </li>
-                                            <li aid="3">
-                                                <a href="?attach-download-3.htm" target="_blank">
-                                                    <i class="icon filetype image"></i>
-                                                    boredom-web_1000.jpg
-                                                </a>
-                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
-                                            </li>
-                                            <li aid="4">
-                                                <a href="?attach-download-4.htm" target="_blank">
-                                                    <i class="icon filetype image"></i>
-                                                    final-web_1200.jpg
-                                                </a>
-                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
-                                            </li>
-                                            <li aid="13">
-                                                <a href="?attach-download-13.htm" target="_blank">
-                                                    <i class="icon filetype torrent"></i>
-                                                    大国重器1-6.torrent
-                                                </a>
-                                                <a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> 删除</a>
-                                            </li>
-                                        </ul>
-                                    </fieldset>*/}}
 
                                 </div>
                                 <div class="text-right">
                                     <button type="button" class="btn btn-primary" id="threadsubmit"
-                                        data-loading-text="正在提交..."> 提交 </button>
+                                            data-loading-text="正在提交..."> 提交
+                                    </button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3"
-                    href="javascript:history.back();">返回</a>
+                   href="javascript:history.back();">返回</a>
             </div>
         </div>
     </div>
@@ -142,16 +100,19 @@
         // toolbarCanCollapse: true,
         toolbarStartupExpanded: false,
         toolbar: [
-            { name: 'document', items: ['Source', '-', 'Preview'] },
-            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo'] },
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat'] },
-            { name: 'colors', items: ['TextColor'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'] },
-            { name: 'links', items: ['Link', 'Unlink'] },
-            { name: 'insert', items: ['Image', 'Smiley', 'Table', 'HorizontalRule', 'SpecialChar'] },
+            {name: 'document', items: ['Source', '-', 'Preview']},
+            {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
+            {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat']},
+            {name: 'colors', items: ['TextColor']},
+            {
+                name: 'paragraph',
+                items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']
+            },
+            {name: 'links', items: ['Link', 'Unlink']},
+            {name: 'insert', items: ['Image', 'Smiley', 'Table', 'HorizontalRule', 'SpecialChar']},
             '/',
-            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-            { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+            {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+            {name: 'tools', items: ['Maximize', 'ShowBlocks']},
         ],
         height: '25rem',
         resize_minHeight: '5rem',
@@ -180,6 +141,16 @@
     })
 
     jsubmit.on('click', function () {
+        var tags = []
+        // 获取标签
+        $("#taglist").find(".tagactive").each(function () {
+            tags.push($(this).attr("tagid"))
+        })
+        // console.log(tags)
+        tags = tags.toString()
+        /*console.log(tags)
+        return*/
+
         var attachfiles = ""
         if (jattachparent.find('.attachlist').length) {
             console.log($('.attachlist').find("li").length, $('.attachlist').find("li"))
@@ -224,6 +195,7 @@
         var postdata = qrform.serializeObject();
         postdata.message = ckmessage
         postdata.attachfiles = attachfiles
+        postdata.tagthreads = tags
         console.log(postdata)
         // return;
 
@@ -331,7 +303,71 @@
         return "newthread" + timestamp + tmp
     }
 
-    $('form[method="POST"]').append('<input type="hidden" name="xss_token" value="' + "uid" + {{.sessions.Userid }} + randomChar(11) + '" />');
+    $('form[method="POST"]').append('<input type="hidden" name="xss_token" value="' + "uid" + {{.sessions.Userid }} +randomChar(11) + '" />');
 
+    // 标签相关
+    function getTags(fid) {
+        $.ajax({
+            url: "/api/v1/forum/" + fid + "/tagcate",
+            method: "GET",
+            success: function (res) {
+                console.log(res)
+                tagdiv = ""
+                if (res.code == 200) {
+                    data = res.data
+                    for (var tag of data) {
+                        console.log(tag)
+                        tagdiv += `<div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top" style="white-space: nowrap">
+                                                <span class="grey">` + tag.TagCate.name + `：</span>
+                                            </td>
+                                            <td>`;
+                        tags = tag.TagCate.Tags
+                        for (var ltag of tags) {
+                            tagdiv += `<a style="padding: 0 0.3rem" href="#" onclick="toggleclass(this)" rel="nofollow" tagid="` + ltag.id + `">` + ltag.name + `</a>`
+                        }
+                        tagdiv += `</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>`
+                    }
+                }
+                $("#taglist").html(tagdiv)
+            }
+        })
+    }
+
+    getTags(1)
+
+    $("#select_forum_id").on("change", function () {
+        console.log($(this).val())
+        getTags($(this).val())
+    })
+
+    function toggleclass(ele) {
+        $(ele).toggleClass("tagactive")
+    }
 </script>
+
+
 {{ template "layout/footer" .}}
+
+{{/*<div>
+    <table>
+        <tbody>
+        <tr>
+            <td valign="top" style="white-space: nowrap">
+                <span class="grey">电影时间：</span>
+            </td>
+            <td>
+                <a href="forum-index-fid-951-typeid1-0-typeid2-0-typeid3-0-typeid4-1238897.htm" rel="nofollow">2019</a>
+                <a href="forum-index-fid-951-typeid1-0-typeid2-0-typeid3-0-typeid4-1238897.htm" rel="nofollow">2019</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>*/}}

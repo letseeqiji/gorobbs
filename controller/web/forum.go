@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	tag_service "gorobbs/service/v1/tag"
 )
 
 // 分类模块页面
@@ -38,6 +39,9 @@ func Forums(c *gin.Context) {
 	description := setting.ServerSetting.Sitebrief
 	forumname := forumInfo.Name
 
+	//
+	tags, _ := tag_service.GetTagForumsByForumID(fid)
+
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
@@ -57,6 +61,7 @@ func Forums(c *gin.Context) {
 			"webname":               webname,
 			"description":           description,
 			"forumname":             forumname,
+			"tags":                  tags,
 		},
 	)
 

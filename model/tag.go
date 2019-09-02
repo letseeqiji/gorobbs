@@ -1,13 +1,13 @@
 package model
 
 type Tag struct {
-	ID        int    `gorm:"primary_key" json:" - "` //
-	TagCateID int    `json:"tag_cate_id"`            //cate所属分类
-	Name      string `json:"name"`                   //
-	Rank      int    `json:"rank"`                   //
-	Enable    int    `json:"enable"`                 //
-	Style     string `json:"style"`                  //
-	Comment   string `json:"comment"`                //
+	ID        int    `gorm:"primary_key" json:"id"` //
+	TagCateID int    `json:"tag_cate_id"`           //cate所属分类
+	Name      string `json:"name"`                  //
+	Rank      int    `json:"rank"`                  //
+	Enable    int    `json:"enable"`                //
+	Style     string `json:"style"`                 //
+	Comment   string `json:"comment"`               //
 	TagCate   TagCate
 }
 

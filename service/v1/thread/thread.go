@@ -87,3 +87,16 @@ func DelThreads(tids []string) (err error) {
 
 	return
 }
+
+// 给定threadid数组 查询
+func GetThreadsByIDs(tidArr []string) (threads []*model.Thread, err error) {
+	threads, err = model.GetThreadsByIDs(tidArr)
+	return
+}
+
+// 审核
+func AuditedThread(threadID, audited int) (err error) {
+	items := map[string]interface{}{"audited": audited}
+	_, err = model.UpdateThreadPro(threadID, items)
+	return
+}

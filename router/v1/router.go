@@ -4,6 +4,7 @@ import (
 	adminservice "gorobbs/controller/admin"
 	apiservice "gorobbs/controller/api/v1"
 	webservice "gorobbs/controller/web"
+	"gorobbs/middleware/banned"
 	"gorobbs/middleware/cros"
 	"gorobbs/middleware/jwt"
 	"gorobbs/middleware/loger"
@@ -165,7 +166,7 @@ func InitRouter() *gin.Engine {
 		// 用户：重设用户名
 		apiv1.POST("/user/:id/name/reset", apiservice.ResetUserName)
 		// 主题：发表
-		apiv1.POST("/thread", xss.XSS(), apiservice.AddThread)
+		apiv1.POST("/thread", xss.XSS(), banned.Banned(), apiservice.AddThread)
 		// 主题：发表
 		apiv1.POST("/thread/:id/favourite", apiservice.Addthreadfavourite)
 		// 主题：删除
@@ -176,16 +177,18 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/thread/:id/top", apiservice.TopThreads)
 		// 主题：关闭
 		apiv1.POST("/thread/:id/close", apiservice.CloseThreads)
+		// 审核
+		apiv1.POST("/thread/:id/audited", apiservice.AuditedThread)
 		// 主题：修改
-		apiv1.POST("/thread/:id/update", apiservice.UpdateThread)
+		apiv1.POST("/thread/:id/update", banned.Banned(), apiservice.UpdateThread)
 		// 添加评论
-		apiv1.POST("/thread/:id/post", apiservice.AddPost)
+		apiv1.POST("/thread/:id/post", banned.Banned(), apiservice.AddPost)
 		// 添加附件
-		apiv1.POST("/thread/:id/attach/add", apiservice.AddthreadAttach)
+		apiv1.POST("/thread/:id/attach/add", banned.Banned(), apiservice.AddthreadAttach)
 		// 删除附件
-		apiv1.POST("/thread/:id/attach/del", apiservice.DelthreadAttach)
+		apiv1.POST("/thread/:id/attach/del", banned.Banned(), apiservice.DelthreadAttach)
 		// 评论的相关操作
-		apiv1.POST("/post/:id/update", apiservice.UpdatePost)
+		apiv1.POST("/post/:id/update", banned.Banned(), apiservice.UpdatePost)
 		// 评论的相关操作
 		apiv1.POST("/post/:id/like", apiservice.LikePost)
 		// 获取验证码
@@ -195,14 +198,17 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/email", apiservice.SendRegisterMail)
 		// 上传图片
 		apiv1.POST("/image/upload", apiservice.CkeditorUpload)
-		apiv1.POST("/attach/upload", apiservice.UploadAttach)
-		apiv1.POST("/attach/add", apiservice.UploadAddAttach)
+		apiv1.POST("/attach/upload", banned.Banned(), apiservice.UploadAttach)
+		apiv1.POST("/attach/add", banned.Banned(), apiservice.UploadAddAttach)
 		apiv1.POST("/attach/delete", apiservice.DeleteAttach)
 
 		apiv1.POST("/tagcate", apiservice.AddTagCate)
 		apiv1.POST("/tagcate/edit", apiservice.UpdateTagCate)
 		apiv1.POST("/tag", apiservice.AddTag)
 		apiv1.POST("/tag/edit", apiservice.UpdateTag)
+
+		apiv1.GET("/forum/:id/tagcate", apiservice.GetTagCateByForumID)
+		apiv1.GET("/forum/:id/tagthread", apiservice.GetTagThreadsByForumIDWithTags)
 	}
 
 	// 管理员页面
@@ -230,6 +236,8 @@ func InitRouter() *gin.Engine {
 		admin.GET("/tagcate/edit.html", adminservice.EditTagCate)
 		admin.GET("/tag/new.html", adminservice.NewTag)
 		admin.GET("/tag/edit.html", adminservice.EditTag)
+
+		admin.GET("/thread/list.html", adminservice.GetThreadList)
 	}
 	admin.Use(jwt.JWT())
 	{
