@@ -524,3 +524,17 @@ CREATE TABLE `bbs_tag_forum` (
   PRIMARY KEY (`tag_id`,`forum_id`),
   KEY `tag_id` (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='forum分类启用的tag';
+
+CREATE TABLE `bbs_user_banned` (
+  `user_id` int(11) NOT NULL,
+  `from_date` timestamp NULL DEFAULT NULL,
+  `to_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `bbs_ip_banned` (
+  `ip` varchar(20) NOT NULL,
+  `from_date` timestamp NULL DEFAULT NULL,
+  `to_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
