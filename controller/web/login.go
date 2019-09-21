@@ -4,6 +4,7 @@ import (
 	"gorobbs/package/setting"
 	"gorobbs/service/v1/user"
 	"net/http"
+	"net/url"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,14 +24,13 @@ func Login(c *gin.Context) {
 	webname := setting.ServerSetting.Sitename
 	description := setting.ServerSetting.Sitebrief
 	forumname := "登录"
-	/*if islogin {
-		c.Redirect(http.StatusMovedPermanently, "/")
-		return
-		//c.JSON(200, gin.H{"code":403, "msg":"login"})
-	}*/ /*else {
-		c.JSON(200, gin.H{"code":200, "msg":"no login"})
-	}
-	return*/
+
+	// 第三方登录
+	// 微信
+	wechatAppID := setting.WechatSetting.AppID
+	wechatCallBack := setting.WechatSetting.CallBackURL
+	wechatCallBack = url.QueryEscape(wechatCallBack)
+
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
@@ -38,13 +38,15 @@ func Login(c *gin.Context) {
 		"login.html",
 		// Pass the data that the page uses
 		gin.H{
-			"title":       "Home Page",
-			"islogin":     islogin,
-			"sessions":    sessions,
-			"forums":      forums,
-			"description": description,
-			"forumname":   forumname,
-			"webname":     webname,
+			"title":          "Home Page",
+			"islogin":        islogin,
+			"sessions":       sessions,
+			"forums":         forums,
+			"description":    description,
+			"forumname":      forumname,
+			"webname":        webname,
+			"wechatAppID":    wechatAppID,
+			"wechatCallBack": wechatCallBack,
 		},
 	)
 }

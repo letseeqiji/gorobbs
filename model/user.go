@@ -11,30 +11,31 @@ import (
 type User struct {
 	Model
 
-	Username     string    `gorm:"default:''" json:"username"`     //用户名
-	Realname     string    `gorm:"default:''" json:"realname"`     //用户实名
-	GroupID      int       `gorm:"default:0" json:"group_id"`      //用户组编号
-	Email        string    `gorm:"default:''" json:"email"`        //邮箱
-	EmailChecked int       `gorm:"default:0" json:"email_checked"` //邮箱验证过
-	Password     string    `gorm:"default:''" json:"password"`     //密码
-	PasswordSms  string    `gorm:"default:''" json:"password_sms"` //密码
-	Phone        string    `gorm:"default:''" json:"phone"`        //手机号
-	IdNumber     string    `gorm:"default:''" json:"id_number"`    //用户名
-	Qq           string    `gorm:"default:''" json:"qq"`           //QQ
-	ThreadsCnt   int       `gorm:"default:0" json:"threads_cnt"`   //发帖数
-	PostsCnt     int       `gorm:"default:0" json:"posts_cnt"`     //回帖数
-	FavouriteCnt int       `gorm:"default:0" json:"favourite_cnt"` //收藏帖子数
-	CreditsNum   int       `gorm:"default:0" json:"credits_num"`   //积分
-	GoldsNum     int       `gorm:"default:0" json:"golds_num"`     //金币
-	RmbsNum      int       `gorm:"default:0" json:"rmbs_num"`      //人民币
-	CreateIp     string    `gorm:"default:''" json:"create_ip"`    //创建时IP
-	LoginIp      string    `gorm:"default:''" json:"login_ip"`     //登录时IP
-	LoginDate    time.Time `json:"login_date"`                     //登录时间
-	LoginsCnt    int       `gorm:"default:0" json:"logins_cnt"`    //登录次数
-	Avatar       string    `gorm:"default:''" json:"avatar"`       //用户最后更新图像时间
-	DigestsCnt   int       `gorm:"default:0" json:"digests_cnt"`   //精华数
-	State        int       `json:"state"`
-	Group        Group
+	Username      string    `gorm:"default:''" json:"username"`        //用户名
+	Realname      string    `gorm:"default:''" json:"realname"`        //用户实名
+	GroupID       int       `gorm:"default:0" json:"group_id"`         //用户组编号
+	Email         string    `gorm:"default:''" json:"email"`           //邮箱
+	EmailChecked  int       `gorm:"default:0" json:"email_checked"`    //邮箱验证过
+	Password      string    `gorm:"default:''" json:"password"`        //密码
+	PasswordSms   string    `gorm:"default:''" json:"password_sms"`    //密码
+	Phone         string    `gorm:"default:''" json:"phone"`           //手机号
+	IdNumber      string    `gorm:"default:''" json:"id_number"`       //用户名
+	Qq            string    `gorm:"default:''" json:"qq"`              //QQ
+	WechatUnionID string    `gorm:"default:''" json:"wechat_union_id"` //微信
+	ThreadsCnt    int       `gorm:"default:0" json:"threads_cnt"`      //发帖数
+	PostsCnt      int       `gorm:"default:0" json:"posts_cnt"`        //回帖数
+	FavouriteCnt  int       `gorm:"default:0" json:"favourite_cnt"`    //收藏帖子数
+	CreditsNum    int       `gorm:"default:0" json:"credits_num"`      //积分
+	GoldsNum      int       `gorm:"default:0" json:"golds_num"`        //金币
+	RmbsNum       int       `gorm:"default:0" json:"rmbs_num"`         //人民币
+	CreateIp      string    `gorm:"default:''" json:"create_ip"`       //创建时IP
+	LoginIp       string    `gorm:"default:''" json:"login_ip"`        //登录时IP
+	LoginDate     time.Time `json:"login_date"`                        //登录时间
+	LoginsCnt     int       `gorm:"default:0" json:"logins_cnt"`       //登录次数
+	Avatar        string    `gorm:"default:''" json:"avatar"`          //用户最后更新图像时间
+	DigestsCnt    int       `gorm:"default:0" json:"digests_cnt"`      //精华数
+	State         int       `json:"state"`
+	Group         Group
 }
 
 /**

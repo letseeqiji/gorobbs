@@ -209,6 +209,8 @@ func InitRouter() *gin.Engine {
 
 		apiv1.GET("/forum/:id/tagcate", apiservice.GetTagCateByForumID)
 		apiv1.GET("/forum/:id/tagthread", apiservice.GetTagThreadsByForumIDWithTags)
+
+		apiv1.GET("/wechat/user_check", apiservice.WechatUserCheck)
 	}
 
 	// 管理员页面

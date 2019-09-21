@@ -11,6 +11,12 @@ func GetUserByID(uid int) (user model.User, err error) {
 	return
 }
 
+func GetUserBywWechatUnionID(wechatUnionID string) (user model.User, err error) {
+	wmap := map[string]interface{}{"wechat_union_id": wechatUnionID}
+	user, err = model.GetUser(wmap)
+	return
+}
+
 func GetUserByEmail(email string) (user model.User, err error) {
 	wmap := map[string]interface{}{"email": email}
 	user, err = model.GetUser(wmap)

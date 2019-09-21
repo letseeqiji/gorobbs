@@ -35,6 +35,31 @@
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary btn-block" id="submit">登录</button>
                             </div>
+                            {{/*<style>
+                                .third-login .third-login-btns a {
+                                    cursor: pointer;
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    margin: 0 13px;
+                                    background-image: url(//www.lgstatic.com/www/static/common/widgets/passport/static/images/third-sprite_d07ffce.png);
+                                    background-repeat: no-repeat;
+                                }
+
+                                .third-login .wechat {
+                                    width: 27px;
+                                    height: 27px;
+                                    background-position: -102px -206px;
+                                }
+                            </style>
+                            <div class="third-login">
+                                <span>第三方账号登录</span>
+                                <div class="third-login-btns">
+                                    <a class="weibo" rel="nofollow" href="https://passport.lagou.com/oauth20/auth_sinaWeiboProvider.html" title="使用新浪微博帐号登录"></a>
+                                    <a class="wechat" rel="nofollow" href="https://passport.lagou.com/oauth20/auth_weixinProvider.html" title="使用微信帐号登录"></a>
+                                    <a class="qq" rel="nofollow" href="https://passport.lagou.com/oauth20/auth_qqProvider.html" title="使用腾讯QQ帐号登录"></a>
+                                    <a class="baidu" rel="nofollow" href="https://passport.lagou.com/oauth20/auth_baiduProvider.html" title="使用百度帐号登录"></a>
+                                </div>
+                            </div>*/}}
                             <div class="media">
                                 <div>
                                 </div>
@@ -43,6 +68,10 @@
                                     <a href="/register.html" class="text-muted"><small>用户注册</small></a>
                                 </div>
                             </div>
+
+                            {{/*引入微信登录*/}}
+                            {{ template "layout/thirdlogin" .}}
+
                         </form>
                     </div>
                 </div>
