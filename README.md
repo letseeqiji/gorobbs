@@ -53,6 +53,11 @@
 
 ![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/tags.png)
 
+## 新增界面
+
+### 第三方登录：微信登录
+
+![post](https://github.com/letseeqiji/gorobbs/blob/master/doc/wechatlogin.png)
 
 ## 安装
 
