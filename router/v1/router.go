@@ -4,6 +4,7 @@ import (
 	adminservice "gorobbs/controller/admin"
 	apiservice "gorobbs/controller/api/v1"
 	webservice "gorobbs/controller/web"
+	"gorobbs/middleware/auth"
 	"gorobbs/middleware/banned"
 	"gorobbs/middleware/cros"
 	"gorobbs/middleware/jwt"
@@ -215,6 +216,7 @@ func InitRouter() *gin.Engine {
 
 	// 管理员页面
 	admin := r.Group("/admin")
+	admin.Use(auth.AUTH())
 	{
 		// 登录展示页
 		admin.GET("/login.html", adminservice.AdminLogin)
