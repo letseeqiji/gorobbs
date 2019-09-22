@@ -87,7 +87,6 @@
 
 
 <script>
-
     var jform = $("#form");
     var jsubmit = $("#submit");
     jsubmit.on('click', function(){
@@ -128,28 +127,8 @@
         });
     });
 
-    // 版主姓名：
-    /*
-    var jmoduids = jform.find('input[name="moduids"]');
-    var jmodnames = $('#modnames');
-    jmoduids.on('keyup blur', function(e) {
-        if(e.type == 'keyup' && e.keyCode != 188) return;
-        jmoduids.tooltip('dispose');
-        $.xget(xn.url('forum-getname-'+xn.urlencode(jmoduids.val())), function(code, message) {
-            if(code > 0) {
-                jmoduids.alert(message).focus();
-            } else if(code ==0) {
-                jmodnames.text(message);
-            } else {
-                alert(message);
-                //$.alert(message);
-            }
-        });
-    });
-    */
-
     $('#nav li.nav-item-tag').addClass('active');
 </script>
 
 
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

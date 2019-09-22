@@ -100,7 +100,7 @@
                 if (res.code == 200) {
                     $.alert("添加成功")
                     setTimeout(function(){
-                        location.href="/admin/tag/list.html?token="+sessionStorage.getItem("admin_token")
+                        location.href="/admin/tag/list.html?token=" + admintoken
                     }, 2000)
                 }
             },
@@ -109,8 +109,5 @@
             }
         })
     });
-
-
-
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

@@ -107,6 +107,7 @@
 
     </div>
 </main>
+
 <script>
     var jform = $("#form");
     var jsubmit = $("#submit");
@@ -115,7 +116,7 @@
         var postdata = jform.serializeObject();
         // console.log(postdata);return;
         $.ajax({
-            url: "/api/v1/tag/edit",
+            url: "/api/v1/tag/edit?token=" + admintoken,
             data: postdata,
             type: "POST",
 
@@ -125,7 +126,7 @@
                 if (res.code == 200) {
                     $.alert("修改成功")
                     setTimeout(function(){
-                        location.href="/admin/tag/list.html?token="+sessionStorage.getItem("admin_token")
+                        location.href="/admin/tag/list.html?token=" + admintoken
                     }, 2000)
                 }
             },
@@ -135,4 +136,4 @@
         })
     });
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

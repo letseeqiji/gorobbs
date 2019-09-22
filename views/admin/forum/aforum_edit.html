@@ -1,8 +1,6 @@
 {{ template "layout/adminheader" .}}
 <main id="body">
     <div class="container">
-
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -81,11 +79,6 @@
                                     </ul>
                                 </div>
                             </div>
-
-
-
-
-
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label"></label>
                                 <div class="col-sm-10">
@@ -99,8 +92,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </main>
 
@@ -129,7 +120,7 @@
         fd.append("tidarr", tidarr)
 
         $.ajax({
-            url: "/admin/forum/update?token="+sessionStorage.getItem("admin_token"),
+            url: "/admin/forum/update?token="+admintoken,
             data: fd,
             type: "POST",
             contentType: false,
@@ -142,7 +133,7 @@
                 if (res.code == 200) {
                     $.alert("修改成功")
                     setTimeout(function(){
-                        location.href="/admin/forum_list.html?token="+sessionStorage.getItem("admin_token")
+                        location.href="/admin/forum_list.html?token="+admintoken
                     }, 2000)
                 }
             },
@@ -152,80 +143,10 @@
         })
     });
 
-
-
 </script>
 
 <script>
-
-/*
-    var jform = $("#form");
-    var jsubmit = $("#submit");
-    jsubmit.on('click', function(){
-        var tidarr = $("#tagcatelist").find('input[name="tagcate"]').checked();
-        console.log("获取的数组",tidarr)
-        return
-
-
-        jform.reset();
-        jsubmit.button('loading');
-        var postdata = jform.serialize();
-        console.log(postdata);
-        return;
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
-            if(code == 0) {
-                $.alert(message);
-                jsubmit.text(message).delay(3000).button('reset');
-                return;
-            } else {
-                $.alert(message);
-                jsubmit.button('reset');
-            }
-        });
-        return false;
-    });
-
-
-
-    var jaccesslist = $('#accesslist_div');
-
-    // toggle
-    jform.find('input[name="accesson"]').on('click', function() {
-        //jaccesslist.collapse('toggle'); bootstrap toggler have bug
-        jaccesslist.toggle('fast');
-        return true;
-    });
-
-    // 全选
-    jaccesslist.find('tr').each(function(k, v) {
-        var jtr = $(v);
-        jtr.find('td').eq(0).find('input[type="checkbox"]').on('click', function() {
-            jtr.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
-        });
-    });*/
-
-    // 版主姓名：
-    /*
-    var jmoduids = jform.find('input[name="moduids"]');
-    var jmodnames = $('#modnames');
-    jmoduids.on('keyup blur', function(e) {
-        if(e.type == 'keyup' && e.keyCode != 188) return;
-        jmoduids.tooltip('dispose');
-        $.xget(xn.url('forum-getname-'+xn.urlencode(jmoduids.val())), function(code, message) {
-            if(code > 0) {
-                jmoduids.alert(message).focus();
-            } else if(code ==0) {
-                jmodnames.text(message);
-            } else {
-                alert(message);
-                //$.alert(message);
-            }
-        });
-    });
-    */
-
     $('#nav li.nav-item-forum').addClass('active');
 </script>
 
-
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

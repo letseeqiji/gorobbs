@@ -105,14 +105,14 @@
 
     var jsubmit = $("#search");
     jsubmit.on('click', function(){
-        location.href = "/admin/thread/list.html?type=" + $("#type").val() + "&status=" + $("#status").val()
+        location.href = "/admin/thread/list.html?type=" + $("#type").val() + "&status=" + $("#status").val() + "&token=" + admintoken
         return false;
     });
 
     // 审核
     function audited(elem, threadid, onoroff) {
         $.ajax({
-            url:"/api/v1/thread/" + threadid + "/audited",
+            url:"/api/v1/thread/" + threadid + "/audited?token=" + admintoken,
             data:{
                 "audited":onoroff,
             },
@@ -130,7 +130,7 @@
     // 删除
     function delet(elem, threadid) {
         $.ajax({
-            url:"/api/v1/thread/" + threadid + "/delete",
+            url:"/api/v1/thread/" + threadid + "/delete?token=" + admintoken,
             data:{
                 "tidarr":threadid,
             },
@@ -148,7 +148,7 @@
     // 关闭
     function close(elem, threadid) {
         $.ajax({
-            url:"/api/v1/thread/" + threadid + "/close",
+            url:"/api/v1/thread/" + threadid + "/close?token=" + admintoken,
             data:{
                 "threadid":threadid,
             },
@@ -163,9 +163,7 @@
         })
     }
 
-
     $('#nav li.nav-item-thread').addClass('active');
 </script>
 
-
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

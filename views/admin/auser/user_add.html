@@ -1,12 +1,6 @@
 {{ template "layout/adminheader" .}}
 <main id="body">
     <div class="container">
-
-
-
-
-
-
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="btn-group mb-3" role="group">
@@ -41,18 +35,6 @@
                                     <select name="group_id" class="custom-select" id="_gid">
                                         {{range .groupList}}
                                         <option value="{{.ID}}">{{.Name}}</option>
-                                        {{/*<option value="1">管理员组</option>
-                                        <option value="2">超级版主组</option>
-                                        <option value="4">版主组</option>
-                                        <option value="5">实习版主组</option>
-                                        <option value="6">待验证用户组</option>
-                                        <option value="7">禁止用户组</option>
-                                        <option value="101">一级用户组</option>
-                                        <option value="102">二级用户组</option>
-                                        <option value="103">三级用户组</option>
-                                        <option value="104">四级用户组</option>
-                                        <option value="105">五级用户组</option>
-                                        <option value="108">测试用户</option>*/}}
                                         {{end}}
                                     </select>
                                 </div>
@@ -69,12 +51,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 </main>
 
@@ -102,4 +78,4 @@
     $('#nav li.nav-item-setting').addClass('active');
 
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

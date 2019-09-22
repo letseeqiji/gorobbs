@@ -220,6 +220,19 @@ func InitRouter() *gin.Engine {
 		admin.GET("/login.html", adminservice.AdminLogin)
 		// 管理员二次登录验证
 		admin.POST("/login", adminservice.AdminLoginCheck)
+	}
+	admin.Use(jwt.JWT())
+	{
+		// 后台首页
+		admin.GET("/index.html", adminservice.AdminIndex)
+		// 模块列表
+		admin.GET("/forum_list.html", adminservice.GetForumList)
+		// 模块：新建
+		admin.GET("/forum_new.html", adminservice.NewForum)
+		admin.POST("/forum", adminservice.AddForum)
+		admin.POST("/forum/delete", adminservice.DelForum)
+		admin.GET("/forum/edit.html", adminservice.EditForum)
+		admin.POST("/forum/update", adminservice.UpdateForum)
 		admin.GET("/setting/base.html", adminservice.AdminSettingBase)
 		admin.POST("/setting/base", adminservice.AdminSettingBaseUpdate)
 		admin.GET("/setting/smtp.html", adminservice.AdminSettingSmtp)
@@ -240,19 +253,6 @@ func InitRouter() *gin.Engine {
 		admin.GET("/tag/edit.html", adminservice.EditTag)
 
 		admin.GET("/thread/list.html", adminservice.GetThreadList)
-	}
-	admin.Use(jwt.JWT())
-	{
-		// 后台首页
-		admin.GET("/index.html", adminservice.AdminIndex)
-		// 模块列表
-		admin.GET("/forum_list.html", adminservice.GetForumList)
-		// 模块：新建
-		admin.GET("/forum_new.html", adminservice.NewForum)
-		admin.POST("/forum", adminservice.AddForum)
-		admin.POST("/forum/delete", adminservice.DelForum)
-		admin.GET("/forum/edit.html", adminservice.EditForum)
-		admin.POST("/forum/update", adminservice.UpdateForum)
 	}
 
 	return r

@@ -1,7 +1,6 @@
 {{ template "layout/adminheader" .}}
 <main id="body">
     <div class="container">
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -50,10 +49,6 @@
     </div>
 </main>
 <script>
-    admintoken = sessionStorage.getItem("admin_token")
-    $("#adminaddforum").attr("href", "/admin/forum_new.html?token="+admintoken)
-
-
     function getfile(ele) {
         var fileString
         files = $(ele).prop('files')
@@ -65,9 +60,7 @@
         return fileString
     }
 
-
     //if(!debug) $.alert('请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。');
-
     var maxfid = {{.fnum}};
 
     var jform = $("#form");
@@ -130,4 +123,4 @@
         location = "/admin/forum/edit.html?id="+fid+"&token="+admintoken
     }
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

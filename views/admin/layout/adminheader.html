@@ -45,7 +45,7 @@
                         <a id="adminindex" class="nav-link" href="/admin/index.html"><i class="icon-home"></i> 后台</a>
                     </li>
                     <li class="nav-item nav-item-setting">
-                        <a class="nav-link" href="/admin/setting/base.html"><i class="icon-cog"></i> 设置</a>
+                        <a id="adminsetting" class="nav-link" href="/admin/setting/base.html"><i class="icon-cog"></i> 设置</a>
                     </li>
                     <li class="nav-item nav-item-forum">
                         <a id="adminforumlist" class="nav-link" href="/admin/forum_list.html"><i class="icon-comment"></i> 版块</a>
@@ -54,13 +54,13 @@
                         <a id="admintaglist" class="nav-link" href="/admin/tag/list.html"><i class="icon-comment"></i> 标签管理</a>
                     </li>
                     <li class="nav-item nav-item-thread">
-                        <a class="nav-link" href="/admin/thread/list.html?type=1&status=0"><i class="icon-comment"></i> 主题</a>
+                        <a id="adminthread"  class="nav-link" href="/admin/thread/list.html?type=1&status=0"><i class="icon-comment"></i> 主题</a>
                     </li>
                     <li class="nav-item nav-item-user">
-                        <a class="nav-link" href="/admin/user/list.html"><i class="icon-user"></i> 用户</a>
+                        <a id="adminuser"  class="nav-link" href="/admin/user/list.html"><i class="icon-user"></i> 用户</a>
                     </li>
                     <li class="nav-item nav-item-other">
-                        <a class="nav-link" href="/admin/other.html"><i class="icon-wrench"></i> 其他</a>
+                        <a id="adminother"  class="nav-link" href="/admin/other.html"><i class="icon-wrench"></i> 其他</a>
                     </li>
                     {{/*<li class="nav-item nav-item-plugin">
                         <a class="nav-link" href="?plugin.htm"><i class="icon-cogs"></i> 插件</a>
@@ -91,8 +91,13 @@
     </header>
     <script>
         admintoken = sessionStorage.getItem("admin_token")
-        $("#adminindex").attr("href", "/admin/index.html?token="+admintoken)
+        /*$("#adminindex").attr("href", "/admin/index.html?token="+admintoken)
+        $("#adminsetting").attr("href", "/admin/setting/base.html?token="+admintoken)
         $("#adminforumlist").attr("href", "/admin/forum_list.html?token="+admintoken)
+        $("#admintaglist").attr("href", "/admin/tag/list.html?token="+admintoken)
+        $("#adminthread").attr("href", "/admin/thread/list.html?token="+admintoken)
+        $("#adminuser").attr("href", "/admin/user/list.html?token="+admintoken)
+        $("#adminother").attr("href", "/admin/other.html?token="+admintoken)*/
 
         $("#adminlogout").on('click', function() {
             sessionStorage.removeItem("admin_token")
