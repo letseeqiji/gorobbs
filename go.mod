@@ -1,4 +1,4 @@
-module github.com/letseeqiji/gorobbs
+module gorobbs
 
 go 1.12
 
