@@ -68,7 +68,7 @@
  * github.com/sirupsen/logrus
  * github.com/rifflock/lfshook
  * github.com/mojocn/base64Captcha
- * github.com/Unknwon/com
+ * github.com/unknwon/com
  * github.com/astaxie/beego/validation
  * github.com/aviddiviner/gin-limit
  * github.com/huichen/wukong
