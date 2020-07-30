@@ -67,7 +67,6 @@
  * github.com/tommy351/gin-sessions
  * github.com/sirupsen/logrus
  * github.com/rifflock/lfshook
- * github.com/mojocn/base64Captcha
  * github.com/unknwon/com
  * github.com/astaxie/beego/validation
  * github.com/aviddiviner/gin-limit
@@ -78,7 +77,7 @@
  * github.com/jinzhu/gorm
  * github.com/jinzhu/gorm/dialects/mysql
  * github.com/dgrijalva/jwt-go
- 
+
 ### 项目环境依赖
  * golang 1.11 and above
  * mysql 5.6 and above
@@ -86,14 +85,29 @@
  * 若安装在生产环境，推荐使用Nginx1.16
 
 ### 本地试用
+
+#### 方案一: 使用 gomod
+
+- 在具有读写权限的目录克隆代码: git clone https://github.com/letseeqiji/gorobbs.git；
+- 执行命令:go mod tidy;
+- 解压静态包：打开 gorobb/static 将static.zip解压到static目录;
+- 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis;
+- 导入sql数据: 导入 gorobbs/gorobbs.sql 到本地MYSQL数据库;
+- 运行: 进入 gorobbs 目录，运行命令: go run main.go;
+- 访问地址: http://127.0.0.1:9000  端口号在配置文件中可以配置;
+- 测试用用户名和密码:  地址:admin@local.com   密码:123456;
+
+#### 方案二: 不使用 gomod
+
 - 切换目录: 首先进入到本地的GOPATH目录；
 - 克隆代码: git clone https://github.com/letseeqiji/gorobbs.git；
-- 解压静态包：打开 gorobb/static 将static.zip解压到static目录
-- 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis；
+- 进入gorobbs目录，可以将目录下vendor目录的内容复制到GOPATH目录;
+- 解压静态包：打开 gorobb/static 将static.zip解压到static目录;
+- 配置文件: 打开 gorobbs/conf/app.ini 并配置数据库和redis;
 - 导入sql数据: 导入 gorobbs/gorobbs.sql 到本地MYSQL数据库;
-- 运行: 进入 gorobbs 目录，运行命令: go run main.go
-- 访问地址: http://127.0.0.1:9000  端口号在配置文件中可以配置
-- 测试用用户名和密码:  地址:admin@local.com   密码:123456
+- 运行: 进入 gorobbs 目录，运行命令: go run main.go;
+- 访问地址: http://127.0.0.1:9000  端口号在配置文件中可以配置;
+- 测试用用户名和密码:  地址:admin@local.com   密码:123456;
 
 
 ## 文档
