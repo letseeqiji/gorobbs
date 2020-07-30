@@ -1,1 +1,6 @@
-conf/
+conf/*
+conf
+.idea/*
+.idea
+*.exe
+

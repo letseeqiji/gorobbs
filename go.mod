@@ -18,6 +18,7 @@ require (
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.57.0
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gorilla/context v1.1.1 // indirect
 	github.com/gorilla/sessions v1.2.0 // indirect
@@ -41,6 +42,7 @@ require (
 	github.com/unknwon/com v1.0.1
 	github.com/valyala/fasthttp v1.15.1
 	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+	golang.org/x/image v0.0.0-20200618115811-c13761719519
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/fatih/set.v0 v0.2.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df

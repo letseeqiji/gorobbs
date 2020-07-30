@@ -1,3 +1,5 @@
+# github.com/adamzy/cedar-go v0.0.0-20170805034717-80a9c64b256d
+github.com/adamzy/cedar-go
 # github.com/andybalholm/brotli v1.0.0
 github.com/andybalholm/brotli
 # github.com/astaxie/beego v1.12.2
@@ -9,6 +11,10 @@ github.com/aviddiviner/gin-limit
 github.com/boltdb/bolt
 # github.com/cznic/fileutil v0.0.0-20181122101858-4d67cfea8c87
 github.com/cznic/fileutil
+# github.com/cznic/internal v0.0.0-20181122101858-3279554c546e
+github.com/cznic/internal/buffer
+github.com/cznic/internal/slice
+github.com/cznic/internal/file
 # github.com/cznic/kv v0.0.0-20181122101858-e9cdcade440e
 github.com/cznic/kv
 # github.com/cznic/lldb v1.1.0
@@ -21,6 +27,8 @@ github.com/cznic/sortutil
 github.com/cznic/zappy
 # github.com/dgrijalva/jwt-go v3.2.0+incompatible
 github.com/dgrijalva/jwt-go
+# github.com/edsrzf/mmap-go v0.0.0-20170320065105-0bce6a688712
+github.com/edsrzf/mmap-go
 # github.com/gin-contrib/sse v0.1.0
 github.com/gin-contrib/sse
 # github.com/gin-gonic/gin v1.6.3
@@ -57,6 +65,8 @@ github.com/gorilla/securecookie
 github.com/gorilla/sessions
 # github.com/huichen/murmur v0.0.0-20130808212358-e0489551cf51
 github.com/huichen/murmur
+# github.com/huichen/sego v0.0.0-20180617034105-3f3c8a8cfacc
+github.com/huichen/sego
 # github.com/huichen/wukong v0.0.0-20161011030038-d014a1f19dae
 github.com/huichen/wukong/engine
 github.com/huichen/wukong/types
@@ -94,10 +104,10 @@ github.com/mattn/go-isatty
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.1
 github.com/modern-go/reflect2
-# github.com/mojocn/base64Captcha v1.3.1
-github.com/mojocn/base64Captcha
 # github.com/pkg/errors v0.8.1
 github.com/pkg/errors
+# github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0
+github.com/remyoudompheng/bigfft
 # github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
 github.com/rifflock/lfshook
 # github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
@@ -121,7 +131,7 @@ github.com/valyala/fasttemplate
 # golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
-# golang.org/x/image v0.0.0-20190501045829-6d32002ffd75
+# golang.org/x/image v0.0.0-20200618115811-c13761719519
 golang.org/x/image/font
 golang.org/x/image/math/fixed
 # golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1
