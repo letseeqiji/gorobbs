@@ -1,0 +1,136 @@
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name=".port" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gin BBS 站点介绍">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>用户登录</title>
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="icon" sizes="32x32" href="/static/img/favicon.ico">
+    <link rel="Bookmark" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/css/bootstrap.css?1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap-bbs.css?1.0">
+    <script src="/static/js/jquery-3.1.0.js?1.0"></script>
+    <script src="/static/js/popper.js?1.0"></script>
+    <script src="/static/js/bootstrap.js?1.0"></script>
+    <script src="/static/js/xiuno.js?1.0"></script>
+    <script src="/static/js/bootstrap-plugin.js?1.0"></script>
+    <script src="/static/js/async.js?1.0"></script>
+    <script src="/static/js/form.js?1.0"></script>
+    <script src="/static/js//bbs.js?1.0"></script>
+    <script src="/static/lang/zh-cn/bbs.js?1.0"></script>
+    <style>
+        /*
+box-shadow: 0 0 5px red;
+*/
+        @keyframes xndigest {
+            0% { color: red; text-shadow: 0 0 3px #FF8D8D;}
+            20% { color: orange; text-shadow: 0 0 3px #FFE1AD;}
+            40% { color: green; text-shadow: 0 0 3px #B3FFAF;}
+            65% { color: blue; text-shadow: 0 0 3px #AFE4FF;}
+            80% { color: purple; text-shadow: 0 0 3px #FFC9F3;}
+            100% { color: red; text-shadow: 0 0 3px #FF8D8D;}
+        }
+
+        /*水晶闪烁效果 占内存*/
+        i.icon-diamond.flash{color: #D53D38;  /*animation: xndigest 5s linear infinite;*/ }
+
+        i.icon-digest-1 {  text-shadow: 0 0 3px #AFE4FF; }
+        i.icon-digest-2 {  text-shadow: 0 0 3px #FFF177; }
+        i.icon-digest-3 {  text-shadow: 0 0 3px #FF8D8D; }
+        .icon-digest-1:before { content: "\f219";  color: #5BC0DE;} /* "\f0a5" */
+        .icon-digest-2:before { content: "\f219";  color: #ECA541;}
+        .icon-digest-3:before { content: "\f219"; color: #D53D38;}
+        .icon-digest-3:afteer { content: "精"; color: #D53D38;}
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="card-header">删除主题</div>
+    <div class="card-body ajax-body">
+        <form action="/api/v1/thread/1/delete" method="post" id="mod_delete_form" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label class="col-4 form-control-label text-right">一共删除：</label>
+            <div class="col-8">
+                <span class="total font-weight-bold text-danger">篇
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-4 form-control-label text-right"></label>
+            <div class="col-8">
+                <button id="delsubmit" type="button" class="btn btn-primary mr-2" data-loading-text="正在提交...">确认</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script ajax-eval="true">
+
+    // 接受传参
+    var args = args || {jmodal: null, callback: null, arg: null};
+    var jmodal = args.jmodal;
+    var callback = args.callback;
+    var arg = args.arg;
+    var jthreadlist = $(arg);  // .threadlist
+    var tidarr = jthreadlist.find('input[name="modtid"]').checked();
+    console.log("获取的数组",tidarr)
+
+    var jform = $('#mod_delete_form');
+    var jsubmit = $('#delsubmit');
+
+    var jtotal = jform.find('span.total');
+    jtotal.text(tidarr.length);
+
+    jsubmit.on('click', function() {
+        jform.reset();
+        jsubmit.button('loading');
+        var fd = new FormData()
+        fd.append("tidarr", tidarr)
+        console.log(fd)
+        $.ajax({
+            url: jform.attr("action"),
+            data: fd,
+            type: "POST",
+            contentType: false,
+            processData:false,
+            success: function(res) {
+                //成功
+                console.log("返回值", res)
+            },
+            error: function() {
+                //失败
+            }
+        })
+        /*$.xpost(jform.attr('action'), postdata, function(code, message) {
+            alert(message)
+            if(code == 200) {
+                jsubmit.button(message);
+                setTimeout(function() {
+                    if(jmodal) jmodal.modal('dispose');
+                    if(callback) callback(message);
+                    window.location.reload();
+                }, 1000);
+            } else {
+                alert(message);
+                jsubmit.button('reset');
+            }
+        });*/
+        return false;
+    });
+
+</script>
+
+</body>
+</html>
