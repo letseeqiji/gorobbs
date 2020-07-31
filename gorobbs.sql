@@ -1,5 +1,5 @@
 /*
-Navicat MySQL Data Transfer
+Navicat MySQL Data Transfer  1.0.4
 
 Source Server         : myaliyun-xg
 Source Server Version : 80015
