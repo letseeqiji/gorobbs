@@ -7,6 +7,7 @@ import (
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	post_service "gorobbs/service/v1/post"
+	"gorobbs/util"
 	"os"
 	"strconv"
 	"strings"
@@ -25,6 +26,8 @@ func AddPost(c *gin.Context) {
 	tid, _ := strconv.Atoi(c.DefaultPostForm("threadid", "1"))
 	docutype, _ := strconv.Atoi(c.DefaultPostForm("doctuype", "0"))
 	message := c.DefaultPostForm("message", "")
+	// 防止xss攻击
+	message = util.XssPolice(message)
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
 	code := rcode.SUCCESS

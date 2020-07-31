@@ -232,13 +232,13 @@
                         var threadli = ""
 
                         for (var thread in threads) {
-                            threadli += `<li class="media thread tap  " data-href="/thread/`+ threads[thread].id +`/detail.html" data-tid="`+ threads[thread].id +`">
+                            threadli += `<li class="media thread tap  " data-href="/thread/`+ threads[thread].ID +`/detail.html" data-tid="`+ threads[thread].ID +`">
                                     <a href=" /user/`+ threads[thread].user_id +`/info.html " tabindex="-1" class="ml-1 mt-1 mr-3">
                                         <img class="avatar-3" src="`+ threads[thread].user.avatar +`">
                                     </a>
                                     <div class="media-body">
                                         <div class="subject break-all font-weight-bold">
-                                            <a href="/thread/`+ threads[thread].id +`/detail.html">`+ threads[thread].subject +`</a>
+                                            <a href="/thread/`+ threads[thread].ID +`/detail.html">`+ threads[thread].subject +`</a>
                                          </div>
                                         <div class="d-flex justify-content-between small mt-1">
                                             <div>

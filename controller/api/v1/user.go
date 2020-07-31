@@ -165,6 +165,8 @@ func RefreshToken(c *gin.Context) {
 //新增用户
 func AddUser(c *gin.Context) {
 	username := c.PostForm("username")
+	// 防止xss
+	username = util.XssPolice(username)
 	password := c.PostForm("password")
 	// phone := c.PostForm("phone")
 	email := c.PostForm("email")

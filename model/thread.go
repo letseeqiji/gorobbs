@@ -144,6 +144,6 @@ func CountThreadsNum() (threadsNum int, err error) {
 
 // 根据id列表获取一组thread
 func GetThreadsByIDs(ids []string) (threads []*Thread, err error) {
-	err = db.Model(&Thread{}).Preload("User"). /*.Select("id, subject, views_cnt, posts_cnt, user")*/ Where("id in (?)", ids).Where("isclosed = ?", 0).Find(&threads).Error
+	err = db.Model(&Thread{}).Preload("User"). /*.Select("id, subject, views_cnt, posts_cnt, user")*/ Where("id in (?)", ids).Where("isclosed = ?", 0).Order("created_at desc").Find(&threads).Error
 	return
 }

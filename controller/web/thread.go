@@ -34,7 +34,7 @@ func Thread(c *gin.Context) {
 
 	// c.JSON(200, gin.H{"data": html.UnescapeString(fpost.Message), "yd": fpost.Message})
 
-	fpost.MessageFmt = html.UnescapeString(fpost.MessageFmt)
+	fpost.Message = html.UnescapeString(fpost.Message)
 
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)

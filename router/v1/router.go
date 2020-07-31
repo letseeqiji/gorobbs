@@ -10,7 +10,7 @@ import (
 	"gorobbs/middleware/jwt"
 	"gorobbs/middleware/loger"
 	"gorobbs/middleware/online"
-	"gorobbs/middleware/xss"
+	"gorobbs/middleware/resub"
 	//"gorobbs/model"
 	//package_redis "gorobbs/package/gredis"
 	"gorobbs/package/setting"
@@ -167,7 +167,7 @@ func InitRouter() *gin.Engine {
 		// 用户：重设用户名
 		apiv1.POST("/user/:id/name/reset", apiservice.ResetUserName)
 		// 主题：发表
-		apiv1.POST("/thread", xss.XSS(), banned.Banned(), apiservice.AddThread)
+		apiv1.POST("/thread", resub.RESUB(), banned.Banned(), apiservice.AddThread)
 		// 主题：发表
 		apiv1.POST("/thread/:id/favourite", apiservice.Addthreadfavourite)
 		// 主题：删除

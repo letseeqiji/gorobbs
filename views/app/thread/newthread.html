@@ -303,7 +303,7 @@
         return "newthread" + timestamp + tmp
     }
 
-    $('form[method="POST"]').append('<input type="hidden" name="xss_token" value="' + "uid" + {{.sessions.Userid }} +randomChar(11) + '" />');
+    $('form[method="POST"]').append('<input type="hidden" name="unique_token" value="' + "uid" + {{.sessions.Userid }} +randomChar(11) + '" />');
 
     // 标签相关
     function getTags(fid) {

@@ -22,6 +22,7 @@ func GetTagCateByForumID(c *gin.Context) {
 	app.JsonOkResponse(c, code, res)
 }
 
+// 获取标签指示的帖子
 func GetTagThreadsByForumIDWithTags(c *gin.Context) {
 	id := string_package.A2i(c.Param("id"))
 	tags := c.Query("tags")

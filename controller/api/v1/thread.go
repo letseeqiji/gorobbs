@@ -8,6 +8,7 @@ import (
 	"gorobbs/package/session"
 	tag_service "gorobbs/service/v1/tag"
 	searchtool "gorobbs/tools/search"
+	"gorobbs/util"
 	"os"
 	"strconv"
 	"strings"
@@ -31,7 +32,11 @@ func AddThread(c *gin.Context) {
 	forum_id, _ := strconv.Atoi(c.DefaultPostForm("forum_id", "1"))
 	doctype, _ := strconv.Atoi(c.DefaultPostForm("doctype", "0"))
 	subject := c.DefaultPostForm("subject", "")
+	// 防止xss攻击
+	subject = util.XssPolice(subject)
 	message := c.DefaultPostForm("message", "")
+	// 防止xss攻击
+	message = util.XssPolice(message)
 	attachFileString := c.PostForm("attachfiles")
 	tagThreadString := c.PostForm("tagthreads")
 	attachfiles := []string{}
@@ -287,7 +292,11 @@ func UpdateThread(c *gin.Context) {
 	post_id, _ := strconv.Atoi(c.DefaultPostForm("post_id", "1"))
 	doctype, _ := strconv.Atoi(c.DefaultPostForm("doctype", "0"))
 	subject := c.DefaultPostForm("subject", "")
+	// 防止xss
+	subject = util.XssPolice(subject)
 	message := c.DefaultPostForm("message", "")
+	// 防止xss
+	message = util.XssPolice(message)
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
 	code := rcode.SUCCESS
