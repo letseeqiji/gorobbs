@@ -5,6 +5,7 @@ import (
 	"gorobbs/package/setting"
 	thread_service "gorobbs/service/v1/thread"
 	"gorobbs/service/v1/user"
+	"gorobbs/util"
 	"html"
 	"net/http"
 	"strconv"
@@ -35,13 +36,20 @@ func Thread(c *gin.Context) {
 	// c.JSON(200, gin.H{"data": html.UnescapeString(fpost.Message), "yd": fpost.Message})
 
 	fpost.Message = html.UnescapeString(fpost.Message)
+	fpost.Message = util.XssPolice(fpost.Message)
 
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)
 
-	// 获取平路列表
+	// 获取评论列表
 	postlist, _ := model.GetThreadPostListByTid(threadId, 500, 1)
 	postlistLen := len(postlist)
+	// 防止xss攻击
+	if postlistLen != 0 {
+		for k, _ := range postlist {
+			postlist[k].Message = util.XssPolice(postlist[k].Message)
+		}
+	}
 
 	// 获取附件列表
 	attachs, _ := model.GetAttachsByPostId(int(fpost.ID))
