@@ -8,6 +8,7 @@ import (
 	"gorobbs/package/session"
 	tag_service "gorobbs/service/v1/tag"
 	searchtool "gorobbs/tools/search"
+	"gorobbs/tools/sensitivewall"
 	"gorobbs/util"
 	"os"
 	"strconv"
@@ -34,9 +35,17 @@ func AddThread(c *gin.Context) {
 	subject := c.DefaultPostForm("subject", "")
 	// 防止xss攻击
 	subject = util.XssPolice(subject)
+	subject, res := sensitivewall.Check(subject, "")
 	message := c.DefaultPostForm("message", "")
 	// 防止xss攻击
 	message = util.XssPolice(message)
+	message, res = sensitivewall.Check(message, "")
+
+	if res {
+		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
+		return
+	}
+
 	attachFileString := c.PostForm("attachfiles")
 	tagThreadString := c.PostForm("tagthreads")
 	attachfiles := []string{}
@@ -294,9 +303,16 @@ func UpdateThread(c *gin.Context) {
 	subject := c.DefaultPostForm("subject", "")
 	// 防止xss
 	subject = util.XssPolice(subject)
+	subject, res := sensitivewall.Check(subject, "")
 	message := c.DefaultPostForm("message", "")
 	// 防止xss
 	message = util.XssPolice(message)
+	message, res = sensitivewall.Check(message, "")
+	if res {
+		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
+		return
+	}
+
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
 	code := rcode.SUCCESS

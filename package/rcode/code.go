@@ -1,11 +1,12 @@
 package rcode
 
 const (
-	SUCCESS        = 200
-	ERROR          = 500
-	INVALID_PARAMS = 400
-	UNPASS         = 403
-	BANNED         = 405
+	SUCCESS         = 200
+	ERROR           = 500
+	INVALID_PARAMS  = 400
+	UNPASS          = 403
+	BANNED          = 405
+	INVALID_CONTENT = 406
 
 	ERROR_EXIST_TAG         = 10001
 	ERROR_NOT_EXIST_TAG     = 10002

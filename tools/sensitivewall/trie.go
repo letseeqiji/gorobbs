@@ -12,7 +12,7 @@ var trie *util.Trie
 func Trieinit() {
 	trie = util.NewTrie()
 
-	file, err := os.Open("./words.txt")
+	file, err := os.Open("./tools/sensitivewall/words.txt")
 	if err != nil {
 		fmt.Println(err)
 		return

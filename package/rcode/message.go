@@ -6,6 +6,7 @@ var MessageFlags = map[int]string{
 	UNPASS:                         "未通过验证",
 	BANNED:                         "干坏事儿了吧亲<_>~~，您的访问被拒绝了",
 	INVALID_PARAMS:                 "请求参数错误",
+	INVALID_CONTENT:                "包含非法内容",
 	ERROR_EXIST_TAG:                "已存在该标签名称",
 	ERROR_NOT_EXIST_TAG:            "该标签不存在",
 	ERROR_NOT_EXIST_ARTICLE:        "该文章不存在",
