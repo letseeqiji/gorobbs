@@ -190,6 +190,34 @@
             return
         }
 
+        // 进行文本是否包内含违法内容的验证
+        /*
+        * 获取标题和帖子内容：并且合并成一个内容发送验证
+        * */
+        var content = cktitle + ckmessage
+        var sensitive = false
+        $.ajax({
+            type: 'POST',
+            url: "/api/v1/content_check",
+            async:false,
+            data: {"content":content},
+            success: function(r){
+                console.log(r)
+                if (r.code != 201) {
+                    $.alert(r.message)
+                    refreshCaptcha()
+                    sensitive = true
+                    return
+                }
+            }
+        })
+
+        if (sensitive) {
+            return
+        }
+
+        // return
+
         qrform.reset();
         jsubmit.button('loading');
         var postdata = qrform.serializeObject();

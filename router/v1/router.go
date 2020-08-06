@@ -3,6 +3,7 @@ package v1
 import (
 	adminservice "gorobbs/controller/admin"
 	apiservice "gorobbs/controller/api/v1"
+	normalservice "gorobbs/controller/normal"
 	webservice "gorobbs/controller/web"
 	"gorobbs/middleware/auth"
 	"gorobbs/middleware/banned"
@@ -255,6 +256,13 @@ func InitRouter() *gin.Engine {
 		admin.GET("/tag/edit.html", adminservice.EditTag)
 
 		admin.GET("/thread/list.html", adminservice.GetThreadList)
+	}
+
+	// 通用接口
+	api_normal := r.Group("/api/v1")
+	{
+		// 通用的  内容违规检测
+		api_normal.POST("/content_check", normalservice.ContentCheck)
 	}
 
 	return r

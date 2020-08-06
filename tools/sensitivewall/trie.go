@@ -28,7 +28,6 @@ func Trieinit() {
 		words = append(words, scanner.Text())
 	}
 
-	fmt.Println("word list:")
 	for _, word := range words {
 		fmt.Println("非法内容包含：", word)
 		trie.Add(word, nil)

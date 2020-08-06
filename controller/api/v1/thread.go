@@ -35,15 +35,17 @@ func AddThread(c *gin.Context) {
 	subject := c.DefaultPostForm("subject", "")
 	// 防止xss攻击
 	subject = util.XssPolice(subject)
-	subject, res := sensitivewall.Check(subject, "")
+	subject, res := sensitivewall.Check(subject, "***")
 	message := c.DefaultPostForm("message", "")
 	// 防止xss攻击
 	message = util.XssPolice(message)
-	message, res = sensitivewall.Check(message, "")
+	message, res = sensitivewall.Check(message, "***")
 
+	// 如果包含非法字符
 	if res {
-		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
-		return
+		// TODO 帖子表设置一个标志位，需要人工审核帖子内容，而且显示默认不显示需要审核的帖子
+		//app.JsonErrResponse(c, rcode.INVALID_CONTENT)
+		//return
 	}
 
 	attachFileString := c.PostForm("attachfiles")
@@ -303,14 +305,16 @@ func UpdateThread(c *gin.Context) {
 	subject := c.DefaultPostForm("subject", "")
 	// 防止xss
 	subject = util.XssPolice(subject)
-	subject, res := sensitivewall.Check(subject, "")
+	subject, res := sensitivewall.Check(subject, "***")
 	message := c.DefaultPostForm("message", "")
 	// 防止xss
 	message = util.XssPolice(message)
-	message, res = sensitivewall.Check(message, "")
+	message, res = sensitivewall.Check(message, "***")
+	// 包含非法的内容
 	if res {
-		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
-		return
+		// TODO 帖子表设置一个标志位，需要人工审核帖子内容，而且显示默认不显示需要审核的帖子
+		//app.JsonErrResponse(c, rcode.INVALID_CONTENT)
+		//return
 	}
 
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
