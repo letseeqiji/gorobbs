@@ -127,10 +127,19 @@ var maxSize = 1*1024*1024
 
 jsubmit.on('click', function() {
     qrform.reset();
-    jsubmit.button('loading');
+
     var postdata = qrform.serializeObject();
+    if (postdata.subject.length <= 5) {
+        $.alert("标题不能为空切不能小于5个字")
+        return
+    }
+
     postdata.message = CKEDITOR.instances.message.getData();
     console.log(postdata)
+    if (postdata.message.length < 30) {
+        $.alert("内容不能为空切不能小于30字")
+        return
+    }
 
     // 验证验证码
     var captcha = getCaptcha()
@@ -148,6 +157,29 @@ jsubmit.on('click', function() {
         }
     }
 
+    var content = postdata.message + postdata.subject
+    var sensitive = false
+    $.ajax({
+        type: 'POST',
+        url: "/api/v1/content_check",
+        async:false,
+        data: {"content":content},
+        success: function(r){
+            console.log(r)
+            if (r.code != 201) {
+                $.alert(r.message)
+                refreshCaptcha()
+                sensitive = true
+                return
+            }
+        }
+    })
+
+    if (sensitive) {
+        return
+    }
+
+    jsubmit.button('loading');
 
     $.xpost(qrform.attr('action'), postdata, function(code, message) {
         console.log(code, ":", message)
