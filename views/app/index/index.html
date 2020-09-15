@@ -145,9 +145,9 @@
                             {{range .newestuser}}
                             <div class="col-3 mb-1 text-center">
                                 <a class="small text-muted text-nowrap" href="/user/{{.ID}}/info.html"
-                                    data-toggle="tooltip" title="zhang" data-original-title="zhang">
+                                    data-toggle="tooltip" title="{{.Username}}" data-original-title="{{.Username}}">
                                     <img src="{{.Avatar}}" alt="{{.Username}}" width="28" height="28"
-                                        class="img-circle"><br>{{.Username}} </a>
+                                        class="img-circle"><br>{{.Username | substr}} </a>
                             </div>
                             {{end}}
                         </div>

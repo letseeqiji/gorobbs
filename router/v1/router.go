@@ -54,6 +54,7 @@ func InitRouter() *gin.Engine {
 		"plus1":       selfPlus,
 		"numplusplus": numPlusPlus,
 		"strip":       Long2IPString,
+		"substr":      SubStr,
 	})
 
 	// 避免404

@@ -85,7 +85,7 @@ func ToMyOrUser(uid int) string {
 * @return string
  */
 func numPlusPlus(num int) int {
-	num ++
+	num++
 	return num
 }
 
@@ -94,7 +94,7 @@ func numPlusPlus(num int) int {
 * @param args ...string 要被拼接的字符串序列
 * @return string
  */
-func Long2IPString(si string) (string) {
+func Long2IPString(si string) string {
 	i, _ := strconv.Atoi(si)
 	ip := make(net.IP, net.IPv4len)
 	ip[0] = byte(i >> 24)
@@ -103,4 +103,18 @@ func Long2IPString(si string) (string) {
 	ip[3] = byte(i)
 
 	return ip.String()
+}
+
+/**
+* @des 把数字ip转化为普通ip
+* @param args ...string 要被拼接的字符串序列
+* @return string
+ */
+func SubStr(si string) string {
+	slen := 7
+	if len([]rune(si)) >= slen {
+		si = string([]rune(si)[:slen])
+	}
+	return si
+
 }
