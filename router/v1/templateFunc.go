@@ -6,6 +6,7 @@ import (
 	"math"
 	"net"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -116,5 +117,13 @@ func SubStr(si string) string {
 		si = string([]rune(si)[:slen])
 	}
 	return si
+}
 
+/**
+* @des 去除字符串左边空格
+* @param args ...string 要被字符串
+* @return string
+ */
+func StrTrim(si string) string {
+	return strings.Trim(si, " ")
 }

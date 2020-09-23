@@ -37,7 +37,7 @@
                                         {{/*    {{.fpost.Message}}*/}}
                                         {{/*</textarea>*/}}
                                         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc">
-                                            {{.fpost.Message}}
+                                            {{.fpost.Message | trim}}
                                         </textarea>
                                         <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
                                         <textarea class="editormd-html-textarea" name="text"></textarea>
@@ -106,7 +106,7 @@ var mdEditor = editormd("test-editormd", {
     saveHTMLToTextarea: true,
     imageUpload: true,
     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-    imageUploadURL: "/upload/image",
+    imageUploadURL: "/api/v1/md_image/upload",
     watch: true
 });
 
