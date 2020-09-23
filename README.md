@@ -109,6 +109,13 @@
 - 访问地址: http://127.0.0.1:9000  端口号在配置文件中可以配置;
 - 测试用用户名和密码:  地址:admin@local.com   密码:123456;
 
+#### 方案三: 使用docker
+
+- docker镜像下载：链接: https://pan.baidu.com/s/1GYu-PzGAVPPrKJYtL1CqTg 提取码: auua ；
+- 使用dokcer load 命令加载本地镜像；
+- 内部已经安装好了mysql redis 和 gorobbs可执行文件;
+- 测试用用户名和密码:  地址:admin@local.com   密码:123456;
+
 
 ## 文档
 
