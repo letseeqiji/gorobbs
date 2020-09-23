@@ -37,6 +37,12 @@ func AddThread(c *gin.Context) {
 	subject = util.XssPolice(subject)
 	subject, res := sensitivewall.Check(subject, "***")
 	message := c.DefaultPostForm("message", "")
+	mdMessage := c.DefaultPostForm("md_message", "")
+	// 兼容没有使用mdeditor的情况
+	if 0 == len(mdMessage) {
+		mdMessage = message
+	}
+
 	// 防止xss攻击
 	message = util.XssPolice(message)
 	message, res = sensitivewall.Check(message, "***")
@@ -90,8 +96,8 @@ func AddThread(c *gin.Context) {
 		Isfirst:    1,
 		Userip:     uip,
 		Doctype:    doctype,
-		Message:    message,
-		MessageFmt: message,
+		Message:    mdMessage, //原文
+		MessageFmt: message,   //格式化的内容
 	}
 	newPost, err := model.AddPost(post)
 	if err != nil {
@@ -307,6 +313,12 @@ func UpdateThread(c *gin.Context) {
 	subject = util.XssPolice(subject)
 	subject, res := sensitivewall.Check(subject, "***")
 	message := c.DefaultPostForm("message", "")
+	mdMessage := c.DefaultPostForm("md_message", "")
+	// 兼容没有使用mdeditor的情况
+	if 0 == len(mdMessage) {
+		mdMessage = message
+	}
+
 	// 防止xss
 	message = util.XssPolice(message)
 	message, res = sensitivewall.Check(message, "***")
@@ -354,9 +366,10 @@ func UpdateThread(c *gin.Context) {
 	model.UpdateThread(thread_id, thread)
 
 	post := model.Post{
-		Userip:  uip,
-		Doctype: doctype,
-		Message: message,
+		Userip:     uip,
+		Doctype:    doctype,
+		Message:    mdMessage, //原文
+		MessageFmt: message,   //格式化的内容
 	}
 	model.UpdatePost(post_id, post)
 
