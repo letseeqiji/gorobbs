@@ -111,9 +111,12 @@
 
 #### 方案三: 使用docker
 
-- docker镜像下载：链接: https://pan.baidu.com/s/1GYu-PzGAVPPrKJYtL1CqTg 提取码: auua ；
-- 使用dokcer load 命令加载本地镜像；
+- docker容器下载：链接: https://pan.baidu.com/s/1eYq51V2ZRxIVeE9dEDtOWw 提取码: tm1c ；
+- 使用dokcer import 命令加载本地容器；
 - 内部已经安装好了mysql redis 和 gorobbs可执行文件;
+- 数据库：端口映射9005:3306，user:root, password:abc123456;
+- gorobbs: 端口映射9006:9006;
+- 容器内文件路径，gorobbs：/home/gobbs, redis:/usr/local/redis;
 - 测试用用户名和密码:  地址:admin@local.com   密码:123456;
 
 
