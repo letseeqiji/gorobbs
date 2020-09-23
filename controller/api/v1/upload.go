@@ -52,6 +52,44 @@ func CkeditorUpload(c *gin.Context) {
 	})
 }
 
+func MDeditorUpload(c *gin.Context) {
+	file, _ := c.FormFile("editormd-image-file")
+	userid := session.GetSession(c, "userid")
+	fileName := file.Filename
+
+	if !upload.CheckImageSize2(file) {
+		c.JSON(200, gin.H{
+			"success": 1,
+			"message": "上传成功！",
+			"url":     pixgif,
+		})
+		return
+	}
+
+	newFilename := file_package.MakeFileName(userid, fileName)
+	filepath := "upload/thread/" + userid
+	filepath, err := file_package.CreatePathInToday(filepath)
+
+	if err != nil {
+		c.JSON(200, gin.H{
+			"success": 1,
+			"message": "上传成功！",
+			"url":     pixgif,
+		})
+		return
+	}
+
+	fullName := filepath + "/" + newFilename
+	// 上传文件到指定的路径
+	c.SaveUploadedFile(file, fullName)
+
+	c.JSON(200, gin.H{
+		"success": 1,
+		"message": "上传成功！",
+		"url":     "/" + fullName,
+	})
+}
+
 func UploadFile(c *gin.Context) {
 	action := c.Query("action")
 	uid := c.Query("uid")

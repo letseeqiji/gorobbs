@@ -201,6 +201,7 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/email", apiservice.SendRegisterMail)
 		// 上传图片
 		apiv1.POST("/image/upload", apiservice.CkeditorUpload)
+		apiv1.POST("/md_image/upload", apiservice.MDeditorUpload)
 		apiv1.POST("/attach/upload", banned.Banned(), apiservice.UploadAttach)
 		apiv1.POST("/attach/add", banned.Banned(), apiservice.UploadAddAttach)
 		apiv1.POST("/attach/delete", apiservice.DeleteAttach)
