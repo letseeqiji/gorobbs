@@ -7,3 +7,4 @@ conf
 static/sensitive_words/words.txt
 log/gin.log.20200923.log_symlink
 upload/
+static/sensitive_words/words - 副本.txt
