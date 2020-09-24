@@ -4,3 +4,6 @@ conf
 .idea
 *.exe
 
+log/
+static/sensitive_words/words - 副本.txt
+upload/
