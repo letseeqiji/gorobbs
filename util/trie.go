@@ -117,16 +117,21 @@ func (p *Trie) PrefixSearch(key string) (result []*Node) {
 // text = "fuck you your mother fucker"
 // replace = "***"
 func (p *Trie) Check(text, replace string) (result string, hit bool) {
-
+	// 要检查的原内容
 	chars := []rune(text)
+	// 内容为空直接返回
 	if p.root == nil {
 		return
 	}
 
+	// 最终返回的结果
 	var left []rune
 	node := p.root
 	start := 0
+
+	// 按字符遍历要检查的内容
 	for index, v := range chars {
+		// 如果当前节点没有子节点
 		ret, ok := node.childs[v]
 		if !ok {
 			left = append(left, chars[start:index+1]...)
@@ -135,7 +140,9 @@ func (p *Trie) Check(text, replace string) (result string, hit bool) {
 			continue
 		}
 
+		// 有子节点
 		node = ret
+		// 如果命中了
 		if ret.term {
 			hit = true
 			node = p.root

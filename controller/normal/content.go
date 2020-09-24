@@ -41,7 +41,8 @@ func ContentCheck(c *gin.Context) {
 		app.JsonOkResponse(c, 201, nil)
 	}
 
-	_, res := sensitivewall.Check(content, "***")
+	illWords, res := sensitivewall.Check(content, "***")
+	fmt.Println("转化后的结果：", illWords)
 
 	if res {
 		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
