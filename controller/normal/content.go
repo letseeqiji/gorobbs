@@ -41,9 +41,10 @@ func ContentCheck(c *gin.Context) {
 		app.JsonOkResponse(c, 201, nil)
 	}
 
-	_, res := sensitivewall.Check(content, "***")
+	illContent, res := sensitivewall.Check(content, "***")
 
 	if res {
+		fmt.Println("替换后的文本：", illContent)
 		app.JsonErrResponse(c, rcode.INVALID_CONTENT)
 		return
 	}
