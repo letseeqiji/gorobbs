@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
+	"github.com/fvbock/endless"
 	"gorobbs/bootstrap"
 	"gorobbs/package/setting"
 	router "gorobbs/router/v1"
-	"net/http"
+	"log"
+	"syscall"
 )
 
 func main() {
 	bootstrap.SetUp()
 
-	router := router.InitRouter()
+	/*router := router.InitRouter()
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
@@ -23,5 +25,20 @@ func main() {
 
 	if err := s.ListenAndServe(); err != nil {
 		panic(err.Error())
+	}*/
+
+	endless.DefaultReadTimeOut = setting.ServerSetting.ReadTimeout
+	endless.DefaultWriteTimeOut = setting.ServerSetting.WriteTimeout
+	endless.DefaultMaxHeaderBytes = 1 << 20
+	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+
+	server := endless.NewServer(endPoint, router.InitRouter())
+	server.BeforeBegin = func(add string) {
+		log.Printf("Actual pid is %d", syscall.Getpid())
+	}
+
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Printf("Server err: %v", err)
 	}
 }
