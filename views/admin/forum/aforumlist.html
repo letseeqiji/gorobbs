@@ -28,8 +28,8 @@
 
                                     <td>{{.Name}}</td>
                                     <td>{{.Rank}}</td>
-                                    <td><a onclick="editforum(this, {{.ID}})" class="btn row_edit" role="button" tabindex="0">编辑</a></td>
-                                    <td><a onclick="deleteforum(this, {{.ID}})" class="btn row_delete" role="button" tabindex="0">删除</a></td>
+                                    <td><button onclick="editforum(this, {{.ID}})" class="btn row_edit" role="button" tabindex="0">编辑</button></td>
+                                    <td><button onclick="deleteforum(this, {{.ID}})" class="btn row_delete" role="button" tabindex="0">删除</button></td>
                                 </tr>
                                 {{end}}
 
@@ -118,7 +118,7 @@
         })
     }
 
-    // 删除
+    // 删除跳转
     function editforum(elem, fid) {
         location = "/admin/forum/edit.html?id="+fid+"&token="+admintoken
     }

@@ -44,7 +44,7 @@
                                 <label class="col-sm-2 form-control-label"></label>
                                 <div class="col-sm-10">
                                     <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
-                                    <a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();">返回</a>
+                                    <button type="button" class="btn btn-secondary btn-block mt-3" onclick="javascript:history.back();">返回</button>
                                 </div>
                             </div>
                         </form>
@@ -68,6 +68,9 @@
             if(code == 200) {
                 $.alert("保存成功");
                 jsubmit.text(message).delay(1000).button('reset');
+                setTimeout(function(){
+                    location.href="/admin/user/list.html?token="+admintoken
+                }, 2000)
             } else {
                 jform.find('[name="'+code+'"]').alert(message).focus();
                 jsubmit.button('reset');

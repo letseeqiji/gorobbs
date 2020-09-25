@@ -1,8 +1,6 @@
 {{ template "layout/header" .}}
 {{/*<script src="//cdn.ckeditor.com/4.12.1/full/ckeditor.js"></script>*/}}
-{{/*<script src="/static/ckeditor/ckeditor.js"></script>*/}}
-<link rel="stylesheet" href="/static/js/editor.md-master/css/editormd.min.css" />
-<script src="/static/js/editor.md-master/editormd.min.js"></script>
+<script src="/static/ckeditor/ckeditor.js"></script>
 <main id="body">
     <div class="container">
         <div class="row">
@@ -32,15 +30,10 @@
                             </div>
                             <div class="form-group">
                                 <div class="edui-container" style="width: 100%; z-index: 999;">
-                                    <div class="edui-editor-body message"   id="test-editormd">
-                                        {{/*<textarea class="form-control" placeholder="内容" name="message" id="message" style="height: 300px; display: none;">*/}}
-                                        {{/*    {{.fpost.Message}}*/}}
-                                        {{/*</textarea>*/}}
-                                        <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc">
-                                            {{.fpost.Message | trim}}
+                                    <div class="edui-editor-body message">
+                                        <textarea class="form-control" placeholder="内容" name="message" id="message" style="height: 300px; display: none;">
+                                            {{.fpost.Message}}
                                         </textarea>
-                                        <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
-                                        <textarea class="editormd-html-textarea" name="text"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -96,21 +89,7 @@ if ({{.thread.UserID}} != {{.sessions.Userid}}) {
     },2000)
 }
 
-var mdEditor = editormd("test-editormd", {
-    width: "100%",
-    height: 640,
-    syncScrolling: "single",
-    //你的lib目录的路径，和你引入js,css路径一样
-    path: "/static/js/editor.md-master/lib/",
-    //这个配置在simple.html中并没有，但是为了能够提交表单，使用这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
-    saveHTMLToTextarea: true,
-    imageUpload: true,
-    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-    imageUploadURL: "/api/v1/md_image/upload",
-    watch: true
-});
-
-/*CKEDITOR.replace('message', {
+CKEDITOR.replace('message', {
     language: 'zh-cn',
     disallowedContent: '<script >',
     toolbarStartupExpanded: false,
@@ -138,7 +117,7 @@ var mdEditor = editormd("test-editormd", {
     extraPlugins:'uploadimage',
     // extraPlugins:['codesnippet','uploadimage'],
     codeSnippet_theme: 'zenburn'
-});*/
+});
 
 var qrform = $("#threadform")
 var jsubmit = $('#threadsubmit');
@@ -155,9 +134,7 @@ jsubmit.on('click', function() {
         return
     }
 
-    // postdata.message = CKEDITOR.instances.message.getData();
-    postdata.message  = mdEditor.getHTML();
-    postdata.md_message  = mdEditor.getMarkdown();
+    postdata.message = CKEDITOR.instances.message.getData();
     console.log(postdata)
     if (postdata.message.length < 30) {
         $.alert("内容不能为空切不能小于30字")

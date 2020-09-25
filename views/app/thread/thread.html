@@ -51,7 +51,7 @@
                         </div>
                         <hr>
                         <div style="overflow-x: scroll;" class="message break-all" isfirst="1">
-                            {{.fpost.MessageFmt | unescaped}}
+                            {{.fpost.Message | unescaped}}
                             {{/*{{.attachsdddd}}*/}}
                         </div>
                         {{if .attachs}}
@@ -177,7 +177,7 @@
                                         </div>
                                     </div>
                                     <div class="message mt-1 break-all">
-                                        {{$post.MessageFmt | unescaped}}
+                                        {{$post.Message | unescaped}}
                                     </div>
                                     {{if $post.FilesNum}}
                                         <fieldset class="fieldset">
