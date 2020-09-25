@@ -26,17 +26,17 @@
                                 <td><b>{{.Name}}</b></td>
                                 <td><b>{{.Rank}}</b></td>
                                 <td>
-                                    <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-{{.Style}}">{{.Style}}</a>
+                                    <div class="badge badge-pill badge-{{.Style}}">{{.Style}}</div>
                                 </td>
                                 <td>
                                     {{if .Enable}}
-                                    <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-success">启用</a>
+                                    <div class="badge badge-pill badge-success">启用</div>
                                     {{else}}
-                                        <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-secondary">未启用</a>
+                                        <div class="badge badge-pill badge-secondary">未启用</div>
                                     {{end}}
 
                                     {{if .Isforce}}
-                                        <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-danger">强制</a>
+                                        <div class="badge badge-pill badge-danger">强制</div>
                                     {{end}}
                                 </td>
                                 <td>
@@ -51,17 +51,17 @@
                                     <td>&nbsp;&nbsp;&nbsp;&nbsp; + {{.Name}}</td>
                                     <td>{{.Rank}}</td>
                                     <td>
-                                        <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-{{.Style}}">{{.Style}}</a>
+                                        <div class="badge badge-pill badge-{{.Style}}">{{.Style}}</div>
                                     </td>
                                     <td>
                                         {{if .Enable}}
-                                            <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-success">启用</a>
+                                            <div class="badge badge-pill badge-success">启用</div>
                                         {{else}}
-                                            <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-secondary">未启用</a>
+                                            <div class="badge badge-pill badge-secondary">未启用</div>
                                         {{end}}
 
                                         {{if eq $DefaultTagID .ID}}
-                                            <a href="?forum-1-1.htm&amp;tagids=1" class="badge badge-pill badge-primary">默认</a>
+                                            <div class="badge badge-pill badge-primary">默认</div>
                                         {{end}}
                                     </td>
                                     <td>
