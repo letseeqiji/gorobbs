@@ -1,3 +1,4 @@
+<span class="username">
 {{ template "layout/header" .}}
 <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
 <script src="/static/js/ck5b/ckeditor.js"></script>
@@ -40,7 +41,7 @@
                                     {{/*如果是作者本人操作*/}}
                                     {{/*{{if islogin}}*/}}
                                     {{if eq .fpost.UserID .sessions.Userid}}
-                                    <div>
+                                        <div>
                                         <a href="/thread/{{.thread.ID}}/edit.html" class="text-grey mr-2 post_update"><i class="icon-edit"></i> 编辑</a>
                                         <a data-href="/thread/{{.thread.ID}}/delete.html" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove"></i> 删除</a>
                                     </div>
@@ -87,7 +88,7 @@
                             </style>
                             <div class="haya-favoriter px-2">
                                 {{if .islogin}}
-                                <span class="btn-group haya-favoriter-info" role="group">
+                                    <span class="btn-group haya-favoriter-info" role="group">
                                     {{if .isfav}}
                                         <button onclick="myfavourite({{.thread.ID}}, this)" class="btn btn-outline-secondary js-haya-favorite-del" data-tid="{{.thread.ID}}" title="取消收藏">
                                             <i class="icon icon-star" aria-label="取消收藏"></i>
@@ -132,8 +133,8 @@
                         <ul class="list-unstyled postlist">
                             {{$isadmin := .session.Isadmin}}
                             {{range $index,$post := .postlist}}
-                            <li class="media post" data-pid="2" data-uid="2">
-                                <a href="?user-2.htm" class="mr-3" tabindex="-1">
+                                <li class="media post" data-pid="2" data-uid="2">
+                                <a href="/user/{{$post.User.ID}}/info.html" class="mr-3" tabindex="-1">
                                     <img class="avatar-3" src="{{$post.User.Avatar}}">
                                 </a>
                                 <div class="media-body">
@@ -144,7 +145,7 @@
                                                     {{$post.User.Group.Name}} </i>
                                             </span>
                                             <span class="username">
-                                                <a href="/user.htm?id={{$post.UserID}}" class="text-muted font-weight-bold">{{$post.User.Username}}</a>
+                                                <a href="/user/{{$post.UserID}}/info.html" class="text-muted font-weight-bold">{{$post.User.Username}}</a>
                                             </span>
                                             {{/*<span class="date text-grey ml-2">{{$post.CreatedAt.Format "2006-01-02 15:04:05"}}</span>*/}}
                                             <span class="date text-grey ml-2">{{$post.CreatedAt.Unix | strtime}}</span>
@@ -155,22 +156,7 @@
                                                     color: var(--secondary) !important;
                                                 }
                                             </style>
-                                            {{/*<span class="haya-post-like mr-3">
-                                                <a href="javascript:;" class="text-muted js-haya-post-like-post-add" data-pid="{{$post.ID}}" title="点赞回复">
-                                                    <i class="icon icon-thumbs-o-up" aria-label="点赞回复"></i>
-                                                    <span class="haya-post-like-post-user-count">{{$post.LikesCnt}}</span>
-                                                </a>
-                                                <a href="javascript:;" class="text-muted haya-post-like-loved js-haya-post-like-post-del" data-pid="{{$post.ID}}" title="取消点赞">
-                                                    <i class="icon icon-thumbs-up" aria-label="取消点赞"></i>
-                                                    <span class="haya-post-like-post-user-count">{{$post.LikesCnt}}</span>
-                                                </a>
-                                            </span>
-                                            */}}{{/*{{if $isadmin}}*/}}{{/*
-                                            <a href="javascript:void(0)" data-tid="1" data-pid="2" class="text-grey post_reply mr-3"><i class="icon-reply" title="引用"></i>
-                                                <span class="d-none">引用</span></a>
-                                            <a href="/post/{{$post.ID}}/edit.html" class="text-grey post_update mr-3"><i class="icon-edit" title="编辑"></i> <span class="d-none">编辑</span></a>
-                                            <a data-href="?post-delete-2.htm" data-confirm-text="确定删除吗？" href="javascript:void(0);" class="text-grey post_delete _confirm mr-3"><i class="icon-remove" title="删除"></i> <span class="d-none">删除</span></a>
-                                            */}}{{/*{{end}}*/}}
+
                                             <span class="floor-parent">
                                                 <span class="floor mr-0">{{$index | plus1}}</span>楼
                                             </span>
@@ -200,7 +186,7 @@
                             {{end}}
 
                             {{if .sessions.Username}}
-                            <li class="post newpost media">
+                                <li class="post newpost media">
                                 <a href="/my.html" class="mr-3" tabindex="-1">
                                     <img class="avatar-3" src="{{.sessions.Useravatar}}">
                                 </a>
@@ -236,7 +222,7 @@
                                 </div>
                             </li>
                             {{else}}
-                            <li class="post newpost media">
+                                <li class="post newpost media">
                                 <a role="button" class="btn btn-default btn-block xn-back col-lg-6 mx-auto mb-3" target="_blank" href="/login.html">登录可回复</a>
                             </li>
                             {{end}}
@@ -257,7 +243,7 @@
                         <a href="?user-1.htm" tabindex="-1">
                             <img class="avatar-5" src="{{.thread.User.Avatar}}">
                         </a>
-                        <h5><a href="?user-1.htm">{{.thread.User.Username}}</a></h5>
+                        <h5><a href="/user/{{.thread.User.ID}}/info.html">{{.thread.User.Username}}</a></h5>
                     </div>
                     <div class="card-footer p-2">
                         <table class="w-100 small">
@@ -301,7 +287,7 @@
                         <h6 class="card-title">作者最近主题：</h6>
                         <ul class="small break-all">
                             {{range .user_newest_threads}}
-                            <li class="line-height-2">
+                                <li class="line-height-2">
                                 <a href="/thread/{{.ID}}/detail.html">
                                     {{.Subject}}
                                 </a>
@@ -410,48 +396,48 @@ function addNewPostElement() {
     var jsubmit = $('#postsubmit')
     var s = '<ul>' +
         '<li class="media post" data-pid="5" data-uid="2">' +
-            '<a href="?user-2.htm" class="mr-3" tabindex="-1">' +
-                '<img class="avatar-3" src="upload/avatar/000/2.png?1563802634"> ' +
-            '</a>' +
-            '<div class="media-body">' +
-                '<div class="d-flex justify-content-between small text-muted">' +
+        '<a href="?user-2.htm" class="mr-3" tabindex="-1">' +
+        '<img class="avatar-3" src="upload/avatar/000/2.png?1563802634"> ' +
+        '</a>' +
+        '<div class="media-body">' +
+        '<div class="d-flex justify-content-between small text-muted">' +
         '           <div> ' +
-                        '<span style="padding-bottom:0;margin-bottom:0;color:; ">' +
-                            '<i class="iconfont icon-v1" style="font-size: !important;">管理员组 </i> ' +
-                        '</span>' +
-                        '<span class="username">' +
-                            '<a href="?user-2.htm" class="text-muted font-weight-bold">zhang</a>' +
-                        '</span>' +
-                        '<span class="date text-grey ml-2">2小时前</span>' +
-                    '</div> ' +
-                 '<div class="text-right text-grey"> ' +
-                     '<style>.haya-post-like .haya-post-like-loved {color: var(--secondary) !important;}</style> ' +
-                        '<span class="haya-post-like mr-3"> ' +
-                            '<a href="javascript:;" class="text-muted js-haya-post-like-post-add" data-pid="5" title="点赞回复">' +
-                                '<i class="icon icon-thumbs-o-up" aria-label="点赞回复"></i> ' +
-                                '<span class="haya-post-like-post-user-count">0</span>' +
-                            '</a>' +
-                        '</span>' +
-                        '<a href="javascript:void(0)" data-tid="1" data-pid="5" class="text-grey post_reply mr-3">' +
-                            '<i class="icon-reply" title="引用"></i> ' +
-                            '<span class="d-none">引用</span>' +
-                        '</a> ' +
-                        '<a href="?post-update-5.htm" class="text-grey post_update mr-3">' +
-                            '<i class="icon-edit" title="编辑"></i> ' +
-                            '<span class="d-none">编辑</span>' +
-                        '</a> ' +
-                        '<a data-href="?post-delete-5.htm" data-confirm-text="确定删除吗？" href="javascript:void(0);" class="text-grey post_delete _confirm mr-3">' +
-                            '<i class="icon-remove" title="删除"></i> ' +
-                            '<span class="d-none">删除</span>' +
-                        '</a> ' +
-                        '<span class="floor-parent"> ' +
-                            '<span class="floor mr-0">5</span>楼 ' +
-                        '</span>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="message mt-1 break-all"><p>玩儿翁</p> ' +
-                '</div>' +
-            '</div> ' +
+        '<span style="padding-bottom:0;margin-bottom:0;color:; ">' +
+        '<i class="iconfont icon-v1" style="font-size: !important;">管理员组 </i> ' +
+        '</span>' +
+        '<span class="username">' +
+        '<a href="?user-2.htm" class="text-muted font-weight-bold">zhang</a>' +
+        '</span>' +
+        '<span class="date text-grey ml-2">2小时前</span>' +
+        '</div> ' +
+        '<div class="text-right text-grey"> ' +
+        '<style>.haya-post-like .haya-post-like-loved {color: var(--secondary) !important;}</style> ' +
+        '<span class="haya-post-like mr-3"> ' +
+        '<a href="javascript:;" class="text-muted js-haya-post-like-post-add" data-pid="5" title="点赞回复">' +
+        '<i class="icon icon-thumbs-o-up" aria-label="点赞回复"></i> ' +
+        '<span class="haya-post-like-post-user-count">0</span>' +
+        '</a>' +
+        '</span>' +
+        '<a href="javascript:void(0)" data-tid="1" data-pid="5" class="text-grey post_reply mr-3">' +
+        '<i class="icon-reply" title="引用"></i> ' +
+        '<span class="d-none">引用</span>' +
+        '</a> ' +
+        '<a href="?post-update-5.htm" class="text-grey post_update mr-3">' +
+        '<i class="icon-edit" title="编辑"></i> ' +
+        '<span class="d-none">编辑</span>' +
+        '</a> ' +
+        '<a data-href="?post-delete-5.htm" data-confirm-text="确定删除吗？" href="javascript:void(0);" class="text-grey post_delete _confirm mr-3">' +
+        '<i class="icon-remove" title="删除"></i> ' +
+        '<span class="d-none">删除</span>' +
+        '</a> ' +
+        '<span class="floor-parent"> ' +
+        '<span class="floor mr-0">5</span>楼 ' +
+        '</span>' +
+        '</div>' +
+        '</div>' +
+        '<div class="message mt-1 break-all"><p>玩儿翁</p> ' +
+        '</div>' +
+        '</div> ' +
         '</li>' +
         '</ul>';
 
