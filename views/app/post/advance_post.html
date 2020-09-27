@@ -1,6 +1,6 @@
 {{ template "layout/header" .}}
-{{/*<script src="//cdn.ckeditor.com/4.12.1/full/ckeditor.js"></script>*/}}
-<script src="/static/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="/static/css/ckstyles.css">
+<script src="/static/js/ck5b/ckeditor.js"></script>
 <main id="body">
     <div class="container">
         <div class="row">
@@ -45,37 +45,69 @@
     </div>
 </main>
 <script>
-    CKEDITOR.replace('message', {
+    var myeditor = null;
+    ClassicEditor.create(document.querySelector('#editor1'), {
+
+        toolbar: {
+            items: [
+                'exportPdf',
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'fontColor',
+                'fontSize',
+                'fontFamily',
+                'highlight',
+                'alignment',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'indent',
+                'outdent',
+                '|',
+                'imageUpload',
+                'blockQuote',
+                'insertTable',
+                'mediaEmbed',
+                'undo',
+                'redo',
+                '|',
+                'codeBlock',
+                'code',
+                'horizontalLine'
+            ]
+        },
         language: 'zh-cn',
-        disallowedContent: '<script >',
-        // toolbar: [['Smiley']],
-        // toolbarCanCollapse: true,
-        toolbarStartupExpanded: false,
-        toolbar: [
-            { name: 'document', items: ['Source', '-', 'Preview'] },
-            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo'] },
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'RemoveFormat'] },
-            { name: 'colors', items: ['TextColor'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'] },
-            { name: 'links', items: ['Link', 'Unlink'] },
-            { name: 'insert', items: ['Image', 'Smiley'] },
-            '/',
-            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-            { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-        ],
-        height: '25rem',
-        resize_minHeight: '5rem',
-        image_previewText: " ",
-        upload_hidden: false,
-        removeDialogTabs: 'image:advanced;image:Link',
-        filebrowserImageUploadUrl: "/api/v1/image/upload",
-        filebrowserUploadUrl: "/api/v1/image/upload",
-        //enterMode:CKEDITOR.ENTER_BR, //屏蔽换行符<br>
-        //shiftEnterMode:CKEDITOR.ENTER_P, //屏蔽段落<p>
-        extraPlugins: 'uploadimage',
-        // extraPlugins:['codesnippet','uploadimage'],
-        codeSnippet_theme: 'zenburn'
-    });
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:full',
+                'imageStyle:side'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+            ]
+        },
+        licenseKey: '',
+        ckfinder:{
+            'uploadUrl':'/api/v1/image/upload',
+        },
+
+    })
+        .then(editor => {
+            myeditor = editor
+        })
+        .catch(error => {
+            console.error('Oops, something went wrong!');
+            console.error(error);
+        });
 
     var qrform = $("#advance_reply_form")
     var jsubmit = $('#postsubmit');
@@ -104,7 +136,7 @@
 
         // return
 
-        if (CKEDITOR.instances.editor1.getData().length == 0) {
+        if (myeditor.getData().length == 0) {
             $.alert("亲，写点什么再提交吧 ^_^")
             return;
         }
@@ -112,7 +144,7 @@
         qrform.reset();
         jsubmit.button('loading');
         var postdata = qrform.serializeObject();
-        postdata.message = CKEDITOR.instances.editor1.getData();
+        postdata.message = myeditor.getData();
         postdata.attachfiles = attachfiles;
         console.log(postdata)
 

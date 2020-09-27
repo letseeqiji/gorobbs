@@ -7,7 +7,8 @@
         background-color: papayawhip;
     }
 </style>
-<script src="/static/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="/static/css/ckstyles.css">
+<script src="/static/js/ck5b/ckeditor.js"></script>
 <main id="body">
     <div class="container">
         <div class="row">
@@ -93,7 +94,7 @@
         location.href = "/login.html"
     }
 
-    CKEDITOR.replace('message', {
+    /*CKEDITOR.replace('message', {
         language: 'zh-cn',
         disallowedContent: '<script >',
         // toolbar: [['Smiley']],
@@ -126,7 +127,71 @@
         extraPlugins: 'uploadimage',
         // extraPlugins:['codesnippet','uploadimage'],
         codeSnippet_theme: 'zenburn'
-    });
+    });*/
+
+    var myeditor = null;
+    ClassicEditor.create(document.querySelector('#message'), {
+
+        toolbar: {
+            items: [
+                'exportPdf',
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'fontColor',
+                'fontSize',
+                'fontFamily',
+                'highlight',
+                'alignment',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'indent',
+                'outdent',
+                '|',
+                'imageUpload',
+                'blockQuote',
+                'insertTable',
+                'mediaEmbed',
+                'undo',
+                'redo',
+                '|',
+                'codeBlock',
+                'code',
+                'horizontalLine'
+            ]
+        },
+        language: 'zh-cn',
+        image: {
+            toolbar: [
+                'imageTextAlternative',
+                'imageStyle:full',
+                'imageStyle:side'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+            ]
+        },
+        licenseKey: '',
+        ckfinder:{
+            'uploadUrl':'/api/v1/image/upload',
+        },
+
+    })
+        .then(editor => {
+            myeditor = editor
+        })
+        .catch(error => {
+            console.error('Oops, something went wrong!');
+            console.error(error);
+        });
 
     var qrform = $("#threadform")
     var jsubmit = $('#threadsubmit');
@@ -184,7 +249,9 @@
             return
         }
 
-        var ckmessage = CKEDITOR.instances.message.getData();
+        var ckmessage = myeditor.getData();
+        console.log(ckmessage);
+        // return;
         if (ckmessage.length < 30) {
             $.alert("内容不能为空切不能小于30字")
             return
