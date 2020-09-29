@@ -12,8 +12,7 @@ import (
 	"gorobbs/middleware/loger"
 	"gorobbs/middleware/online"
 	"gorobbs/middleware/resub"
-	//"gorobbs/model"
-	//package_redis "gorobbs/package/gredis"
+	"gorobbs/middleware/session"
 	"gorobbs/package/setting"
 	"html/template"
 	"net/http"
@@ -151,17 +150,27 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/register/email/checked", apiservice.IsEmailChecked)
 		// 登录
 		apiv1.POST("/login", apiservice.UserLogin)
-		// 登出操作
-		apiv1.GET("/logout", apiservice.UserLogout)
+
+		// 获取验证码
+		apiv1.GET("/capacha", apiservice.GetCapacha)
+		apiv1.POST("/capacha", apiservice.VerfiyCaptcha)
+		// 发送邮件
+		apiv1.POST("/email", apiservice.SendRegisterMail)
+
+		apiv1.GET("/forum/:id/tagcate", apiservice.GetTagCateByForumID)
+		apiv1.GET("/forum/:id/tagthread", apiservice.GetTagThreadsByForumIDWithTags)
+
+		apiv1.GET("/wechat/user_check", apiservice.WechatUserCheck)
+	}
+	apiv1.Use(session.LoginCheck())
+	{
 		// 发送重设密码的邮件
 		apiv1.POST("/password/reset/email", apiservice.SendResetPasswordEmail)
 		apiv1.POST("/password/reset", apiservice.UserResetPassword)
-		// 刷新token
-		apiv1.GET("/token", apiservice.RefreshToken)
-		// 更新用户
-		apiv1.PUT("/user/:id", apiservice.EditUser)
-		// 删除用户
-		apiv1.DELETE("/user/:id", apiservice.DeleteUser)
+
+		// 登出操作
+		apiv1.GET("/logout", apiservice.UserLogout)
+
 		// 用户：重设密码
 		apiv1.POST("/user/:id/password/reset", apiservice.ResetUserPassword)
 		// 用户：重设头像
@@ -194,26 +203,26 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/post/:id/update", banned.Banned(), apiservice.UpdatePost)
 		// 评论的相关操作
 		apiv1.POST("/post/:id/like", apiservice.LikePost)
-		// 获取验证码
-		apiv1.GET("/capacha", apiservice.GetCapacha)
-		apiv1.POST("/capacha", apiservice.VerfiyCaptcha)
-		// 发送邮件
-		apiv1.POST("/email", apiservice.SendRegisterMail)
+
 		// 上传图片
 		apiv1.POST("/image/upload", apiservice.CkeditorUpload)
 		apiv1.POST("/attach/upload", banned.Banned(), apiservice.UploadAttach)
 		apiv1.POST("/attach/add", banned.Banned(), apiservice.UploadAddAttach)
 		apiv1.POST("/attach/delete", apiservice.DeleteAttach)
+	}
+	apiv1.Use(jwt.JWT())
+	{
+		// 刷新token
+		apiv1.GET("/token", apiservice.RefreshToken)
+		// 更新用户
+		apiv1.PUT("/user/:id", apiservice.EditUser)
+		// 删除用户
+		apiv1.DELETE("/user/:id", apiservice.DeleteUser)
 
 		apiv1.POST("/tagcate", apiservice.AddTagCate)
 		apiv1.POST("/tagcate/edit", apiservice.UpdateTagCate)
 		apiv1.POST("/tag", apiservice.AddTag)
 		apiv1.POST("/tag/edit", apiservice.UpdateTag)
-
-		apiv1.GET("/forum/:id/tagcate", apiservice.GetTagCateByForumID)
-		apiv1.GET("/forum/:id/tagthread", apiservice.GetTagThreadsByForumIDWithTags)
-
-		apiv1.GET("/wechat/user_check", apiservice.WechatUserCheck)
 	}
 
 	// 管理员页面
