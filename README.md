@@ -17,7 +17,7 @@
 
 * [新书来了](https://www.xinshulaile.com)
 * 妙记英语
-![console](https://github.com/letseeqiji/gorobbs/blob/master/doc/miaoji.png)
+![console](https://github.com/letseeqiji/gorobbs/blob/master/doc/miaoji.jpg)
 
 ## 功能
 
