@@ -26,10 +26,6 @@ import (
 func AddThread(c *gin.Context) {
 	// 一致的信息：模块forum.id thread.threadname post.message 以及登录的用户信息
 
-	// 获取forumid， docutype uid tname，postmessage
-	// 验证 登录  所有字段不能为空
-	// 添加记录:添加表thread 和 表 post
-
 	forum_id, _ := strconv.Atoi(c.DefaultPostForm("forum_id", "1"))
 	doctype, _ := strconv.Atoi(c.DefaultPostForm("doctype", "0"))
 	subject := c.DefaultPostForm("subject", "")
@@ -246,9 +242,7 @@ func TopThreads(c *gin.Context) {
 			if err != nil {
 				continue
 			}
-			// 取消置顶 top = 0
-			// 没有置顶过
-			// 不操作
+
 			if threadInfo.Top == 0 {
 				continue
 			} else {
