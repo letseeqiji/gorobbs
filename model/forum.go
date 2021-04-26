@@ -16,8 +16,8 @@ type Forum struct {
 	Icon            string `gorm:"default:''" json:"icon"`            //板块是否有 icon，存放最后更新时间
 	Moduids         string `gorm:"default:''" json:"moduids"`         //每个版块有多个版主，最多10个： 10*12 = 120，删除用户的时候，如果是版主，则调整后再删除。逗号分隔
 	SeoTitle        string `gorm:"default:''" json:"seo_title"`       //SEO 标题，如果设置会代替版块名称
-	SeoKeywords     string `gorm:"default:''" json:"seo_keywords"`    //
-	DigestsNum      int    `gorm:"default:0" json:"digests_num"`      //
+	SeoKeywords     string `gorm:"default:''" json:"seo_keywords"`    
+	DigestsNum      int    `gorm:"default:0" json:"digests_num"`      
 }
 
 // 构建forum 模型
