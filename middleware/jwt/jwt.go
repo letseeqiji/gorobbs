@@ -31,14 +31,6 @@ func JWT() gin.HandlerFunc {
 		if code != rcode.SUCCESS {
 			c.Redirect(301, "/admin/login.html")
 			return
-			/*c.JSON(http.StatusUnauthorized, gin.H{
-				"code": code,
-				"msg":  rcode.GetMessage(code),
-				"data": data,
-			})
-
-			c.Abort()
-			return*/
 		}
 
 		c.Next()
