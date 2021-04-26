@@ -23,13 +23,6 @@ import (
 )
 
 func InitRouter() *gin.Engine {
-	// 禁用控制台颜色，当你将日志写入到文件的时候，你不需要控制台颜色。
-	//gin.DisableConsoleColor()
-
-	// 写入日志的文件
-	/*f, _ := os.Create("log/gin.log")
-	gin.DefaultWriter = io.MultiWriter(f)*/
-
 	r := gin.New()
 
 	r.Use(gin.Logger())
