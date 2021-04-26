@@ -12,7 +12,7 @@ import (
 func SendRegisterMail(mailTo string) error {
 	mail := util.Mail{}
 	mail.MailTo = []string{
-		mailTo,
+		mailTo, 
 	}
 
 	webname := setting.ServerSetting.Sitename
