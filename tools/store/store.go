@@ -6,15 +6,11 @@ import (
 	"time"
 )
 
-// expValue stores timestamp and id of captchas. It is used in the list inside
-// memoryStore for indexing generated captchas by timestamp to enable garbage
-// collection of expired captchas.
 type idByTimeValue struct {
 	timestamp time.Time
 	id        string
 }
 
-// memoryStore is an internal store for captcha ids and their values.
 type memoryStore struct {
 	sync.RWMutex
 	digitsById map[string]string
@@ -27,9 +23,6 @@ type memoryStore struct {
 	expiration time.Duration
 }
 
-// NewMemoryStore returns a new standard memory store for captchas with the
-// given collection threshold and expiration time (duration). The returned
-// store must be registered with SetCustomStore to replace the default one.
 func NewMemoryStore(collectNum int, expiration time.Duration) Store {
 	s := new(memoryStore)
 	s.digitsById = make(map[string]string)
