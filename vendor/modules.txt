@@ -184,3 +184,4 @@ gopkg.in/fatih/set.v0
 gopkg.in/gomail.v2
 # gopkg.in/yaml.v2 v2.2.8
 gopkg.in/yaml.v2
+ 
