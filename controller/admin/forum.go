@@ -143,9 +143,6 @@ func AddForum2(c *gin.Context) {
 		return
 	}
 
-	//c.Request.ParseForm()
-	//	//Forms := c.Request.PostForm
-
 	headers := make(map[string]interface{})
 	headers["Content-Type"] = c.GetHeader("Content-Type")
 	headers["receieve-data"] = Forms
