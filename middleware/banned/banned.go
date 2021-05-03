@@ -32,3 +32,4 @@ func Banned() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
