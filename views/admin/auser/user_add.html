@@ -1,12 +1,6 @@
 {{ template "layout/adminheader" .}}
 <main id="body">
     <div class="container">
-
-
-
-
-
-
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="btn-group mb-3" role="group">
@@ -41,18 +35,6 @@
                                     <select name="group_id" class="custom-select" id="_gid">
                                         {{range .groupList}}
                                         <option value="{{.ID}}">{{.Name}}</option>
-                                        {{/*<option value="1">管理员组</option>
-                                        <option value="2">超级版主组</option>
-                                        <option value="4">版主组</option>
-                                        <option value="5">实习版主组</option>
-                                        <option value="6">待验证用户组</option>
-                                        <option value="7">禁止用户组</option>
-                                        <option value="101">一级用户组</option>
-                                        <option value="102">二级用户组</option>
-                                        <option value="103">三级用户组</option>
-                                        <option value="104">四级用户组</option>
-                                        <option value="105">五级用户组</option>
-                                        <option value="108">测试用户</option>*/}}
                                         {{end}}
                                     </select>
                                 </div>
@@ -61,7 +43,7 @@
                                 <label class="col-sm-2 form-control-label"></label>
                                 <div class="col-sm-10">
                                     <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
-                                    <a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();">返回</a>
+                                    <button type="button" class="btn btn-secondary btn-block mt-3" onclick="javascript:history.back();">返回</button>
                                 </div>
                             </div>
                         </form>
@@ -69,12 +51,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 </main>
 
@@ -91,6 +67,9 @@
             if(code == 200) {
                 $.alert("保存成功");
                 jsubmit.text(message).delay(1000).button('reset');
+                setTimeout(function(){
+                    location.href="/admin/user/list.html?token="+admintoken
+                }, 2000)
             } else {
                 jform.find('[name="'+code+'"]').alert(message).focus();
                 jsubmit.button('reset');
@@ -102,4 +81,4 @@
     $('#nav li.nav-item-setting').addClass('active');
 
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

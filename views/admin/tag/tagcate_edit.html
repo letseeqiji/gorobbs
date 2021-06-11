@@ -1,0 +1,126 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form  method="post" id="form">
+                            <input type="hidden" name="id" value="{{.cate.ID}}">
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">TAG分类名：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" id="cate_name" placeholder="" value="{{.cate.Name}}" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">分类描述：</label>
+                                <div class="col-sm-10">
+                                    <textarea name="comment" id="cate_comment" class="form-control" style="width: 100%; height: 100px; ">{{.cate.Comment}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">TAG分类排序：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="rank" id="rank" placeholder="" value="{{.cate.Rank}}" class="form-control">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">启用分类：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="enable" value="1" checked="checked"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="enable" value="0"> 否</label> &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">强制使用：</label>
+                                <div class="col-sm-10">
+                                    <label class="custom-input custom-radio"><input type="radio" name="isforce" value="1"> 是</label> &nbsp;
+                                    <label class="custom-input custom-radio"><input type="radio" name="isforce" value="0" checked="checked"> 否</label> &nbsp;
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">主题颜色：</label>
+                                <div class="col-sm-10">
+                                    <select class="custom-select custom-select-md" name="style" data-selected="{{.cate.Style}}">
+                                        <option value="secondary" {{if eq .cate.Style "secondary"}} selected {{end}}>灰色</option>
+                                        <option value="primary" {{if eq .cate.Style "primary"}} selected {{end}}>蓝色</option>
+                                        <option value="danger" {{if eq .cate.Style "danger"}} selected {{end}}>红色</option>
+                                        <option value="warning" {{if eq .cate.Style "warning"}} selected {{end}}>橙色</option>
+                                        <option value="success" {{if eq .cate.Style "success"}} selected {{end}}>绿色</option>
+                                        <option value="info" {{if eq .cate.Style "info"}} selected {{end}}>天蓝</option>
+                                        <option value="dark" {{if eq .cate.Style "dark"}} selected {{end}}>黑色</option>
+                                        <option value="light" {{if eq .cate.Style "light"}} selected {{end}}>亮色</option>
+                                        <option value="white" {{if eq .cate.Style "white"}} selected {{end}}>白色</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">默认Tag：</label>
+                                <div class="col-sm-10">
+                                    {{$defaulttagid := .cate.DefaultTagID}}
+                                    <select class="custom-select custom-select-md" name="default_tag_id">
+                                        <option value="0" >全部</option>
+                                        {{range .cate.Tags}}
+                                        <option value="{{.ID}}" {{if eq $defaulttagid .ID}} selected {{end}}>{{.Name}}</option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 form-control-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
+                                    <button type="button" class="btn btn-secondary btn-block mt-3" onclick="javascript:history.back();">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="small text-grey">注：请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+<script>
+    var jform = $("#form");
+    var jsubmit = $("#submit");
+
+    jsubmit.on('click', function () {
+        var postdata = jform.serializeObject();
+        $.ajax({
+            url: "/api/v1/tagcate/edit?token=" + admintoken,
+            data: postdata,
+            type: "POST",
+
+            success: function(res) {
+                //成功
+                console.log(res)
+                if (res.code == 200) {
+                    $.alert("修改成功")
+                    setTimeout(function(){
+                        location.href="/admin/tag/list.html?token=" + admintoken
+                    }, 2000)
+                }
+            },
+            error: function() {
+                //失败
+            }
+        })
+    });
+</script>
+{{ template "layout/adminfooter" .}}

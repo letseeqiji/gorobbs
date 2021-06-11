@@ -3,19 +3,19 @@ package util
 import (
 	"fmt"
 
-	"github.com/mojocn/base64Captcha"
+	"gorobbs/tools/captcha"
 )
 
 func CodeCaptchaCreate(height, width int) (string, string) {
 	//config struct for Character
 	//字符,公式,验证码配置
-	var configC = base64Captcha.ConfigCharacter{
+	var configC = captcha.ConfigCharacter{
 		Height: height,
 		Width:  width,
 		//const CaptchaModeNumber:数字,CaptchaModeAlphabet:字母,CaptchaModeArithmetic:算术,CaptchaModeNumberAlphabet:数字字母混合.
-		Mode:               base64Captcha.CaptchaModeNumber,
-		ComplexOfNoiseText: base64Captcha.CaptchaComplexLower,
-		ComplexOfNoiseDot:  base64Captcha.CaptchaComplexLower,
+		Mode:               captcha.CaptchaModeNumber,
+		ComplexOfNoiseText: captcha.CaptchaComplexLower,
+		ComplexOfNoiseDot:  captcha.CaptchaComplexLower,
 		IsUseSimpleFont:    true,
 		IsShowHollowLine:   true,
 		IsShowNoiseDot:     true,
@@ -27,16 +27,16 @@ func CodeCaptchaCreate(height, width int) (string, string) {
 
 	//create a characters captcha.
 	//GenerateCaptcha first parameter is empty string,so the package will generate a random uuid for you.
-	idKeyC, capC := base64Captcha.GenerateCaptcha("", configC)
+	idKeyC, capC := captcha.GenerateCaptcha("", configC)
 	//write to base64 string.
-	base64stringC := base64Captcha.CaptchaWriteToBase64Encoding(capC)
+	base64stringC := captcha.CaptchaWriteToBase64Encoding(capC)
 
 	fmt.Println(idKeyC, base64stringC)
 	return idKeyC, base64stringC
 }
 
 func VerfiyCaptcha(idkey, verifyValue string) bool {
-	verifyResult := base64Captcha.VerifyCaptcha(idkey, verifyValue)
+	verifyResult := captcha.VerifyCaptcha(idkey, verifyValue)
 	if verifyResult {
 		return true
 	}

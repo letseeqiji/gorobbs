@@ -38,3 +38,9 @@ func AddMyPost(userID int, threadID int, postID int) (myPost *Mypost, err error)
 
 	return
 }
+
+// 删除
+func DelMyPostsOfThread(tids []string) (err error) {
+	err = db.Unscoped().Where("thread_id in (?)", tids).Delete(&Mypost{}).Error
+	return
+}

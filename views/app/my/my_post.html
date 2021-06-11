@@ -3,7 +3,8 @@
     <div class="container">
         <div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
             <a role="button" class="btn btn-secondary" data-active="menu-my" href="/my.html">个人资料</a>
-            <a role="button" class="btn btn-secondary active" data-active="menu-my-thread" href="/my_thread.html">论坛帖子</a>
+            <a role="button" class="btn btn-secondary active" data-active="menu-my-thread"
+                href="/my_thread.html">论坛帖子</a>
             <a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="?my-notice.htm">消息</a>
         </div>
         <div class="row">
@@ -16,8 +17,10 @@
                     </div>
                     <div class="list-group list-group-flush text-center">
                         <a href="/my.html" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
-                        <a href="/my_thread.html" class="list-group-item list-group-item-action active" data-active="menu-my-thread">论坛帖子</a>
-                        <a href="?my-notice.htm" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action active"
+                            data-active="menu-my-thread">论坛帖子</a>
+                        <a href="?my-notice.htm" class="list-group-item list-group-item-action"
+                            data-active="menu-my-notice">消息</a>
                     </div>
                 </div>
             </div>
@@ -57,24 +60,31 @@
                                                     {{.Thread.User.Group.Name}}</i>
                                             </span>
                                             <span class="username">
-                                                <a href="?user-2.htm" class="text-muted font-weight-bold">{{.Thread.User.Username}}</a>
+                                                <a href="?user-2.htm"
+                                                    class="text-muted font-weight-bold">{{.Thread.User.Username}}</a>
                                             </span>
-                                            <span class="date text-grey ml-2">{{.Thread.CreatedAt.Unix | strtime}}</span>
+                                            <span
+                                                class="date text-grey ml-2">{{.Thread.CreatedAt.Unix | strtime}}</span>
                                         </div>
                                         <div class="text-right text-grey">
                                             <style>
-                                            .haya-post-like .haya-post-like-loved {
-                                                color: var(--secondary) !important;
-                                            }
+                                                .haya-post-like .haya-post-like-loved {
+                                                    color: var(--secondary) !important;
+                                                }
                                             </style>
                                             <span class="haya-post-like mr-3">
-                                                <a href="javascript:;" class="text-muted js-haya-post-like-post-add" data-pid="8" title="点赞回复">
+                                                <a href="javascript:;" class="text-muted js-haya-post-like-post-add"
+                                                    data-pid="8" title="点赞回复">
                                                     <i class="icon icon-thumbs-o-up" aria-label="点赞回复"></i>
                                                     <span class="haya-post-like-post-user-count">0</span>
                                                 </a>
                                             </span>
-                                            <a href="?post-update-8.htm" class="text-grey post_update mr-3"><i class="icon-edit" title="编辑"></i> <span class="d-none">编辑</span></a>
-                                            <a data-href="?post-delete-8.htm" data-confirm-text="确定删除吗？" href="javascript:void(0);" class="text-grey post_delete _confirm mr-3"><i class="icon-remove" title="删除"></i> <span class="d-none">删除</span></a>
+                                            <a href="?post-update-8.htm" class="text-grey post_update mr-3"><i
+                                                    class="icon-edit" title="编辑"></i> <span class="d-none">编辑</span></a>
+                                            <a data-href="?post-delete-8.htm" data-confirm-text="确定删除吗？"
+                                                href="javascript:void(0);"
+                                                class="text-grey post_delete _confirm mr-3"><i class="icon-remove"
+                                                    title="删除"></i> <span class="d-none">删除</span></a>
                                         </div>
                                     </div>
                                     <div class="message mt-1 break-all">

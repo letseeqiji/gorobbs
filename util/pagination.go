@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Unknwon/com"
 	"github.com/gin-gonic/gin"
+	"github.com/unknwon/com"
 )
 
 func GetPage(c *gin.Context) int {
@@ -31,24 +31,29 @@ func Pagination_tpl(url, text, active string) string {
 //bootstrap 翻页，命名与 bootstrap 保持一致
 // Pagination("?page={page}", 30, 1, 20)
 func Pagination(url string, totalnum int, page int, pagesize int) (s string) {
+
+	//fmt.Println(url, "\n", totalnum, "\n", page, "\n", pagesize)
+
 	if pagesize == 0 {
 		pagesize = 20
 	}
 	// totalpage= 100/20=5
 	totalpage := math.Ceil(float64(totalnum) / float64(pagesize))
+	//fmt.Println("总页数:", totalpage)
 	if totalpage < 2 {
 		return
 	}
 	// page = min(5, 2) = 2
 	page = int(math.Min(float64(totalpage), float64(page)))
-	shownum := 5	// 显示多少个页 * 2
+	shownum := 5 // 显示多少个页 * 2
 
 	// start = max(1, 2-5) = 1
-	start := int(math.Max(1, float64(page - shownum)))
+	start := int(math.Max(1, float64(page-shownum)))
 	// end = max(5, 2+5) = 7
-	end := int(math.Max(totalpage, float64(page + shownum)))
+	end := int(math.Min(totalpage, float64(page+shownum)))
+	//fmt.Println(start, "-》", end)
 
-// 不足 $shownum，补全左右两侧
+	// 不足 $shownum，补全左右两侧
 	// right = 2 + 5 - 5 = 2
 	right := page + shownum - int(totalpage)
 	if right > 0 {
@@ -56,7 +61,7 @@ func Pagination(url string, totalnum int, page int, pagesize int) (s string) {
 		start = int(math.Max(1, float64(start)))
 	}
 	// left = 2 - 5 = -3
-	left := page - shownum;
+	left := page - shownum
 	if left < 0 {
 		end -= left // end = 7+3 = 10
 		// end = min(5, 10) = 5
@@ -66,7 +71,7 @@ func Pagination(url string, totalnum int, page int, pagesize int) (s string) {
 	// page = 2
 	if page != 1 {
 		// url = "?page={page}"   -- ?page=1
-		url := strings.Replace(url,"{page}", strconv.Itoa(page-1), 1)
+		url := strings.Replace(url, "{page}", strconv.Itoa(page-1), 1)
 		//s = "<li class='page-item'><a href='?page=1' class='page-link'>◀</a></li>"
 		s += Pagination_tpl(url, "◀", "")
 	}
@@ -74,15 +79,15 @@ func Pagination(url string, totalnum int, page int, pagesize int) (s string) {
 	// start = 1
 	if start > 1 {
 		text := "1 "
-		if start > 2{
+		if start > 2 {
 			text += "..."
 		}
-		url := strings.Replace(url,"{page}", "1", 1)
-		s += Pagination_tpl(url, text,"")
+		url := strings.Replace(url, "{page}", "1", 1)
+		s += Pagination_tpl(url, text, "")
 	}
 
 	// for i =1; i < 5; i ++
-	for i:=start; i<=end; i++ {
+	for i := start; i <= end; i++ {
 		text := ""
 		if i == page {
 			text += " active"
@@ -104,7 +109,7 @@ func Pagination(url string, totalnum int, page int, pagesize int) (s string) {
 	}
 
 	if page != int(totalpage) {
-		url := strings.Replace(url,"{page}", strconv.Itoa(page+1), 1)
+		url := strings.Replace(url, "{page}", strconv.Itoa(page+1), 1)
 		s += Pagination_tpl(url, "▶", "")
 	}
 

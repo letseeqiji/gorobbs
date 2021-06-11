@@ -1,0 +1,45 @@
+{{ define "layout/thirdlogin" }}
+    <style>
+        .oauth-box .oauth[data-v-e9db305a] {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .oauth-box[data-v-e9db305a] {
+            margin-top: 1.2rem;
+            line-height: 1.9rem;
+            color: #8b9196;
+        }
+        .oauth-box .oauth-bg[data-v-e9db305a] {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #f4f8fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .oauth-box .oauth-btn[data-v-e9db305a] {
+            height: 2.9rem;
+            vertical-align: bottom;
+            cursor: pointer;
+        }
+    </style>
+    <div data-v-e9db305a="" class="oauth-box">
+        <div data-v-e9db305a="" class="hint">第三方账号登录：</div>
+        <div data-v-e9db305a="" class="oauth">
+            {{/*<div data-v-e9db305a="" class="oauth-bg">
+                <img data-v-e9db305a="" title="微博" alt="微博" src="/static/img/weibo.fa758eb.svg" class="oauth-btn">
+            </div>*/}}
+            <div data-v-e9db305a="" class="oauth-bg">
+                <a href="https://open.weixin.qq.com/connect/qrconnect?appid={{.wechatAppID}}&redirect_uri={{.wechatCallBack}}&response_type=code&scope=snsapi_login&state=204b244a5051207d1987a95f4a7e42c1#wechat_redirect">
+                    <img data-v-e9db305a="" title="微信" alt="微信" src="/static/img/wechat.e0ff124.svg" class="oauth-btn">
+                </a>
+            </div>
+            {{/*<div data-v-e9db305a="" class="oauth-bg">
+                <img data-v-e9db305a="" title="GitHub" alt="GitHub" src="/static/img/github.547dd8a.svg" class="oauth-btn">
+            </div>*/}}
+        </div>
+    </div>
+{{ end }}

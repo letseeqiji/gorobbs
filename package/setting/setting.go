@@ -57,6 +57,8 @@ type Server struct {
 	LogoMobileUrl  string
 	LogoPcUrl      string
 	LogoWaterUrl   string
+	Sitepre        string
+	Siteurl        string
 	Sitename       string
 	Sitebrief      string
 	Siteseoword    string
@@ -88,8 +90,22 @@ type Server struct {
 	Version           string
 	StaticVersion     string
 	Installed         int
+
+	RuntimeRootPath string
+	LogSavePath 	string
+	LogSaveName 	string
+	TimeFormat 		string
+	LogFileExt		string
 }
 var ServerSetting = &Server{}
+
+type Wechat struct {
+	AppID       string
+	AppSecret   string
+	CallBackURL string
+}
+
+var WechatSetting = &Wechat{}
 
 var cfg *ini.File
 
@@ -106,6 +122,7 @@ func init() {
 	mapTo("redis", RedisSetting)
 	mapTo("image", ImageSetting)
 	mapTo("smtp", SmtpSetting)
+	mapTo("wechat", WechatSetting)
 
 	//ServerSetting.ImageMaxSize = ServerSetting.ImageMaxSize * 1024 * 1024
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second

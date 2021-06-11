@@ -1,13 +1,15 @@
 package thread
 
-import "gorobbs/model"
+import (
+	"gorobbs/model"
+)
 
 // 获取指定用户的最新的10条thread [id subject]
 func GetUserThreads(uid int) (threads []model.Thread, err error) {
 	whereMap := &model.Thread{UserID: uid}
 	order := "created_at desc"
 	limit := 10
-	threads, err = model.GetThreads(whereMap, order, limit)
+	threads, err = model.GetThreads(whereMap, order, limit, 1)
 	return
 }
 
@@ -37,4 +39,64 @@ func AfterAddNewThread(thread *model.Thread) {
 	oldUserInfo, _ := model.GetUserByID(thread.UserID)
 	model.UpdateUserThreadsCnt(userID, oldUserInfo.ThreadsCnt+1)
 	model.UpdateUserCreditsNum(userID, oldUserInfo.CreditsNum+3)
+}
+
+func DelThreads(tids []string) (err error) {
+
+	// 删除所有评论post
+	err = model.DelPostsOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有 置顶 threadtop
+	err = model.DelthreadTopsOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有 mythread
+	err = model.DelMyThreadsOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有 mypost
+	err = model.DelMyPostsOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有 myfavourite
+	err = model.DelMyFavouritesOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有 附件
+	err = model.DelAttachsOfThread(tids)
+	if err != nil {
+		return
+	}
+
+	// 删除所有的thread
+	err = model.DelThread(tids)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+// 给定threadid数组 查询
+func GetThreadsByIDs(tidArr []string) (threads []*model.Thread, err error) {
+	threads, err = model.GetThreadsByIDs(tidArr)
+	return
+}
+
+// 审核
+func AuditedThread(threadID, audited int) (err error) {
+	items := map[string]interface{}{"audited": audited}
+	_, err = model.UpdateThreadPro(threadID, items)
+	return
 }

@@ -1,0 +1,35 @@
+{{ template "layout/header" .}}
+
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        用户邮箱验证
+                    </div>
+                    <div class="card-body">
+                        <div class="media">
+                            <div style="padding:30px 30px 30px 30px;">
+                                <div style="color:#339502;font-size:22px;line-height: 2.5;">恭喜您验证成功！可以自由遨游本站了！</div>
+                                <button id="emailcheck" type="button" class="btn btn-success  btn-block" data-loading-text="正在提交...">立即开始</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    jsbutton = $("#emailcheck")
+    jsbutton.on("click", function () {
+        location.href="/index.html"
+    })
+    setTimeout(function () {
+        location.href="/index.html"
+    }, 5000)
+</script>
+{{ template "layout/footer" }}

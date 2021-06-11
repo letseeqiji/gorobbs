@@ -1,0 +1,86 @@
+{{ template "layout/header" .}}
+
+
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        用户邮箱验证
+                    </div>
+                    <div class="card-body">
+                        <div class="media">
+                            <div style="padding:30px 30px 30px 30px;">
+                                <div style="color:#339502;font-size:22px;line-height: 2.5;">恭喜您注册成功！</div>
+                                <h5>为了您能有更好的使用体验:</h5>
+                                <ol>
+                                    <li>未经激活的用户，我们将为您保留24小时，24小时过后您需要重新提交注册信息;</li>
+                                    <li>经过激活的用户才能够进行发帖、回帖等操作，激活有助于您有更好的操作体验;</li>
+                                </ol>
+                                请您根据提示信息完成邮箱验证.<br><br>
+                                <button id="emailcheck" type="button" class="btn btn-success  btn-block" data-loading-text="正在提交...">立即验证</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var jsubmit = $('#emailcheck');
+    var userEmail = sessionStorage.getItem("user_reg_email")
+
+    var userEmailSendTime = sessionStorage.getItem(userEmail+"reg_send_email_time")
+    var nowTime = $.now()
+
+    if (userEmailSendTime) {
+        var difftime = parseInt(userEmailSendTime) + 5*60*1000 - nowTime
+        console.log(difftime)
+        if (difftime >= 0 ) {
+            console.log(Math.ceil(difftime/60000))
+            jsubmit.attr("disabled", "disabled").html(Math.ceil(difftime/60000)+"分钟后可以重新发送")
+            setTimeout(function () {
+                jsubmit.button('reset');
+                jsubmit.html("重新验证")
+                sessionStorage.removeItem(userEmail+"reg_send_email_time")
+            },difftime)
+        }
+    }
+
+    jsubmit.on('click', function() {
+        var userEmail = sessionStorage.getItem("user_reg_email")
+        console.log(userEmail)
+        if (xn.is_email(userEmail)) {
+            $.ajax({
+                url: "/api/v1/email",
+                data: {
+                    "email":userEmail
+                },
+                type: "POST",
+                async:false,
+                success: function(res) {
+                    //成功
+                    console.log(res)
+                    if (res.code == 200) {
+                        $.alert("邮件已发送，请到邮箱查看, 验证后可刷新当前页面查看")
+                        jsubmit.attr("disabled", "disabled").html("5分钟后可以重新发送")
+                        sessionStorage.setItem(userEmail+"reg_send_email_time", $.now())
+                        setTimeout(function () {
+                            jsubmit.button('reset');
+                            jsubmit.html("重新验证")
+                            sessionStorage.removeItem(userEmail+"reg_send_email_time")
+                        },5*60*1000)
+                    } else {
+                        $.alert("系统问题，发送失败，稍后再试")
+                        return
+                    }
+                }
+            })
+        }
+    });
+</script>
+{{ template "layout/footer" }}

@@ -1,0 +1,62 @@
+{{ define "layout/adminfooter" }}
+    <footer class="text-muted small bg-dark py-4 mt-3" id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    Powered by <a href="http://www.xinshulaile.com/" target="_blank" class="text-muted"><b>GORO BBS <span>1.0.7</span></b></a>
+                </div>
+                <div class="col text-right">
+                    <b><a href="https://www.github.com/letseeqiji/gorobbs"  class="text-muted"  target="_blank" >github.com/letseeqiji/gorobbs</a></b>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/js/bbs.js?1.0"></script>
+
+    <script src="/static/js/md5.js"></script>
+    <div id="scroll_to_top" class="d-fixed"
+         style="position: fixed; bottom: 80px; right: 10px; width: 70px; height: 70px;">
+        <a href="javascript:void(0);"
+           style="width: 70px; height: 70px; display: inline-block; background: url(/static/img/scroll_top.png) no-repeat; outline: none;"
+           title="返回顶部"></a>
+    </div>
+    <script>
+        // 返回顶部
+        var jscroll_to_top = $('#scroll_to_top');
+        jscroll_to_top.fadeOut(1);
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= 500) {
+                jscroll_to_top.fadeIn(300);
+            } else {
+                jscroll_to_top.fadeOut(300);
+            }
+        });
+
+        jscroll_to_top.on('click', function () {
+            $('html,body').animate({scrollTop: '0px'}, 100);
+        });
+    </script>
+
+    <script>
+        function addTokens() {
+            $("a[name!='historyback']").each(function () {
+                var ohref = $(this).attr("href")
+                var thisHref = ohref
+                rep = /.+\?.+/;
+                if (rep.test(ohref)) {
+                    thisHref += "&token=" + admintoken
+                } else {
+                    thisHref += "?token=" + admintoken
+                }
+                $(this).attr("href", thisHref)
+            })
+        }
+        addTokens()
+    </script>
+
+    </body>
+
+    </html>
+{{end}}
+

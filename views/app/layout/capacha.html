@@ -1,0 +1,76 @@
+{{ define "layout/captcha" }}
+<div class="media">
+    <div class="media-body col-lg-4 p-0">
+        <div id="captchagroup" class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="icon-barcode"></i></span>
+            </div>
+            <input type="text" class="form-control" placeholder="验证码" name="captcha">
+            {{/*<input type="hidden" class="form-control" name="captchakey" value="captchakey-value">*/}}
+        </div>
+    </div>
+    <div class="align-self-center ml-1">
+        <div class="form-group input-group">
+            <img id="captchaimg" src="?vcode.htm" width="150" height="32" class="vcode" onclick="refreshCaptcha()"
+                style="cursor:pointer" title="点击更新" nofollow="">
+        </div>
+    </div>
+</div>
+<script>
+    var captchaimg = $("#captchaimg")
+    refreshCaptcha()
+
+    function refreshCaptcha() {
+        // 加载验证码
+        $.ajax({
+            url: "/api/v1/capacha?" + Math.random(),
+            method: "GET",
+            success: function (res) {
+                if (res.code == 200) {
+                    captchaimg.attr("src", res.data.captcha_base64)
+
+                    var captchakey = $("#captchagroup").find("input[name='captchakey']")
+                    if (!captchakey.val()) {
+                        $("#captchagroup").append("<input type='hidden' class='form-control' name='captchakey' value='" + res.data.cap_key + "'>")
+                    } else {
+                        captchakey.val(res.data.cap_key)
+                    }
+                    console.log(captchakey.val())
+                } else {
+                    $.alert("系统发生错误，请联系管理员")
+                }
+            }
+        })
+    }
+
+    function getCaptcha() {
+        var captcha = $("#captchagroup").find("input[name='captcha']")
+        return captcha.val()
+    }
+
+    function getCaptchaKey() {
+        var captchakey = $("#captchagroup").find("input[name='captchakey']")
+        return captchakey.val()
+    }
+
+    function virefyCaptcha(captcha, key) {
+        var pass = 200
+        $.ajax({
+            url: "/api/v1/capacha",
+            method: "POST",
+            data: {
+                cap_key: key,
+                captcha: captcha
+            },
+            async: false,
+            success: function (res) {
+                pass = res.code
+            }
+        })
+        console.log("pass=", pass)
+        return pass
+    }
+
+    // virefyCaptcha(getCaptcha(), $("#captchagroup").find("input[name='captchakey']").val())
+</script>
+{{ end }}

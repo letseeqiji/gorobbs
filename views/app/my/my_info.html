@@ -16,9 +16,12 @@
                         <br>{{.sessions.Username}}
                     </div>
                     <div class="list-group list-group-flush text-center">
-                        <a href="/my.html" class="list-group-item list-group-item-action active" data-active="menu-my">个人资料</a>
-                        <a href="/my_thread.html" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
-                        <a href="/my_notice.html" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                        <a href="/my.html" class="list-group-item list-group-item-action active"
+                            data-active="menu-my">个人资料</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action"
+                            data-active="menu-my-thread">论坛帖子</a>
+                        <a href="/my_notice.html" class="list-group-item list-group-item-action"
+                            data-active="menu-my-notice">消息</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +52,8 @@
                             <div class="col-md-6">
                                 <span class="text-muted">主题数：</span>{{.userinfo.ThreadsCnt}}<br>
                                 <span class="text-muted">帖子数：</span>{{.userinfo.PostsCnt}}<br>
-                                <span class="text-muted">收藏数：</span><a href="?my-favorites.htm" target="_blank">{{.userinfo.PostsCnt}}</a><br>
+                                <span class="text-muted">收藏数：</span><a href="?my-favorites.htm"
+                                    target="_blank">{{.userinfo.PostsCnt}}</a><br>
                                 <span class="text-muted">积分：</span>{{.userinfo.CreditsNum}} <br>
                                 <span class="text-muted">精华数：</span>{{.userinfo.DigestsCnt}}
                             </div>
@@ -58,6 +62,8 @@
                                 <span class="text-muted">创建时间：</span>{{.userinfo.CreatedAt.Format "2006-01-02"}}<br>
                                 <span class="text-muted">最后登录：</span>{{.userinfo.LoginDate.Format "2006-01-02"}} <br>
                                 <span class="text-danger">Email：</span>{{.userinfo.Email}}
+                                {{if eq .userinfo.EmailChecked 0}}<button id="emailcheck"
+                                    class="btn btn-success">立即验证</button>{{end}}
                             </div>
                         </div>
                     </div>
@@ -66,4 +72,57 @@
         </div>
     </div>
 </main>
+
+<script>
+    var jsubmit = $('#emailcheck');
+    var userEmail = {{.userinfo.Email}}
+    console.log(userEmail)
+
+    var userEmailSendTime = sessionStorage.getItem(userEmail + "reg_send_email_time")
+    var nowTime = $.now()
+    console.log(userEmailSendTime, nowTime)
+
+    if (userEmailSendTime) {
+        var difftime = parseInt(userEmailSendTime) + 5 * 60 * 1000 - nowTime
+        console.log("-------------", difftime)
+        if (difftime >= 0) {
+            jsubmit.attr("disabled", "disabled").html(Math.ceil(difftime / 60000) + "分钟后可以重新发送")
+            setTimeout(function () {
+                jsubmit.button('reset');
+                jsubmit.html("重新验证")
+                sessionStorage.removeItem(userEmail + "reg_send_email_time")
+            }, difftime)
+        }
+    }
+
+    jsubmit.on('click', function () {
+        if (xn.is_email(userEmail)) {
+            $.ajax({
+                url: "/api/v1/email",
+                data: {
+                    "email": userEmail
+                },
+                type: "POST",
+                async: false,
+                success: function (res) {
+                    //成功
+                    console.log(res)
+                    if (res.code == 200) {
+                        $.alert("邮件已发送，请到邮箱查看, 验证后可刷新当前页面查看")
+                        jsubmit.attr("disabled", "disabled").html("5分钟后可以重新发送")
+                        sessionStorage.setItem(userEmail + "reg_send_email_time", $.now())
+                        setTimeout(function () {
+                            jsubmit.button('reset');
+                            jsubmit.html("重新验证")
+                            sessionStorage.removeItem(userEmail + "reg_send_email_time")
+                        }, 5 * 60 * 1000)
+                    } else {
+                        $.alert("系统问题，发送失败，稍后再试")
+                        return
+                    }
+                }
+            })
+        }
+    });
+</script>
 {{ template "layout/footer" .}}

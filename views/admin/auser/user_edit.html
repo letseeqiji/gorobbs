@@ -1,0 +1,85 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="btn-group mb-3" role="group">
+                    <a role="button" class="btn btn-secondary active" href="/admin/user/list.html">用户列表</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/user/group.html">用户组</a>
+                    <a role="button" class="btn btn-secondary" href="/admin/user/create.html">创建用户</a>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">编辑用户</h4>
+                        <form action="/admin/user/update" method="post" id="form">
+                            <input type="hidden" name="userid" value="{{.userinfo.ID}}">
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">Email：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="email" id="email" placeholder="" value="{{.userinfo.Email}}" class="form-control">						</div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">用户名：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="username" id="username" placeholder="" value="{{.userinfo.Username}}" class="form-control">						</div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">密码：</label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password" id="password" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label">用户组：</label>
+                                <div class="col-sm-10">
+                                    <select name="group_id" class="custom-select" id="_gid">
+                                        {{$checkedGid := .userinfo.GroupID}}
+                                        {{range .groupList}}
+                                            <option value="{{.ID}}"  {{if eq .ID $checkedGid}} selected="selected" {{end}}>{{.Name}}</option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 form-control-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">确定</button>
+                                    <button type="button" class="btn btn-secondary btn-block mt-3" onclick="javascript:history.back();">返回</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var jform = $('#form');
+    var jsubmit = $('#submit');
+    jsubmit.on('click', function() {
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serialize();
+        // console.log(postdata);return;
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            console.log(message);
+            if(code == 200) {
+                $.alert("保存成功");
+                jsubmit.text(message).delay(1000).button('reset');
+                setTimeout(function(){
+                    location.href="/admin/user/list.html?token="+admintoken
+                }, 2000)
+            } else {
+                jform.find('[name="'+code+'"]').alert(message).focus();
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+    $('#nav li.nav-item-setting').addClass('active');
+
+</script>
+{{ template "layout/adminfooter" .}}

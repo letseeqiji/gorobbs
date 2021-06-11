@@ -1,0 +1,134 @@
+{{ template "layout/adminheader" .}}
+<main id="body">
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title">标签列表</h4>
+                        <table class="table table-bordered">
+                            <caption>标签列表</caption>
+                            <thead>
+                            <tr>
+                                <th>所属分类[标签名称]</th>
+                                <th>排序</th>
+                                <th>主题颜色</th>
+                                <th>属性限制</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range .cate}}
+                            <tr style="background-color: #bbdaff">
+                                <td><b>{{.Name}}</b></td>
+                                <td><b>{{.Rank}}</b></td>
+                                <td>
+                                    <div class="badge badge-pill badge-{{.Style}}">{{.Style}}</div>
+                                </td>
+                                <td>
+                                    {{if .Enable}}
+                                    <div class="badge badge-pill badge-success">启用</div>
+                                    {{else}}
+                                        <div class="badge badge-pill badge-secondary">未启用</div>
+                                    {{end}}
+
+                                    {{if .Isforce}}
+                                        <div class="badge badge-pill badge-danger">强制</div>
+                                    {{end}}
+                                </td>
+                                <td>
+                                    <a href="/admin/tagcate/new.html?id={{.ID}}"  class="btn tag_cate_delete text-success" role="btn"><i class="icon-plus"></i></a>
+                                    <a href="/admin/tagcate/edit.html?id={{.ID}}" class="btn tag_cate_delete text-warning" role="btn"><i class="icon-pencil"></i></a>
+                                    <a class="btn tag_cate_delete text-danger" role="btn"><i class="icon-remove"></i></a>
+                                </td>
+                            </tr>
+                                {{$DefaultTagID := .DefaultTagID}}
+                                {{range .Tags}}
+                                <tr>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp; + {{.Name}}</td>
+                                    <td>{{.Rank}}</td>
+                                    <td>
+                                        <div class="badge badge-pill badge-{{.Style}}">{{.Style}}</div>
+                                    </td>
+                                    <td>
+                                        {{if .Enable}}
+                                            <div class="badge badge-pill badge-success">启用</div>
+                                        {{else}}
+                                            <div class="badge badge-pill badge-secondary">未启用</div>
+                                        {{end}}
+
+                                        {{if eq $DefaultTagID .ID}}
+                                            <div class="badge badge-pill badge-primary">默认</div>
+                                        {{end}}
+                                    </td>
+                                    <td>
+                                        <a href="/admin/tag/new.html?id={{.ID}}" class="btn tag_cate_delete text-success" role="btn"><i class="icon-plus"></i></a>
+                                        <a href="/admin/tag/edit.html?id={{.ID}}" class="btn tag_cate_delete text-warning" role="btn"><i class="icon-pencil"></i></a>
+                                        <a class="btn tag_cate_delete text-danger" role="btn"><i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                {{end}}
+                            {{end}}
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</main>
+
+
+<script>
+    var jform = $("#form");
+    var jsubmit = $("#submit");
+    jsubmit.on('click', function(){
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serialize();
+        console.log(postdata);
+        return;
+        $.xpost(jform.attr('action'), postdata, function(code, message) {
+            if(code == 0) {
+                $.alert(message);
+                jsubmit.text(message).delay(3000).button('reset');
+                return;
+            } else {
+                $.alert(message);
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+
+
+
+    var jaccesslist = $('#accesslist_div');
+
+    // toggle
+    jform.find('input[name="accesson"]').on('click', function() {
+        //jaccesslist.collapse('toggle'); bootstrap toggler have bug
+        jaccesslist.toggle('fast');
+        return true;
+    });
+
+    // 全选
+    jaccesslist.find('tr').each(function(k, v) {
+        var jtr = $(v);
+        jtr.find('td').eq(0).find('input[type="checkbox"]').on('click', function() {
+            jtr.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+        });
+    });
+
+    $('#nav li.nav-item-tag').addClass('active');
+</script>
+
+
+{{ template "layout/adminfooter" .}}

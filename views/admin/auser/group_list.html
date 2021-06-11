@@ -1,12 +1,6 @@
 {{ template "layout/adminheader" .}}
 <main id="body">
     <div class="container">
-
-
-
-
-
-
         <div class="row">
             <div class="col-12">
                 <div class="btn-group mb-3" role="group">
@@ -43,102 +37,6 @@
                                         <td><a class="btn row_edit" role="btn">删除</a></td>
                                     </tr>
                                     {{end}}
-                                    {{/*<tr align="center" rowid="1">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[1]" value="1" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[1]" value="管理员组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[1]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[1]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="2">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[2]" value="2" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[2]" value="超级版主组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[2]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[2]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="4">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[4]" value="4" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[4]" value="版主组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[4]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[4]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="5">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[5]" value="5" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[5]" value="实习版主组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[5]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[5]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="6">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[6]" value="6" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[6]" value="待验证用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[6]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[6]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="7">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[7]" value="7" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[7]" value="禁止用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[7]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[7]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="101">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[101]" value="101" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[101]" value="一级用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[101]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[101]" value="50" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr align="center" rowid="102">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[102]" value="102" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[102]" value="二级用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[102]" value="50" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[102]" value="200" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td><a class="btn row_delete" role="btn">删除</a></td>
-                                    </tr>
-                                    <tr align="center" rowid="103">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[103]" value="103" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[103]" value="三级用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[103]" value="200" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[103]" value="1000" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td><a class="btn row_delete" role="btn">删除</a></td>
-                                    </tr>
-                                    <tr align="center" rowid="104">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[104]" value="104" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[104]" value="四级用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[104]" value="1000" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[104]" value="10000" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td><a class="btn row_delete" role="btn">删除</a></td>
-                                    </tr>
-                                    <tr align="center" rowid="105">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[105]" value="105" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[105]" value="五级用户组" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[105]" value="10000" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[105]" value="10000000" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td><a class="btn row_delete" role="btn">删除</a></td>
-                                    </tr>
-                                    <tr align="center" rowid="108">
-                                        <td class="50"><input type="text" class="form-control" name="_gid[108]" value="108" placeholder="用户组ID"></td>
-                                        <td><input type="text" class="form-control" name="name[108]" value="测试用户" placeholder="用户组名"></td>
-                                        <td><input type="text" class="form-control" name="creditsfrom[108]" value="0" placeholder="起始积分"></td>
-                                        <td><input type="text" class="form-control" name="creditsto[108]" value="0" placeholder="结束积分"></td>
-                                        <td><a class="btn row_edit" role="btn">编辑</a></td>
-                                        <td><a class="btn row_delete" role="btn">删除</a></td>
-                                    </tr>*/}}
                                     </tbody>
                                 </table>
                             </div>
@@ -153,11 +51,6 @@
             </div>
         </div>
 
-
-
-
-
-
     </div>
 </main>>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

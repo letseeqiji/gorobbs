@@ -1,0 +1,20 @@
+{{ define "layout/addnewthread" }}
+<a id="addnewthread" role="button" class="btn btn-primary btn-block mb-3" href="#">发新帖</a>
+<script>
+    var jnewthread = $("#addnewthread")
+
+    jnewthread.on("click", function () {
+        if (!{{.islogin}}) {
+            $.alert("请先登录")
+            return
+        }
+
+        if ({{.islogin}} && {{.sessions.EmailChecked}} == "0") {
+            $.alert("您的邮箱还没有验证，无法发帖")
+            return
+        }
+
+        location.href="/newthread.html"
+    })
+</script>
+{{end}}

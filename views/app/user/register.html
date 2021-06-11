@@ -1,66 +1,71 @@
 {{ template "layout/header" .}}
 
-
-    <main id="body">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto">
-                    <div class="card">
-                        <div class="card-header">
-                            用户注册
-                        </div>
-                        <div class="card-body">
-                            <form action="/api/v1/register" method="post" id="form">
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
-                                    </div>
-                                    <input type="email" class="form-control" placeholder="Email" name="email" id="email" required="">
-                                </div>
-                                <div class="form-group input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="用户名" name="username" id="username">
-                                </div>
-                                <div class="media">
-                                    <div class="media-body">
-                                        <div class="form-group input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
-                                            </div>
-                                            <input type="password" class="form-control" placeholder="密码" name="password" id="password">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-block" id="registersubmit" data-loading-text="正在提交...">下一步</button>
-                                </div>
-                                <div class="media">
-                                    <div>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <a href="/login.html" class="text-muted"><small>用户登录</small></a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        用户注册
                     </div>
+                    <div class="card-body">
+                        <form action="/api/v1/register" method="post" id="form">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Email" name="email" id="email"
+                                    required="">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon icon-user icon-fw"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="用户名" name="username" id="username">
+                            </div>
+                            <div class="media">
+                                <div class="media-body">
+                                    <div class="form-group input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon icon-lock icon-fw"></i></span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="密码" name="password"
+                                            id="password">
+                                    </div>
+                                </div>
+                            </div>
+                            {{ template "layout/captcha" .}}
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-block" id="registersubmit"
+                                    data-loading-text="正在提交...">下一步</button>
+                            </div>
+                            <div class="media">
+                                <div>
+                                </div>
+                                <div class="media-body text-right">
+                                    <a href="/login.html" class="text-muted"><small>用户登录</small></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 <script>
     var jform = $('#form');
     var jsubmit = $('#registersubmit');
 
     var referer = './';
-    jsubmit.on('click', function() {
+    jsubmit.on('click', function () {
         var jusername = $('#username').val();
         var jemail = $('#email').val();
         var jpassword = $('#password').val();
         var isused = 0
+
 
         //各种判断
         if (!xn.is_email(jemail)) {
@@ -70,13 +75,13 @@
             $.ajax({
                 url: "/api/v1/checkemail",
                 data: {
-                    "email":jemail
+                    "email": jemail
                 },
                 type: "GET",
-                async:false,
+                async: false,
                 /*    contentType: false,
                     processData:false,*/
-                success: function(res) {
+                success: function (res) {
                     //成功
                     console.log(res.data.is_used)
                     used = res.data.is_used
@@ -102,14 +107,21 @@
             $.alert("用户名只能包5-17位的字母数字下划线必须以字母开头")
             return
         } else {
+            reg = /admin|guest|gorobbs|root/gi
+            matchResult = jusername.match(reg)
+            if (matchResult) {
+                $.alert("包含非法的用户名字符")
+                return
+            }
+
             $.ajax({
                 url: "/api/v1/checkname",
                 data: {
-                    "username":jusername
+                    "username": jusername
                 },
                 type: "GET",
-                async:false,
-                success: function(res) {
+                async: false,
+                success: function (res) {
                     //成功
                     console.log(res.data.is_used)
                     used = res.data.is_used
@@ -128,7 +140,6 @@
         }
 
 
-
         // 验证用户密码
         reg = /^(?![A-Za-z]+$)(?![A-Z\d]+$)(?![A-Z\W]+$)(?![a-z\d]+$)(?![a-z\W]+$)(?![\d\W]+$)\S{8,}$/
         matchResult = jpassword.match(reg)
@@ -137,15 +148,31 @@
             return
         }
 
+        // 验证验证码
+        var captcha = getCaptcha()
+        var captchaKey = getCaptchaKey()
+        captchaPass = virefyCaptcha(captcha, captchaKey)
+        if (captcha.length == 0) {
+            $.alert("验证码不能为空")
+            return
+        } else {
+            if (captchaPass != 200) {
+                $.alert("验证码错误")
+                refreshCaptcha()
+                return
+            }
+        }
+
 
         jform.reset();
         jsubmit.button('loading');
         var postdata = jform.serializeObject();
         // postdata.password = $.md5(postdata.password);
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
+        $.xpost(jform.attr('action'), postdata, function (code, message) {
             if (code == 200) {
-                $.alert("注册成功,2秒后跳转到登录窗口")
-                jsubmit.button(message).delay(1000).location("/login.html");
+                sessionStorage.setItem("user_reg_email", jemail)
+                // $.alert("注册成功,2秒后跳转到登录窗口")
+                jsubmit.button(message).delay(1000).location("/register/email.html");
             } else {
                 jform.find('[name="' + code + '"]').alert(message).focus();
                 jsubmit.button('reset');

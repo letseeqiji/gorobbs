@@ -1,0 +1,169 @@
+{{ template "layout/adminheader" .}}
+
+
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div action="/api/v1/search" id="form">
+
+                            <h4 class="card-title">帖子管理</h4>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <fieldset class="form-group">
+                                        <label for="fid">类型：</label>
+                                        <select class="form-control" name="type" id="type">
+                                            <option value="1">主题</option>
+                                            <option value="2">回帖</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-6">
+                                    <fieldset class="form-group">
+                                        <label for="fid">状态：</label>
+                                        <select class="form-control" name="status" id="status">
+                                            <option value="0">待审核</option>
+                                            <option value="2">已关闭</option>
+                                            <option value="1">已展示</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                    <button type="button" id="search" class="btn btn-primary" data-loading-text="正在搜索... ">搜索</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link " href="./">
+                                    主题列表
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <ul id="threadlist" class="list-unstyled threadlist mb-0">
+                            {{range .threads}}
+
+                            <li class="media thread tap  " data-href="/thread/{{.ID}}/detail.html" data-tid="2">
+                                <a href="/thread/{{.ID}}/detail.html" tabindex="-1" class="ml-1 mt-1 mr-3">
+                                    <img class="avatar-3" src="{{.User.Avatar}}">
+                                </a>
+                                <div class="media-body">
+                                    <div class="subject break-all">
+                                        <a href="/thread/{{.ID}}/detail.html">{{.Subject}}</a>
+                                    </div>
+                                    <div class="d-flex justify-content-between small mt-1">
+                                        <div>
+                                            <span class="username text-grey mr-1  hidden-sm" uid="2134">{{.User.Username}}</span>
+                                            <span class="date text-grey hidden-sm">{{.CreatedAt}}</span>
+                                        </div>
+                                        <div class="text-muted small">
+                                            <span class="ml-2"><i class="icon-eye"></i> {{.ViewsCnt}}</span>
+                                            <span class="ml-2"><i class="icon-comment-o"></i> {{.PostsCnt}}</span>
+
+                                            {{if eq .Audited 0}}
+                                                <span class="ml-2"><a onclick="audited(this, {{.ID}}, 1)" href="#" class="btn btn-primary btn-sm">通过</a></span>
+                                                <span class="ml-2"><a onclick="audited(this, {{.ID}}, 2)" href="#" class="btn btn-danger  btn-sm">拒绝</a></span>
+                                            {{end}}
+
+                                            {{if eq .Audited 1}}
+                                                <span class="ml-2"><a onclick="close(this, {{.ID}})"  href="#" class="btn btn-primary btn-sm">关闭</a></span>
+                                                <span class="ml-2"><a onclick="delet(this, {{.ID}})"  href="#" class="btn btn-danger  btn-sm">删除</a></span>
+                                            {{end}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            {{end}}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-3 hidden-sm hidden-md">
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+
+    var jsubmit = $("#search");
+    jsubmit.on('click', function(){
+        location.href = "/admin/thread/list.html?type=" + $("#type").val() + "&status=" + $("#status").val() + "&token=" + admintoken
+        return false;
+    });
+
+    // 审核
+    function audited(elem, threadid, onoroff) {
+        $.ajax({
+            url:"/api/v1/thread/" + threadid + "/audited?token=" + admintoken,
+            data:{
+                "audited":onoroff,
+            },
+            method:"post",
+            success:function (res) {
+                if (res.code == 200) {
+                    $(elem).parent().parent().parent().parent().parent().remove()
+                } else {
+                    $.alert(res.message)
+                }
+            }
+        })
+    }
+
+    // 删除
+    function delet(elem, threadid) {
+        $.ajax({
+            url:"/api/v1/thread/" + threadid + "/delete?token=" + admintoken,
+            data:{
+                "tidarr":threadid,
+            },
+            method:"post",
+            success:function (res) {
+                if (res.code == 200) {
+                    $(elem).parent().parent().parent().parent().parent().remove()
+                } else {
+                    $.alert(res.message)
+                }
+            }
+        })
+    }
+
+    // 关闭
+    function close(elem, threadid) {
+        $.ajax({
+            url:"/api/v1/thread/" + threadid + "/close?token=" + admintoken,
+            data:{
+                "threadid":threadid,
+            },
+            method:"post",
+            success:function (res) {
+                if (res.code == 200) {
+                    $(elem).parent().parent().parent().parent().parent().remove()
+                } else {
+                    $.alert(res.message)
+                }
+            }
+        })
+    }
+
+    $('#nav li.nav-item-thread').addClass('active');
+</script>
+
+{{ template "layout/adminfooter" .}}
