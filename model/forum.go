@@ -9,15 +9,21 @@ type Forum struct {
 	ThreadsCnt      int    `gorm:"default:0" json:"threads_cnt"`      //主题数
 	TodaypostsCnt   int    `gorm:"default:0" json:"todayposts_cnt"`   //今日发帖，计划任务每日凌晨０点清空为０
 	TodaythreadsCnt int    `gorm:"default:0" json:"todaythreads_cnt"` //今日发主题，计划任务每日凌晨０点清空为０
-	Brief           string `json:"brief"`           //版块简介 允许HTML
-	Announcement    string `json:"announcement"`    //版块公告 允许HTML
+	Brief           string `json:"brief"`                             //版块简介 允许HTML
+	Announcement    string `json:"announcement"`                      //版块公告 允许HTML
 	Accesson        int    `gorm:"default:0" json:"accesson"`         //是否开启权限控制
 	Orderby         int    `gorm:"default:0" json:"orderby"`          //默认列表排序，0: 顶贴时间 last_date， 1: 发帖时间 tid
 	Icon            string `gorm:"default:''" json:"icon"`            //板块是否有 icon，存放最后更新时间
 	Moduids         string `gorm:"default:''" json:"moduids"`         //每个版块有多个版主，最多10个： 10*12 = 120，删除用户的时候，如果是版主，则调整后再删除。逗号分隔
 	SeoTitle        string `gorm:"default:''" json:"seo_title"`       //SEO 标题，如果设置会代替版块名称
-	SeoKeywords     string `gorm:"default:''" json:"seo_keywords"`    //
-	DigestsNum      int    `gorm:"default:0" json:"digests_num"`      //
+	SeoKeywords     string `gorm:"default:''" json:"seo_keywords"`    
+	DigestsNum      int    `gorm:"default:0" json:"digests_num"`      
+}
+
+// 构建forum 模型
+func NewForum(name, brief string) *Forum {
+	forum := &Forum{}
+	return forum
 }
 
 // 给定条件 获取指定的forum
@@ -65,9 +71,9 @@ func AddForum(forumIcon string, forumName string, forumRank int) (forum *Forum, 
 
 	// 入库
 	err = db.Create(&Forum{
-		Name: forumName,
-		Rank: forumRank,
-		Icon: forumIcon,
+		Name:  forumName,
+		Rank:  forumRank,
+		Icon:  forumIcon,
 		Brief: "",
 	}).Error
 
@@ -98,7 +104,19 @@ type Results struct {
 }
 
 // 统计一共有多少个threads = forum中的threanum之和
-func SumAllForumThreads() (threadsCount Results, err error)  {
+func SumAllForumThreads() (threadsCount Results, err error) {
 	err = db.Model(&Forum{}).Select("sum(threads_cnt) as threadsNum").Scan(&threadsCount).Error
+	return
+}
+
+// 删除forum
+func DelForumByID(id int) (err error) {
+	err = db.Unscoped().Where("id = (?)", id).Delete(&Forum{}).Error
+	return
+}
+
+// 修改--总方法
+func UpdateForum(whereMap map[string]interface{}, items map[string]interface{}) (err error) {
+	err = db.Model(&Forum{}).Where(whereMap).Update(items).Error
 	return
 }

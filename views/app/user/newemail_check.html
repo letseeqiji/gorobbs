@@ -32,15 +32,16 @@
 
 <script>
     var jsubmit = $('#emailcheck');
-    var userEmail = {{.userinfo.Email}}
-        console.log(userEmail)
+    var userEmail = sessionStorage.getItem("user_reg_email")
 
     var userEmailSendTime = sessionStorage.getItem(userEmail+"reg_send_email_time")
     var nowTime = $.now()
 
     if (userEmailSendTime) {
         var difftime = parseInt(userEmailSendTime) + 5*60*1000 - nowTime
-        if (difftime <= 5*60*1000 ) {
+        console.log(difftime)
+        if (difftime >= 0 ) {
+            console.log(Math.ceil(difftime/60000))
             jsubmit.attr("disabled", "disabled").html(Math.ceil(difftime/60000)+"分钟后可以重新发送")
             setTimeout(function () {
                 jsubmit.button('reset');
@@ -48,15 +49,6 @@
                 sessionStorage.removeItem(userEmail+"reg_send_email_time")
             },difftime)
         }
-    }
-
-    if (sessionStorage.getItem(userEmail+"reg_send_email_time")) {
-        jsubmit.attr("disabled", "disabled").html("5分钟后可以重新发送")
-        setTimeout(function () {
-            jsubmit.button('reset');
-            jsubmit.html("重新验证")
-            sessionStorage.removeItem(userEmail+"reg_send_email_time")
-        },3*60*1000)
     }
 
     jsubmit.on('click', function() {

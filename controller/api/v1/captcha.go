@@ -1,11 +1,11 @@
 package v1
 
 import (
+	"gorobbs/package/app"
 	"gorobbs/package/rcode"
 	"gorobbs/package/validator"
 	captcha_service "gorobbs/service/v1/captcha"
 	"gorobbs/util"
-	"net/http"
 	"strconv"
 
 	"github.com/astaxie/beego/validation"
@@ -22,11 +22,7 @@ func GetCapacha(c *gin.Context) {
 	data["cap_key"] = cap_key
 	data["captcha_base64"] = captcha_base64
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"message":  rcode.GetMessage(code),
-		"data": data,
-	})
+	app.JsonOkResponse(c, code, data)
 }
 
 func VerfiyCaptcha(c *gin.Context) {
@@ -48,9 +44,5 @@ func VerfiyCaptcha(c *gin.Context) {
 		code = rcode.UNPASS
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"message":  rcode.GetMessage(code),
-		"data": data,
-	})
+	app.JsonOkResponse(c, code, data)
 }

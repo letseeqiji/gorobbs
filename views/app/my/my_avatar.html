@@ -15,9 +15,12 @@
                         <br>zhang
                     </div>
                     <div class="list-group list-group-flush text-center">
-                        <a href="/my.html" class="list-group-item list-group-item-action active" data-active="menu-my">个人资料</a>
-                        <a href="/my_thread.html" class="list-group-item list-group-item-action" data-active="menu-my-thread">论坛帖子</a>
-                        <a href="?my-notice.htm" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                        <a href="/my.html" class="list-group-item list-group-item-action active"
+                            data-active="menu-my">个人资料</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action"
+                            data-active="menu-my-thread">论坛帖子</a>
+                        <a href="?my-notice.htm" class="list-group-item list-group-item-action"
+                            data-active="menu-my-notice">消息</a>
                     </div>
                 </div>
             </div>
@@ -48,14 +51,19 @@
                             <div class="form-group text-center">
                                 <img id="avatar_img" class="logo-4" src="{{.sessions.Useravatar}}">
                             </div>
-                            <form id="form" action="/api/v1/user/{{.sessions.Userid}}/avatar/reset" enctype="multipart/form-data">
-                            <div class="form-group custom-file">
-                                <input type="file" name="avatar" id="avatar_upload" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp" class="upload custom-file-input" value="头像">
-                                <label class="custom-file-label" for="customFile">选择文件</label>
-                            </div>
+                            <form id="form" action="/api/v1/user/{{.sessions.Userid}}/avatar/reset"
+                                enctype="multipart/form-data">
+                                <div class="form-group custom-file">
+                                    <input type="file" name="avatar" id="avatar_upload"
+                                        accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"
+                                        class="upload custom-file-input" value="头像">
+                                    <label class="custom-file-label" for="customFile">选择文件</label>
+                                </div>
                             </form>
                             <div class="progress mt-2">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%; display: none;" id="avatar_progress"></div>
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                    style="width: 0%; display: none;" id="avatar_progress"></div>
                             </div>
                         </div>
                     </div>
@@ -79,14 +87,14 @@
             data: fd,
             type: "POST",
             contentType: false,
-            processData:false,
-            success: function(res) {
+            processData: false,
+            success: function (res) {
                 //成功
                 console.log(res)
                 // return
                 if (res.code == 200) {
                     $.alert("修改成功")
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.reload()
                     }, 5000)
                 } else {

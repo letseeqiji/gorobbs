@@ -1,0 +1,114 @@
+{{ template "layout/header" .}}
+
+{{/*获取的参数:{{.fid}}
+<br>
+第几页:{{.page}}--{{.sessions.Userid}}
+<br>
+登录用户:{{.sessions.Username}}
+<br>
+是管理员身份:{{.sessions}}
+<br>
+{{.foruminfoxx}}---*/}}
+
+
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div action="/api/v1/search" id="form">
+
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="关键词" name="keyword"
+                                    value="{{.keyword}}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="submit">搜索</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="range" value="1" checked=""> 主题贴
+                                </label>
+
+                                <label class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="range" value="0"> 所有贴
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link " href="./">
+                                    主题列表
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <ul id="threadlist" class="list-unstyled threadlist mb-0">
+                            {{range .threads}}
+                            <li class="media thread tap  " data-href="/thread/{{.ID}}/detail.html" data-tid="{{.ID}}">
+                                <a href="/thread/{{.ID}}/detail.html" tabindex="-1" class="ml-1 mt-1 mr-3">
+                                    <img class="avatar-3" src="{{.User.Avatar}}">
+                                </a>
+                                <div class="media-body">
+                                    <div class="subject break-all">
+                                        <a href="/thread/{{.ID}}/detail.html">{{.Subject}}</a>
+                                    </div>
+                                    <div class="d-flex justify-content-between small mt-1">
+                                        <div>
+                                            <span class="username text-grey mr-1  hidden-sm"
+                                                uid="2134">{{.User.Username}}</span>
+                                            <span class="date text-grey hidden-sm">{{.CreatedAt.Unix | strtime}}</span>
+                                        </div>
+                                        <div class="text-muted small">
+                                            <span class="ml-2"><i class="icon-eye"></i> {{.ViewsCnt}}</span>
+                                            <span class="ml-2"><i class="icon-comment-o"></i> {{.PostsCnt}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {{end}}
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-3 hidden-sm hidden-md">
+                <!--
+                <div class="card card-body">
+                    <h4 class="card-title">筛选条件</h4>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var jform = $('#form');
+    var jsubmit = $('#submit');
+
+    jsubmit.on("click", function () {
+        var search_word = sessionStorage.getItem("search_word")
+        var jkeyword = jform.find('input[name="keyword"]').val();
+
+        console.log(search_word, jkeyword)
+        if (search_word == jkeyword) {
+            return
+        }
+
+        sessionStorage.setItem("search_word", jkeyword)
+        location.href = "/search.html?key=" + jkeyword
+    })
+</script>
+
+{{ template "layout/footer" .}}

@@ -1,5 +1,5 @@
 /*
-Navicat MySQL Data Transfer
+Navicat MySQL Data Transfer  1.0.4
 
 Source Server         : myaliyun-xg
 Source Server Version : 80015
@@ -454,6 +454,7 @@ CREATE TABLE `bbs_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户编号',
   `group_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '用户组编号',
   `email` char(40) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `email_checked` tinyint(3) NOT NULL DEFAULT 0, 
   `username` char(32) NOT NULL DEFAULT '' COMMENT '用户名',
   `realname` char(16) NOT NULL DEFAULT '' COMMENT '用户名',
   `id_number` char(19) NOT NULL DEFAULT '' COMMENT '用户名',
@@ -489,4 +490,51 @@ CREATE TABLE `bbs_user` (
 -- ----------------------------
 -- Records of bbs_user
 -- ----------------------------
-INSERT INTO `bbs_user` VALUES ('1', '1', '123@163.com', 'admin', '', '', '$2a$10$srByRaajc0UF/E6txOi8eejZA.zNHTBEgdA8gJG6vriyEDF55GfQC', '', '', '', '3', '4', '10013', '0', '0', '0', '0', '0', '2019-08-13 10:24:41', '0', '/upload/avatar/1/20190813/OyBnfB2vlk.png', null, '2019-07-26 14:38:42', '2019-08-14 03:49:36', null, '0', '0', '0');
+INSERT INTO `bbs_user` (`id`, `group_id`, `email`, `username`, `realname`, `id_number`, `password`, `password_sms`, `phone`, `qq`, `threads_cnt`, `posts_cnt`, `credits_num`, `golds_num`, `rmbs_num`, `create_ip`, `create_date`, `login_ip`, `login_date`, `logins_cnt`, `avatar`, `digests_num`, `created_at`, `updated_at`, `deleted_at`, `digests_cnt`, `state`, `favourite_cnt`, `email_checked`) VALUES ('25', '1', 'admin@local.com', 'admin', '', '', '$2a$10$zzjAmJrsR0hk8UBbL9P3OOTLBBNEjtME1G5s3Vl2./.TwHrroDwkm', '', '', '', '0', '0', '0', '0', '0', '0', '0', '0', '2019-08-21 13:49:12', '0', '/static/img/avatar.png', NULL, '2019-08-21 13:49:12', '2019-08-21 13:49:12', NULL, '0', '0', '0', '1');
+
+CREATE TABLE `bbs_tag_cate` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` char(32) NOT NULL DEFAULT '',
+  `rank` int(11) unsigned NOT NULL DEFAULT '0',
+  `enable` int(11) unsigned NOT NULL DEFAULT '0',
+  `default_tag_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '默认值,如果没有，设为全部',
+  `isforce` int(11) unsigned NOT NULL DEFAULT '0',
+  `style` char(32) NOT NULL DEFAULT '',
+  `comment` varchar(500) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `bbs_tag` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_cate_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'cate所属分类',
+  `name` char(32) NOT NULL DEFAULT '',
+  `rank` int(11) unsigned NOT NULL DEFAULT '0',
+  `enable` int(11) unsigned NOT NULL DEFAULT '0',
+  `style` char(32) NOT NULL DEFAULT '',
+  `comment` varchar(500) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `cate_id` (`tag_cate_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `bbs_tag_forum` (
+  `tag_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `forum_id` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tag_id`,`forum_id`),
+  KEY `tag_id` (`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='forum分类启用的tag';
+
+CREATE TABLE `bbs_user_banned` (
+  `user_id` int(11) NOT NULL,
+  `from_date` timestamp NULL DEFAULT NULL,
+  `to_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `bbs_ip_banned` (
+  `ip` varchar(20) NOT NULL,
+  `from_date` timestamp NULL DEFAULT NULL,
+  `to_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ip`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

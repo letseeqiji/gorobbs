@@ -56,7 +56,10 @@
                                         <td>{{if eq .GroupID 0}}游客组{{else}}{{.Group.Name}}{{end}}</td>
                                         <td>{{.CreatedAt.Format "2006/01/02  15:04:05"}}</td>
                                         <td><a href="#" target="_blank">{{.CreateIp | strip}}</a></td>
-                                        <td><a href="/admin/user/{{.ID}}/update.html">编辑</a></td>
+                                        <td>
+                                            <a href="/admin/user/edit.html?id={{.ID}}">编辑</a>
+                                            <a href="/admin/user/edit.html?id={{.ID}}">禁言</a>
+                                        </td>
                                     </tr>
                                 {{end}}
                                 </tbody>
@@ -73,4 +76,5 @@
         </div>
     </div>
 </main>
-{{ template "layout/footer" }}
+
+{{ template "layout/adminfooter" .}}

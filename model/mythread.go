@@ -35,3 +35,9 @@ func AddMyThread(userID int, threadID int) (myThread *Mythread, err error) {
 
 	return
 }
+
+// 删除
+func DelMyThreadsOfThread(tids []string) (err error) {
+	err = db.Unscoped().Where("thread_id in (?)", tids).Delete(&Mythread{}).Error
+	return
+}

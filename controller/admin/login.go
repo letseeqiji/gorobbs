@@ -13,7 +13,7 @@ import (
 
 func AdminLogin(c *gin.Context) {
 	sessions := user.GetSessions(c)
-	c.HTML(200, "rlogin.html", gin.H{"sessions":sessions})
+	c.HTML(200, "rlogin.html", gin.H{"sessions": sessions})
 }
 
 func AdminLoginCheck(c *gin.Context) {

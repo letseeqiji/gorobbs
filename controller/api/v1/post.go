@@ -2,17 +2,19 @@ package v1
 
 import (
 	"gorobbs/model"
+	"gorobbs/package/app"
 	"gorobbs/package/logging"
 	"gorobbs/package/rcode"
 	"gorobbs/package/session"
 	post_service "gorobbs/service/v1/post"
-	"net/http"
+	"gorobbs/util"
 	"os"
 	"strconv"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	file_package "gorobbs/package/file"
+
+	"github.com/gin-gonic/gin"
 )
 
 func AddPost(c *gin.Context) {
@@ -24,8 +26,11 @@ func AddPost(c *gin.Context) {
 	tid, _ := strconv.Atoi(c.DefaultPostForm("threadid", "1"))
 	docutype, _ := strconv.Atoi(c.DefaultPostForm("doctuype", "0"))
 	message := c.DefaultPostForm("message", "")
+	// 防止xss攻击
+	message = util.XssPolice(message)
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
+	code := rcode.SUCCESS
 
 	attachFileString := c.PostForm("attachfiles")
 	attachfiles := []string{}
@@ -36,24 +41,21 @@ func AddPost(c *gin.Context) {
 	}
 
 	post := &model.Post{
-		ThreadID: tid,
-		UserID:   uid,
-		Isfirst:  0,
-		Userip:   uip,
-		Doctype:  docutype,
-		Message:  message,
-		MessageFmt:message,
-		FilesNum: filesNum,
+		ThreadID:   tid,
+		UserID:     uid,
+		Isfirst:    0,
+		Userip:     uip,
+		Doctype:    docutype,
+		Message:    message,
+		MessageFmt: message,
+		FilesNum:   filesNum,
 	}
-	code := rcode.SUCCESS
+
 	newPost, err := model.AddPost(post)
 	if err != nil {
-		logging.Info("回复帖子入库错误",err.Error())
-		code = rcode.ERROR
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": code,
-			"msg":  rcode.GetMessage(code),
-		})
+		logging.Info("回复帖子入库错误", err.Error())
+		code = rcode.ERROR_SQL_INSERT_FAIL
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -85,11 +87,7 @@ func AddPost(c *gin.Context) {
 	// 评论后数据统计
 	post_service.AfterAddNewPost(newPost, tid)
 
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "ok",
-	})
-
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 更新评论内容
@@ -101,21 +99,18 @@ func UpdatePost(c *gin.Context) {
 	reason := c.DefaultPostForm("update_reason", "")
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 	uip := c.ClientIP()
+	code := rcode.SUCCESS
 
 	// 找thread
 	oldPost, err := model.GetPostById(post_id)
 	if err != nil {
-		c.JSON(200, gin.H{
-			"code":    500,
-			"message": err.Error(),
-		})
+		code = rcode.ERROR_UNFIND_DATA
+		app.JsonErrResponse(c, code)
 		return
 	}
 	if oldPost.UserID != uid {
-		c.JSON(200, gin.H{
-			"code":    403,
-			"message": "这不是你的帖子，无权操作",
-		})
+		code = rcode.UNPASS
+		app.JsonErrResponse(c, code)
 		return
 	}
 
@@ -127,22 +122,19 @@ func UpdatePost(c *gin.Context) {
 	model.UpdatePost(post_id, post)
 
 	postUplog := &model.PostUpdateLog{
-		PostID:post_id,
-		UserID:uid,
-		Reason:reason,
-		Message:message,
-		OldMessage:oldPost.Message,
+		PostID:     post_id,
+		UserID:     uid,
+		Reason:     reason,
+		Message:    message,
+		OldMessage: oldPost.Message,
 	}
 	model.AddPostUpdateLog(postUplog)
 
-	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "更新成功",
-	})
+	app.JsonOkResponse(c, code, nil)
 }
 
 // 帖子点赞--取消点赞
-func LikePost(c *gin.Context)  {
+func LikePost(c *gin.Context) {
 	/**
 	根据用户id和postid查询是否已经点过赞，
 		如果没点赞
@@ -150,13 +142,13 @@ func LikePost(c *gin.Context)  {
 		如果已经点过赞
 			post-likescnt-1 postlike删除数据[uid,postid]
 		返回当前的操作是点赞还是取消点赞，post的likecnt
-	 */
+	*/
 	postId, _ := strconv.Atoi(c.DefaultPostForm("postid", "0"))
 	uid, _ := strconv.Atoi(session.GetSession(c, "userid"))
 
 	postInfo, err := model.GetPostById(postId)
 	if err != nil {
-		c.JSON(404, gin.H{"code":404, "message":err.Error()})
+		c.JSON(404, gin.H{"code": 404, "message": err.Error()})
 		return
 	}
 
@@ -170,20 +162,20 @@ func LikePost(c *gin.Context)  {
 		model.AddPostlike(uid, postId)
 		model.UpdatePostLikesNum(postId, postInfo.LikesCnt+1)
 		action = 1
-		likesCnt ++
+		likesCnt++
 	} else {
 		model.DelPostlike(uid, postId)
 		if postInfo.LikesCnt > 0 {
 			model.UpdateThreadFavouriteCnt(postId, postInfo.LikesCnt-1)
 		}
 		action = 0
-		likesCnt --
+		likesCnt--
 	}
 
 	c.JSON(200, gin.H{
-		"code":    200,
-		"message": "ok",
-		"action" : action,
-		"likes_cnt" : likesCnt,
+		"code":      200,
+		"message":   "ok",
+		"action":    action,
+		"likes_cnt": likesCnt,
 	})
 }

@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	tag_service "gorobbs/service/v1/tag"
 )
 
 // 分类模块页面
@@ -25,7 +26,7 @@ func Forums(c *gin.Context) {
 
 	fid, _ := strconv.Atoi(c.Param("id"))
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-
+	// 获取 thread 列表---需要优化
 	threadList, _ := forum.GetThreadListByForumID(fid, page)
 	threadTotle := forum.GetThreadTotleByForumID(fid)
 	forumTopThreadList, _ := model.GetTopThreadsForum(fid)
@@ -38,6 +39,9 @@ func Forums(c *gin.Context) {
 	description := setting.ServerSetting.Sitebrief
 	forumname := forumInfo.Name
 
+	//
+	tags, _ := tag_service.GetTagForumsByForumID(fid)
+
 	c.HTML(
 		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
@@ -45,18 +49,19 @@ func Forums(c *gin.Context) {
 		"forumslist.html",
 		// Pass the data that the page uses
 		gin.H{
-			"threadList": threadList,
+			"threadList":            threadList,
 			"forum_top_thread_list": forumTopThreadList,
-			"forums":     forums,
-			"fid":        fid,
-			"islogin":    islogin,
-			"sessions":   sessions,
-			"pages":pages,
-			"threadtotle":threadTotle,
-			"foruminfoxx":forumInfo,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"forums":                forums,
+			"fid":                   fid,
+			"islogin":               islogin,
+			"sessions":              sessions,
+			"pages":                 pages,
+			"threadtotle":           threadTotle,
+			"foruminfoxx":           forumInfo,
+			"webname":               webname,
+			"description":           description,
+			"forumname":             forumname,
+			"tags":                  tags,
 		},
 	)
 

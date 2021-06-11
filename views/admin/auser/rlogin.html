@@ -28,8 +28,6 @@
     </div>
 </main>
 <script>
-    admintoken = sessionStorage.getItem("admin_token")
-    console.log(admintoken)
     if (admintoken) {
         $.ajax({
             url: "/admin/index.html?token=" + admintoken,
@@ -91,4 +89,4 @@
         return false;
     });
 </script>
-{{ template "layout/footer" }}
+{{ template "layout/adminfooter" .}}

@@ -45,3 +45,9 @@ func CheckFavourite(uid int, tid int) (fav int, err error) {
 	err = db.Model(&MyFavourite{}).Where("user_id = ? and thread_id = ?", uid, tid).Count(&fav).Error
 	return
 }
+
+// 删除
+func DelMyFavouritesOfThread(tids []string) (err error) {
+	err = db.Unscoped().Where("thread_id in (?)", tids).Delete(&MyFavourite{}).Error
+	return
+}

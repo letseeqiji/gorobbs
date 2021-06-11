@@ -9,14 +9,15 @@ import (
 )
 
 type UserSession struct {
-	Username      	string `json:"username"`
-	Userid        	int    `json:"userid"`
-	Useravatar    	string `json:"useravatar"`
-	Useremail     	string `json:"useremail"`
-	EmailChecked	string `json:"email_checked"`
-	Userpostcnt   	int    `json:"userpostcnt"`
-	Userthreadcnt 	int    `json:"userthreadcnt"`
-	Isadmin       	string `json:"isadmin"`
+	Username      string `json:"username"`
+	Userid        int    `json:"userid"`
+	Useravatar    string `json:"useravatar"`
+	Useremail     string `json:"useremail"`
+	EmailChecked  string `json:"email_checked"`
+	Userpostcnt   int    `json:"userpostcnt"`
+	Userthreadcnt int    `json:"userthreadcnt"`
+	Isadmin       string `json:"isadmin"`
+	WechatUnionID string `json:"wechat_union_id"`
 }
 
 // 登录设定必要的session信息
@@ -30,7 +31,18 @@ func LoginSession(c *gin.Context, user model.User, sok chan int) {
 	session.SetSession(c, "userpostcnt", strconv.Itoa(user.PostsCnt))
 	session.SetSession(c, "userthreadcnt", strconv.Itoa(user.ThreadsCnt))
 	session.SetSession(c, "isadmin", IsAdmin(user.GroupID))
+	session.SetSession(c, "wechat_union_id", user.WechatUnionID)
 	sok <- 1
+}
+
+// 绑定微信时设定session
+func SetWechatSession(c *gin.Context, wechatUnionID string) {
+	session.SetSession(c, "wechat_union_id", wechatUnionID)
+}
+
+// 绑定微信时设定session
+func GetWechatSession(c *gin.Context) {
+	session.GetSession(c, "wechat_union_id")
 }
 
 // 获取session中信息
@@ -43,16 +55,18 @@ func GetSessions(c *gin.Context) (sessions *UserSession) {
 	userpostcnt, _ := strconv.Atoi(session.GetSession(c, "userpostcnt"))
 	userthreadcnt, _ := strconv.Atoi(session.GetSession(c, "userthreadcnt"))
 	isadmin := session.GetSession(c, "isadmin")
+	wechatUnionID := session.GetSession(c, "wechat_union_id")
 
 	sessions = &UserSession{
 		Username:      username,
 		Userid:        userid,
 		Useravatar:    useravatar,
 		Useremail:     useremail,
-		EmailChecked: emailchecked,
+		EmailChecked:  emailchecked,
 		Userpostcnt:   userpostcnt,
 		Userthreadcnt: userthreadcnt,
 		Isadmin:       isadmin,
+		WechatUnionID: wechatUnionID,
 	}
 
 	return
@@ -68,6 +82,7 @@ func LogoutSession(c *gin.Context) {
 	session.DeleteSession(c, "userpostcnt")
 	session.DeleteSession(c, "userthreadcnt")
 	session.DeleteSession(c, "isadmin")
+	session.DeleteSession(c, "wechat_union_id")
 }
 
 // 判断是否已经登录

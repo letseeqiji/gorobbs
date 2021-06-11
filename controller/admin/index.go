@@ -1,10 +1,11 @@
 package admin
 
 import (
-	"github.com/gin-gonic/gin"
 	"gorobbs/model"
-	"gorobbs/service/v1/user"
 	package_online "gorobbs/package/online"
+	"gorobbs/service/v1/user"
+
+	"github.com/gin-gonic/gin"
 )
 
 func AdminIndex(c *gin.Context) {
@@ -41,18 +42,17 @@ func AdminIndex(c *gin.Context) {
 	Dev Team: axiuno
 	Thanks For:*/
 
-
 	c.HTML(
 		200,
 		"aindex.html",
 		gin.H{
-			"sessions":sessions,
-			"counts":map[string]interface{}{
-				"threads":threadsNum,
-				"posts":postsNum,
-				"users":usersNum,
-				"attachs":attachsNum,
-				"onlines":onlinePeoples,
+			"sessions": sessions,
+			"counts": map[string]interface{}{
+				"threads": threadsNum,
+				"posts":   postsNum,
+				"users":   usersNum,
+				"attachs": attachsNum,
+				"onlines": onlinePeoples,
 			},
 		})
 }

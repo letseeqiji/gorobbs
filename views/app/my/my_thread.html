@@ -3,7 +3,8 @@
     <div class="container">
         <div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
             <a role="button" class="btn btn-secondary" data-active="menu-my" href="/my.html">个人资料</a>
-            <a role="button" class="btn btn-secondary active" data-active="menu-my-thread" href="/my_thread.html">论坛帖子</a>
+            <a role="button" class="btn btn-secondary active" data-active="menu-my-thread"
+                href="/my_thread.html">论坛帖子</a>
             <a role="button" class="btn btn-secondary" data-active="menu-my-notice" href="?my-notice.htm">消息</a>
         </div>
         <div class="row">
@@ -16,8 +17,10 @@
                     </div>
                     <div class="list-group list-group-flush text-center">
                         <a href="/my.html" class="list-group-item list-group-item-action" data-active="menu-my">个人资料</a>
-                        <a href="/my_thread.html" class="list-group-item list-group-item-action active" data-active="menu-my-thread">论坛帖子</a>
-                        <a href="?my-notice.htm" class="list-group-item list-group-item-action" data-active="menu-my-notice">消息</a>
+                        <a href="/my_thread.html" class="list-group-item list-group-item-action active"
+                            data-active="menu-my-thread">论坛帖子</a>
+                        <a href="?my-notice.htm" class="list-group-item list-group-item-action"
+                            data-active="menu-my-notice">消息</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +60,8 @@
                                             <span style="padding-bottom:0;margin-bottom:0;color:; ">
                                                 <i class="iconfont icon-v1" style="font-size: !important;"></i>
                                             </span>
-                                            <span class="username text-grey mr-1 " uid="{{.User.ID}}">{{.User.Username}}</span>
+                                            <span class="username text-grey mr-1 "
+                                                uid="{{.User.ID}}">{{.User.Username}}</span>
                                             <span class="date text-grey">{{.Thread.CreatedAt.Unix | strtime}}</span>
                                         </div>
                                         <div class="text-muted small">

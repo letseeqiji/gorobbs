@@ -2,12 +2,13 @@ package web
 
 import (
 	layout_service "gorobbs/service/v1/layout"
+
 	"github.com/gin-gonic/gin"
 )
 
 func MoveMod(c *gin.Context) {
 	forums := layout_service.GetForumList()
-	c.HTML(200, "move_mod.html", gin.H{"forums":forums})
+	c.HTML(200, "move_mod.html", gin.H{"forums": forums})
 }
 
 func DeleteMod(c *gin.Context) {

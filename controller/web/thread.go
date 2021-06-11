@@ -5,6 +5,7 @@ import (
 	"gorobbs/package/setting"
 	thread_service "gorobbs/service/v1/thread"
 	"gorobbs/service/v1/user"
+	"gorobbs/util"
 	"html"
 	"net/http"
 	"strconv"
@@ -26,7 +27,7 @@ func Thread(c *gin.Context) {
 
 	// 如果没有找到直接跳404
 	if err != nil {
-		c.HTML(http.StatusNotFound, "404.html" ,gin.H{})
+		c.HTML(http.StatusNotFound, "404.html", gin.H{})
 		return
 	}
 
@@ -34,14 +35,21 @@ func Thread(c *gin.Context) {
 
 	// c.JSON(200, gin.H{"data": html.UnescapeString(fpost.Message), "yd": fpost.Message})
 
-	fpost.MessageFmt = html.UnescapeString(fpost.MessageFmt)
+	fpost.Message = html.UnescapeString(fpost.Message)
+	fpost.Message = util.XssPolice(fpost.Message)
 
 	islogin := user.IsLogin(c)
 	sessions := user.GetSessions(c)
 
-	// 获取平路列表
+	// 获取评论列表
 	postlist, _ := model.GetThreadPostListByTid(threadId, 500, 1)
 	postlistLen := len(postlist)
+	// 防止xss攻击
+	if postlistLen != 0 {
+		for k, _ := range postlist {
+			postlist[k].Message = util.XssPolice(postlist[k].Message)
+		}
+	}
 
 	// 获取附件列表
 	attachs, _ := model.GetAttachsByPostId(int(fpost.ID))
@@ -68,24 +76,24 @@ func Thread(c *gin.Context) {
 		"thread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"thread":  thread,
-			"fpost":   fpost,
-			"islogin": islogin,
-			"sessions": sessions,
-			"postlist":postlist,
-			"post_list_len":postlistLen,
-			"forums":forums,
-			"user_newest_threads":userNewestThreads,
-			"attachs":attachs,
-			"isfav":isfav,
-			"description":description,
-			"forumname":forumname,
+			"thread":              thread,
+			"fpost":               fpost,
+			"islogin":             islogin,
+			"sessions":            sessions,
+			"postlist":            postlist,
+			"post_list_len":       postlistLen,
+			"forums":              forums,
+			"user_newest_threads": userNewestThreads,
+			"attachs":             attachs,
+			"isfav":               isfav,
+			"description":         description,
+			"forumname":           forumname,
 		},
 	)
 }
 
 // ThreadAddPost 高级回复也
-func ThreadAddPost(c *gin.Context)  {
+func ThreadAddPost(c *gin.Context) {
 	threadId, _ := strconv.Atoi(c.Param("id"))
 	sessions := user.GetSessions(c)
 	islogin := user.IsLogin(c)
@@ -99,12 +107,12 @@ func ThreadAddPost(c *gin.Context)  {
 		"advance_post.html",
 		// Pass the data that the page uses
 		gin.H{
-			"sessions": sessions,
-			"islogin": islogin,
-			"forums":forums,
-			"thread_id":  threadId,
-			"description":description,
-			"forumname":forumname,
+			"sessions":    sessions,
+			"islogin":     islogin,
+			"forums":      forums,
+			"thread_id":   threadId,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -128,11 +136,11 @@ func NewThread(c *gin.Context) {
 		"newthread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"forums":  forums,
-			"islogin": islogin,
-			"sessions": sessions,
-			"description":description,
-			"forumname":forumname,
+			"forums":      forums,
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }
@@ -161,15 +169,15 @@ func EditThread(c *gin.Context) {
 		"editthread.html",
 		// Pass the data that the page uses
 		gin.H{
-			"thread":  thread,
-			"fpost":   fpost,
-			"islogin": islogin,
-			"sessions": sessions,
-			"forums":forums,
-			"attachs":attachs,
-			"webname":webname,
-			"description":description,
-			"forumname":forumname,
+			"thread":      thread,
+			"fpost":       fpost,
+			"islogin":     islogin,
+			"sessions":    sessions,
+			"forums":      forums,
+			"attachs":     attachs,
+			"webname":     webname,
+			"description": description,
+			"forumname":   forumname,
 		},
 	)
 }

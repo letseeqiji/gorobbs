@@ -9,20 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 用户中心
-
-//get:user/id/info.html
-//get:user/id/info.html?action=password 1
-//get:user/id/info.html?action=avatar 2
-//get:user/id/info.html?action=username 3
-//get:user/id/info.html?action=email 4
-
-//get:user/id/threads.html 5
-//get:user/id/favorites.html 6
-//get:user/id/digests.html 7
-//get:user/id/posts.html 8
-
-//get:user/id/notice.html 9
 const (
 	MY_INFO = iota
 	MY_PASSWORD
@@ -43,9 +29,9 @@ const (
 )
 
 var (
-	webname string
+	webname     string
 	description string
-	forumname string
+	forumname   string
 )
 
 func init() {
@@ -64,13 +50,13 @@ func MyInfo(c *gin.Context) {
 
 	tpl := "my_info.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"userinfo": userinfo,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"userinfo":    userinfo,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -80,12 +66,12 @@ func MyPassword(c *gin.Context) {
 
 	tpl := "my_password.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -95,12 +81,12 @@ func MyAvatar(c *gin.Context) {
 
 	tpl := "my_avatar.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -110,12 +96,12 @@ func MyUsername(c *gin.Context) {
 
 	tpl := "my_name.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -133,13 +119,13 @@ func MyThread(c *gin.Context) {
 
 	tpl := "my_thread.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":   islogin,
-		"sessions":  sessions,
-		"forums":    forums,
-		"mythreads": myThreads,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"mythreads":   myThreads,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -151,13 +137,13 @@ func MyFavorite(c *gin.Context) {
 
 	tpl := "my_favorite.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"threads" : favThreads,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"threads":     favThreads,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -167,12 +153,12 @@ func MyDigest(c *gin.Context) {
 
 	tpl := "my_digest.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -188,13 +174,13 @@ func MyPost(c *gin.Context) {
 
 	tpl := "my_post.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"posts":    posts,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"posts":       posts,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -224,13 +210,13 @@ func UserInfo(c *gin.Context) {
 
 	tpl := "u_info.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"userinfo": userinfo,
-		"forums":   forums,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"userinfo":    userinfo,
+		"forums":      forums,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -249,14 +235,14 @@ func UserThread(c *gin.Context) {
 
 	tpl := "u_threads.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":   islogin,
-		"sessions":  sessions,
-		"forums":    forums,
-		"mythreads": myThreads,
-		"userinfo":  userinfo,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"mythreads":   myThreads,
+		"userinfo":    userinfo,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }
 
@@ -273,13 +259,13 @@ func UserPost(c *gin.Context) {
 
 	tpl := "u_posts.html"
 	c.HTML(200, tpl, gin.H{
-		"islogin":  islogin,
-		"sessions": sessions,
-		"forums":   forums,
-		"posts":    posts,
-		"userinfo": userinfo,
-		"webname":webname,
-		"description":description,
-		"forumname":forumname,
+		"islogin":     islogin,
+		"sessions":    sessions,
+		"forums":      forums,
+		"posts":       posts,
+		"userinfo":    userinfo,
+		"webname":     webname,
+		"description": description,
+		"forumname":   forumname,
 	})
 }

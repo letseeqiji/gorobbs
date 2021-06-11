@@ -14,3 +14,4 @@ func ValidCaptchaKey(v *validation.Validation, cap_key string) {
 func ValidCaptcha(v *validation.Validation, captcha string) {
 	v.Required(captcha, "captcha").Message("验证码不能为空")
 }
+ 

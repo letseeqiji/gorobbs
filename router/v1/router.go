@@ -1,32 +1,28 @@
 package v1
 
 import (
-	"github.com/aviddiviner/gin-limit"
-	"github.com/gin-gonic/gin"
-	"github.com/tommy351/gin-sessions"
 	adminservice "gorobbs/controller/admin"
 	apiservice "gorobbs/controller/api/v1"
+	normalservice "gorobbs/controller/normal"
 	webservice "gorobbs/controller/web"
+	"gorobbs/middleware/auth"
+	"gorobbs/middleware/banned"
 	"gorobbs/middleware/cros"
 	"gorobbs/middleware/jwt"
 	"gorobbs/middleware/loger"
 	"gorobbs/middleware/online"
-	"gorobbs/middleware/xss"
-	"gorobbs/model"
-	package_redis "gorobbs/package/gredis"
+	"gorobbs/middleware/resub"
+	"gorobbs/middleware/session"
 	"gorobbs/package/setting"
 	"html/template"
 	"net/http"
+
+	limit "github.com/aviddiviner/gin-limit"
+	"github.com/gin-gonic/gin"
+	sessions "github.com/tommy351/gin-sessions"
 )
 
 func InitRouter() *gin.Engine {
-	// 禁用控制台颜色，当你将日志写入到文件的时候，你不需要控制台颜色。
-	//gin.DisableConsoleColor()
-
-	// 写入日志的文件
-	/*f, _ := os.Create("log/gin.log")
-	gin.DefaultWriter = io.MultiWriter(f)*/
-
 	r := gin.New()
 
 	r.Use(gin.Logger())
@@ -49,7 +45,8 @@ func InitRouter() *gin.Engine {
 		"strtime":     StrTime,
 		"plus1":       selfPlus,
 		"numplusplus": numPlusPlus,
-		"strip":		Long2IPString,
+		"strip":       Long2IPString,
+		"substr":      SubStr,
 	})
 
 	// 避免404
@@ -77,6 +74,9 @@ func InitRouter() *gin.Engine {
 		web.GET("/login.html", webservice.Login)
 		// 登出页面
 		web.GET("/logout", apiservice.UserLogout)
+		web.GET("/password/forget.html", webservice.ForgetPassword)
+		web.GET("/password/sendok.html", webservice.SendEmailOk)
+		web.GET("/password/reset.html", webservice.ResetForgetPassword)
 
 		// 首页
 		web.GET("/", webservice.Index)
@@ -123,6 +123,9 @@ func InitRouter() *gin.Engine {
 		web.GET("/mod/thread/top.html", webservice.TopMod)
 		web.GET("/mod/thread/delete.html", webservice.DeleteMod)
 		web.GET("/mod/thread/close.html", webservice.CloseMod)
+
+		web.GET("/search.html", webservice.Search)
+
 	}
 
 	// 数据操作的接口
@@ -140,14 +143,27 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/register/email/checked", apiservice.IsEmailChecked)
 		// 登录
 		apiv1.POST("/login", apiservice.UserLogin)
+
+		// 获取验证码
+		apiv1.GET("/capacha", apiservice.GetCapacha)
+		apiv1.POST("/capacha", apiservice.VerfiyCaptcha)
+		// 发送邮件
+		apiv1.POST("/email", apiservice.SendRegisterMail)
+
+		apiv1.GET("/forum/:id/tagcate", apiservice.GetTagCateByForumID)
+		apiv1.GET("/forum/:id/tagthread", apiservice.GetTagThreadsByForumIDWithTags)
+
+		apiv1.GET("/wechat/user_check", apiservice.WechatUserCheck)
+	}
+	apiv1.Use(session.LoginCheck())
+	{
+		// 发送重设密码的邮件
+		apiv1.POST("/password/reset/email", apiservice.SendResetPasswordEmail)
+		apiv1.POST("/password/reset", apiservice.UserResetPassword)
+
 		// 登出操作
 		apiv1.GET("/logout", apiservice.UserLogout)
-		// 刷新token
-		apiv1.GET("/token", apiservice.RefreshToken)
-		// 更新用户
-		apiv1.PUT("/user/:id", apiservice.EditUser)
-		// 删除用户
-		apiv1.DELETE("/user/:id", apiservice.DeleteUser)
+
 		// 用户：重设密码
 		apiv1.POST("/user/:id/password/reset", apiservice.ResetUserPassword)
 		// 用户：重设头像
@@ -155,7 +171,7 @@ func InitRouter() *gin.Engine {
 		// 用户：重设用户名
 		apiv1.POST("/user/:id/name/reset", apiservice.ResetUserName)
 		// 主题：发表
-		apiv1.POST("/thread", xss.XSS(), apiservice.AddThread)
+		apiv1.POST("/thread", resub.RESUB(), banned.Banned(), apiservice.AddThread)
 		// 主题：发表
 		apiv1.POST("/thread/:id/favourite", apiservice.Addthreadfavourite)
 		// 主题：删除
@@ -166,46 +182,50 @@ func InitRouter() *gin.Engine {
 		apiv1.POST("/thread/:id/top", apiservice.TopThreads)
 		// 主题：关闭
 		apiv1.POST("/thread/:id/close", apiservice.CloseThreads)
+		// 审核
+		apiv1.POST("/thread/:id/audited", apiservice.AuditedThread)
 		// 主题：修改
-		apiv1.POST("/thread/:id/update", apiservice.UpdateThread)
+		apiv1.POST("/thread/:id/update", banned.Banned(), apiservice.UpdateThread)
 		// 添加评论
-		apiv1.POST("/thread/:id/post", apiservice.AddPost)
+		apiv1.POST("/thread/:id/post", banned.Banned(), apiservice.AddPost)
 		// 添加附件
-		apiv1.POST("/thread/:id/attach/add", apiservice.AddthreadAttach)
+		apiv1.POST("/thread/:id/attach/add", banned.Banned(), apiservice.AddthreadAttach)
 		// 删除附件
-		apiv1.POST("/thread/:id/attach/del", apiservice.DelthreadAttach)
+		apiv1.POST("/thread/:id/attach/del", banned.Banned(), apiservice.DelthreadAttach)
 		// 评论的相关操作
-		apiv1.POST("/post/:id/update", apiservice.UpdatePost)
+		apiv1.POST("/post/:id/update", banned.Banned(), apiservice.UpdatePost)
 		// 评论的相关操作
 		apiv1.POST("/post/:id/like", apiservice.LikePost)
-		// 获取验证码
-		apiv1.GET("/capacha", apiservice.GetCapacha)
-		apiv1.POST("/capacha", apiservice.VerfiyCaptcha)
-		// 发送邮件
-		apiv1.POST("/email", apiservice.SendRegisterMail)
+
 		// 上传图片
 		apiv1.POST("/image/upload", apiservice.CkeditorUpload)
-		apiv1.POST("/attach/upload", apiservice.UploadAttach)
-		apiv1.POST("/attach/add", apiservice.UploadAddAttach)
+		apiv1.POST("/attach/upload", banned.Banned(), apiservice.UploadAttach)
+		apiv1.POST("/attach/add", banned.Banned(), apiservice.UploadAddAttach)
 		apiv1.POST("/attach/delete", apiservice.DeleteAttach)
+	}
+	apiv1.Use(jwt.JWT())
+	{
+		// 刷新token
+		apiv1.GET("/token", apiservice.RefreshToken)
+		// 更新用户
+		apiv1.PUT("/user/:id", apiservice.EditUser)
+		// 删除用户
+		apiv1.DELETE("/user/:id", apiservice.DeleteUser)
+
+		apiv1.POST("/tagcate", apiservice.AddTagCate)
+		apiv1.POST("/tagcate/edit", apiservice.UpdateTagCate)
+		apiv1.POST("/tag", apiservice.AddTag)
+		apiv1.POST("/tag/edit", apiservice.UpdateTag)
 	}
 
 	// 管理员页面
 	admin := r.Group("/admin")
+	admin.Use(auth.AUTH())
 	{
 		// 登录展示页
 		admin.GET("/login.html", adminservice.AdminLogin)
 		// 管理员二次登录验证
 		admin.POST("/login", adminservice.AdminLoginCheck)
-		admin.GET("/setting/base.html", adminservice.AdminSettingBase)
-		admin.POST("/setting/base", adminservice.AdminSettingBaseUpdate)
-		admin.GET("/setting/smtp.html", adminservice.AdminSettingSmtp)
-		admin.POST("/setting/smtp", adminservice.AdminSettingSmtpUpdate)
-		admin.GET("/setting/extend.html", adminservice.AdminSettingExtend)
-		admin.GET("/user/list.html", adminservice.AdminUserList)
-		admin.GET("/user/group.html", adminservice.AdminGroupList)
-		admin.GET("/user/create.html", adminservice.AdminUserCreate)
-		admin.POST("/user/add", adminservice.AdminUserAdd)
 	}
 	admin.Use(jwt.JWT())
 	{
@@ -216,55 +236,36 @@ func InitRouter() *gin.Engine {
 		// 模块：新建
 		admin.GET("/forum_new.html", adminservice.NewForum)
 		admin.POST("/forum", adminservice.AddForum)
+		admin.POST("/forum/delete", adminservice.DelForum)
+		admin.GET("/forum/edit.html", adminservice.EditForum)
+		admin.POST("/forum/update", adminservice.UpdateForum)
+		admin.GET("/setting/base.html", adminservice.AdminSettingBase)
+		admin.POST("/setting/base", adminservice.AdminSettingBaseUpdate)
+		admin.GET("/setting/smtp.html", adminservice.AdminSettingSmtp)
+		admin.POST("/setting/smtp", adminservice.AdminSettingSmtpUpdate)
+		admin.GET("/setting/extend.html", adminservice.AdminSettingExtend)
+		admin.GET("/user/list.html", adminservice.AdminUserList)
+		admin.GET("/user/group.html", adminservice.AdminGroupList)
+		admin.GET("/user/create.html", adminservice.AdminUserCreate)
+		admin.POST("/user/add", adminservice.AdminUserAdd)
+		admin.GET("/user/edit.html", adminservice.AdminUserEdit)
+
+		admin.POST("/user/update", adminservice.AdminUserUpdate)
+
+		admin.GET("/tag/list.html", adminservice.GetTagList)
+		admin.GET("/tagcate/new.html", adminservice.NewTagCate)
+		admin.GET("/tagcate/edit.html", adminservice.EditTagCate)
+		admin.GET("/tag/new.html", adminservice.NewTag)
+		admin.GET("/tag/edit.html", adminservice.EditTag)
+
+		admin.GET("/thread/list.html", adminservice.GetThreadList)
 	}
 
-	type Te struct {
-		Name    string                 `json:"name"`
-		TestArr []string               `json:"test_arr"`
-		Love    map[string]interface{} `json:"love"`
-	}
-	testr := r.Group("/test")
+	// 通用接口
+	api_normal := r.Group("/api/v1")
 	{
-
-		// 检测session设置可用性
-		testr.GET("/setsession", apiservice.TestSetSesssion)
-		testr.GET("/getsession", apiservice.TestGetSesssion)
-		testr.GET("/delsession", apiservice.TestDelSesssion)
-
-		testr.GET("/strtime", func(c *gin.Context) {
-			ress, _ := model.GetForumsList("id asc")
-			//res := StrTime(1545793886)
-			res := StrTime(ress[0].CreatedAt.Unix())
-			c.JSON(200, gin.H{"res": res, "unic": ress[0].CreatedAt.Unix()})
-		})
-
-		testr.POST("/parm", func(c *gin.Context) {
-			//name := c.PostForm("name")
-			var tt Te
-			err := c.ShouldBind(&tt)
-			if err != nil {
-				c.JSON(200, gin.H{"err": err.Error()})
-				return
-			}
-			c.JSON(200, gin.H{"res": tt, "test": tt.Love})
-		})
-
-		testr.GET("/increment", func(c *gin.Context) {
-			err := model.Increment("bbs_post", 1, "files_num")
-			c.JSON(200, gin.H{"err": err})
-		})
-
-		testr.GET("cook/set", func(c *gin.Context) {
-
-			err := package_redis.Set("uid1newthread1565420078659auzk201y2ve", "uid1newthread1565420078659auzk201y2ve", 100000)
-
-			c.JSON(200, gin.H{"message": err})
-		})
-
-		testr.GET("cook/get", func(c *gin.Context) {
-			value, err := package_redis.Get("no")
-			c.JSON(200, gin.H{"value": value, "message": err.Error()})
-		})
+		// 通用的  内容违规检测
+		api_normal.POST("/content_check", normalservice.ContentCheck)
 	}
 
 	return r

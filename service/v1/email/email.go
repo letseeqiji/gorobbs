@@ -12,7 +12,7 @@ import (
 func SendRegisterMail(mailTo string) error {
 	mail := util.Mail{}
 	mail.MailTo = []string{
-		mailTo,
+		mailTo, 
 	}
 
 	webname := setting.ServerSetting.Sitename
@@ -40,7 +40,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 
 	webname := setting.ServerSetting.Sitename
 	now := strconv.Itoa(int(time.Now().Unix()))
-	sign := util.EncodeMD5(mailTo+now)
+	sign := util.EncodeMD5(mailTo + now)
 
 	// redis记录
 	email.Set(mailTo, now, 24*60*60)
@@ -48,7 +48,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 	//邮件主题为"Hello"
 	mail.Subject = "【" + webname + "】请验证您的邮件地址"
 
-	href := "https://%s/register/checkMail?email=%s&time=%s&sign=%s"
+	href := "%s/register/checkMail?email=%s&time=%s&sign=%s"
 	href = fmt.Sprintf(href, host, mailTo, now, sign)
 
 	// 发送主题
@@ -69,8 +69,7 @@ func SendRegisterMail2(host string, mailTo string) error {
 	－没有激活的账号会为你保留24个小时, 请尽快激活。<br>
 	－24个小时以后, 没有被激活的注册会自动失效，你需要重新填写并注册。<br>
 	</p>`
-	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, webname,href, href, webname,webname)
-
+	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, webname, href, href, webname, webname)
 
 	// 邮件正文
 	mail.Body = body
@@ -79,5 +78,43 @@ func SendRegisterMail2(host string, mailTo string) error {
 	return err
 }
 
+func SendResetPasswordMail(host string, mailTo string) error {
+	mail := util.Mail{}
+	mail.MailTo = []string{
+		setting.SmtpSetting.EmailUser,
+		mailTo,
+	}
 
+	webname := setting.ServerSetting.Sitename
+	now := strconv.Itoa(int(time.Now().Unix()))
+	sign := util.EncodeMD5(mailTo + now)
 
+	// redis记录
+	email.Set(mailTo, now, 24*60*60)
+
+	//邮件主题为"Hello"
+	mail.Subject = "【" + webname + "】重设密码"
+
+	href := "%s/password/reset.html?email=%s&time=%s&sign=%s"
+	href = fmt.Sprintf(href, host, mailTo, now, sign)
+
+	// 发送主题
+	body := `尊敬的用户 <a data-auto-link="1" href="mailto:%s">%s</a>，您好：
+	<p>
+		您使用了邮箱 <a data-auto-link="1" href="mailto:%s">%s</a> 找回【%s】的会员。请点击以下链接，可以重设您的密码：<br>
+	<a href="%s" target="_blank">%s</a><br><br>
+
+	如果以上链接不能点击，你可以复制网址URL，然后粘贴到浏览器地址栏打开，完成确认。<br><br>
+
+		%s<br><br>
+
+	（这是一封自动发送的邮件，请不要直接回复）<br><br>
+	</p>`
+	body = fmt.Sprintf(body, mailTo, mailTo, mailTo, mailTo, webname, href, href, webname)
+
+	// 邮件正文
+	mail.Body = body
+	err := mail.SendMail()
+
+	return err
+}

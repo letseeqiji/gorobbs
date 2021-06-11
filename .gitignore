@@ -1,0 +1,10 @@
+conf/*
+conf
+.idea/*
+.idea
+*.exe
+
+log/
+static/sensitive_words/words - 副本.txt
+upload/
+static/sensitive_words/words.txt

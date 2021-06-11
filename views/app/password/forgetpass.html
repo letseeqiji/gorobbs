@@ -1,0 +1,117 @@
+{{ template "layout/header" .}}
+
+
+<main id="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        忘记密码
+                    </div>
+                    <div class="card-body">
+                        <form action="/api/v1/password/reset/email" method="post" id="form">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon icon-envelope icon-fw"></i></span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="请输入您注册的邮箱" name="email" id="email"
+                                    required="">
+                            </div>
+
+
+                            {{ template "layout/captcha" .}}
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-block" id="registersubmit"
+                                    data-loading-text="正在提交...">下一步</button>
+                            </div>
+                            <div class="media">
+                                <div>
+                                </div>
+                                <div class="media-body text-right">
+                                    <a href="/login.html" class="text-muted"><small>用户登录</small></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    var jform = $('#form');
+    var jsubmit = $('#registersubmit');
+
+    var referer = './';
+    jsubmit.on('click', function () {
+        var jemail = $('#email').val();
+        var isused = 0
+
+        //各种判断
+        if (!xn.is_email(jemail)) {
+            $.alert("邮箱格式不正确")
+            return
+        } else {
+            $.ajax({
+                url: "/api/v1/checkemail",
+                data: {
+                    "email": jemail
+                },
+                type: "GET",
+                async: false,
+                /*    contentType: false,
+                    processData:false,*/
+                success: function (res) {
+                    //成功
+                    console.log(res.data.is_used)
+                    used = res.data.is_used
+                    if (used == 0) {
+                        isused = 1
+                        console.log("没有找到该邮箱，请确认你是否使用了该邮箱注册")
+                        // jform.find('[name="new_username"]').focus().alert("用户名已经使用了");
+                        $.alert("没有找到该邮箱，请确认你是否使用了该邮箱注册")
+                        jsubmit.button('reset');
+                    }
+                }
+            })
+            if (isused) {
+                return
+            }
+        }
+
+        // 验证验证码
+        var captcha = getCaptcha()
+        var captchaKey = getCaptchaKey()
+        captchaPass = virefyCaptcha(captcha, captchaKey)
+        if (captcha.length == 0) {
+            $.alert("验证码不能为空")
+            return
+        } else {
+            if (captchaPass != 200) {
+                $.alert("验证码错误")
+                refreshCaptcha()
+                return
+            }
+        }
+
+
+        jform.reset();
+        jsubmit.button('loading');
+        var postdata = jform.serializeObject();
+        // postdata.password = $.md5(postdata.password);
+        $.xpost(jform.attr('action'), postdata, function (code, message) {
+            if (code == 200) {
+                // $.alert("注册成功,2秒后跳转到登录窗口")
+                jsubmit.button(message).delay(1000).location("/password/sendok.html");
+            } else {
+                jform.find('[name="' + code + '"]').alert(message).focus();
+                jsubmit.button('reset');
+            }
+        });
+        return false;
+    });
+</script>
+{{ template "layout/footer" }}
