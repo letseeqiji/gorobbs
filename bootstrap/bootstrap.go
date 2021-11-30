@@ -11,4 +11,3 @@ func SetUp() {
 	go searchtool.SearchInit()
 	go seneitivetool.Trieinit()
 }
-  
