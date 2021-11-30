@@ -46,12 +46,6 @@ func AdminUserCreate(c *gin.Context) {
 		})
 }
 
-// 需要字段
-// Username
-//GroupID
-//Email
-//Password
-// email=sdsdsdsdsdsdsdsdsdsdsdsdsd&username=wowiwo6%40yeah.net&password=123456&group_id=0
 func AdminUserAdd(c *gin.Context) {
 	email := c.PostForm("email")
 	username := c.PostForm("username")
