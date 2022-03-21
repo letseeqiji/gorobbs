@@ -1,6 +1,6 @@
 # github.com/adamzy/cedar-go v0.0.0-20170805034717-80a9c64b256d
 github.com/adamzy/cedar-go
-# github.com/andybalholm/brotli v1.0.0
+# github.com/andybalholm/brotli v1.0.4
 github.com/andybalholm/brotli
 # github.com/astaxie/beego v1.12.2
 github.com/astaxie/beego/logs
@@ -86,7 +86,7 @@ github.com/jinzhu/gorm/dialects/mysql
 github.com/jinzhu/inflection
 # github.com/json-iterator/go v1.1.10
 github.com/json-iterator/go
-# github.com/klauspost/compress v1.10.7
+# github.com/klauspost/compress v1.15.0
 github.com/klauspost/compress/flate
 github.com/klauspost/compress/gzip
 github.com/klauspost/compress/zlib
@@ -130,23 +130,23 @@ github.com/ugorji/go/codec
 github.com/unknwon/com
 # github.com/valyala/bytebufferpool v1.0.0
 github.com/valyala/bytebufferpool
-# github.com/valyala/fasthttp v1.15.1
+# github.com/valyala/fasthttp v1.34.0
 github.com/valyala/fasthttp
 github.com/valyala/fasthttp/fasthttputil
 github.com/valyala/fasthttp/stackless
 # github.com/valyala/fasttemplate v1.0.1
 github.com/valyala/fasttemplate
-# golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+# golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/sha3
 # golang.org/x/image v0.0.0-20200618115811-c13761719519
 golang.org/x/image/font
 golang.org/x/image/math/fixed
-# golang.org/x/net v0.0.0-20200602114024-627f9648deb9
+# golang.org/x/net v0.0.0-20220225172249-27dd8689420f
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1
+# golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9
 golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix

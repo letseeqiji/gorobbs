@@ -39,8 +39,8 @@ require (
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/tommy351/gin-sessions v0.0.0-20150617141853-353060947eb6
 	github.com/unknwon/com v1.0.1
-	github.com/valyala/fasthttp v1.15.1
-	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+	github.com/valyala/fasthttp v1.34.0
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
 	golang.org/x/image v0.0.0-20200618115811-c13761719519
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/fatih/set.v0 v0.2.1
