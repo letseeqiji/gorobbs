@@ -40,8 +40,8 @@ require (
 	github.com/tommy351/gin-sessions v0.0.0-20150617141853-353060947eb6
 	github.com/unknwon/com v1.0.1
 	github.com/valyala/fasthttp v1.15.1
-	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
-	golang.org/x/image v0.0.0-20200618115811-c13761719519
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	golang.org/x/image v0.5.0
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/fatih/set.v0 v0.2.1
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
