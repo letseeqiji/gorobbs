@@ -16,7 +16,7 @@ require (
 	github.com/cznic/zappy v0.0.0-20181122101859-ca47d358d4b1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
-	github.com/gin-gonic/gin v1.7.0
+	github.com/gin-gonic/gin v1.9.0
 	github.com/go-ini/ini v1.57.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/gomodule/redigo v2.0.0+incompatible
@@ -38,9 +38,10 @@ require (
 	github.com/sirupsen/logrus v1.6.0
 	github.com/tebeka/strftime v0.1.5 // indirect
 	github.com/tommy351/gin-sessions v0.0.0-20150617141853-353060947eb6
+	github.com/ugorji/go v1.1.7 // indirect
 	github.com/unknwon/com v1.0.1
 	github.com/valyala/fasthttp v1.15.1
-	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
+	golang.org/x/crypto v0.5.0
 	golang.org/x/image v0.0.0-20200618115811-c13761719519
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/fatih/set.v0 v0.2.1
